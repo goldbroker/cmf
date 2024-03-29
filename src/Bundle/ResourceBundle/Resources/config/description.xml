@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="cmf_resource.description.factory" class="Symfony\Cmf\Component\Resource\Description\DescriptionFactory" public="false">
+            <argument /> <!-- enhancers -->
+        </service>
+
+        <service id="cmf_resource.description.enhancer.doctrine.phpcr_odm" class="Symfony\Cmf\Component\Resource\Description\Enhancer\Doctrine\PhpcrOdmEnhancer" public="false">
+            <argument type="service" id="cmf_resource.description.enhancer.doctrine.phpcr_odm.metadata_factory" />
+            <tag name="cmf_resource.description.enhancer" alias="doctrine_phpcr_odm" />
+        </service>
+
+        <service id="cmf_resource.description.enhancer.doctrine.phpcr_odm.metadata_factory" class="Doctrine\ODM\PHPCR\Mapping\ClassMetadataFactory" public="false">
+            <factory service="doctrine_phpcr.odm.document_manager" method="getMetadataFactory" />
+        </service>
+
+    </services>
+</container>

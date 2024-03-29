@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit
+    colors="true"
+    bootstrap="vendor/symfony-cmf/testing/bootstrap/bootstrap.php"
+>
+    <testsuites>
+        <testsuite name="unit tests">
+            <directory>./tests/Bundle/*/Unit</directory>
+            <directory>./tests/Component/*/Unit</directory>
+        </testsuite>
+
+        <testsuite name="functional tests with phpcr">
+            <directory>./tests/Bundle/*/WebTest</directory>
+            <directory>./tests/Component/*/Functional</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory>src/</directory>
+            <exclude>
+                <directory>Resources/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
