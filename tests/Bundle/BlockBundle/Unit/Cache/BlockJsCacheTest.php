@@ -1,19 +1,11 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2017 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Tests\Symfony\Cmf\Bundle\BlockBundle\Unit\Cache;
 
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockLoaderInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
+use Sonata\BlockBundle\Model\EmptyBlock;
 use Sonata\Cache\CacheElement;
 use Symfony\Cmf\Bundle\BlockBundle\Cache\BlockJsCache;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,21 +19,19 @@ class BlockJsCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testExceptions($keys)
     {
-        $router = $this->createMock(RouterInterface::class);
-
-        $blockRenderer = $this->createMock(BlockRendererInterface::class);
-
-        $blockLoader = $this->createMock(BlockLoaderInterface::class);
-
-        $blockContextManager = $this->createMock(BlockContextManagerInterface::class);
-
-        $cache = new BlockJsCache($router, $blockRenderer, $blockLoader, $blockContextManager, false);
+        $cache = new BlockJsCache(
+            $this->createMock(RouterInterface::class),
+            $this->createMock(BlockRendererInterface::class),
+            $this->createMock(BlockLoaderInterface::class),
+            $this->createMock(BlockContextManagerInterface::class),
+            false
+        );
 
         $this->expectException(\RuntimeException::class);
         $cache->get($keys, 'data');
     }
 
-    public static function getExceptionCacheKeys()
+    public static function getExceptionCacheKeys(): array
     {
         return [
             [[]],
@@ -55,13 +45,13 @@ class BlockJsCacheTest extends \PHPUnit\Framework\TestCase
         $router = $this->createMock(RouterInterface::class);
         $router->expects($this->once())->method('generate')->will($this->returnValue('http://cmf.symfony.com/symfony-cmf/block/cache/js-async.js'));
 
-        $blockRenderer = $this->createMock(BlockRendererInterface::class);
-
-        $blockLoader = $this->createMock(BlockLoaderInterface::class);
-
-        $blockContextManager = $this->createMock(BlockContextManagerInterface::class);
-
-        $cache = new BlockJsCache($router, $blockRenderer, $blockLoader, $blockContextManager, false);
+        $cache = new BlockJsCache(
+            $router,
+            $this->createMock(BlockRendererInterface::class),
+            $this->createMock(BlockLoaderInterface::class),
+            $this->createMock(BlockContextManagerInterface::class),
+            false
+        );
 
         $this->assertTrue($cache->flush([]));
         $this->assertTrue($cache->flushAll());
@@ -105,19 +95,21 @@ EXPECTED;
 
     public function testCacheAction()
     {
-        $router = $this->createMock(RouterInterface::class);
-
-        $blockRenderer = $this->createMock(BlockRendererInterface::class);
-
         $blockLoader = $this->createMock(BlockLoaderInterface::class);
+        $blockLoader->method('load')->willReturn(new EmptyBlock());
 
-        $blockContextManager = $this->createMock(BlockContextManagerInterface::class);
-
-        $cache = new BlockJsCache($router, $blockRenderer, $blockLoader, $blockContextManager, false);
+        $cache = new BlockJsCache(
+            $this->createMock(RouterInterface::class),
+            $this->createMock(BlockRendererInterface::class),
+            $blockLoader,
+            $this->createMock(BlockContextManagerInterface::class),
+            false
+        );
 
         $request = $this->createMock(Request::class);
 
         // block not found
-        $this->assertEquals(new Response('', 404), $cache->cacheAction($request));
+        $block = $cache->cacheAction($request);
+        $this->assertEquals(new Response('', Response::HTTP_NOT_FOUND), $block);
     }
 }

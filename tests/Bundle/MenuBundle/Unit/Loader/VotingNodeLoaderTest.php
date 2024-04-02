@@ -40,18 +40,17 @@ class VotingNodeLoaderTest extends \PHPUnit\Framework\TestCase
 
         $dispatchMethodMock = $this->dispatcher->expects($this->exactly(3))->method('dispatch');
 
-        $nodes = 3;
         if (!$options['node2_is_published']) {
-            $dispatchMethodMock->will($this->returnCallback(function ($name, $event) use ($node2) {
+            $dispatchMethodMock->will($this->returnCallback(function ($event) use ($node2) {
                 if ($event->getNode() === $node2) {
                     $event->setSkipNode(true);
                 }
+                return $event;
             }));
-            $nodes = 2;
         }
 
         $that = $this;
-        $this->factory->expects($this->exactly($nodes))->method('createItem')->will($this->returnCallback(function () use ($that) {
+        $this->factory->expects($this->exactly(3))->method('createItem')->will($this->returnCallback(function () use ($that) {
             return $that->createMock(ItemInterface::class);
         }));
 
@@ -71,13 +70,13 @@ class VotingNodeLoaderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function getNode($name, $options = [], $children = [])
+    protected function getNode($name, $options = [], $children = []): NodeInterface
     {
         $node = $this->createMock(NodeInterface::class);
 
         $node->expects($this->any())->method('getName')->willReturn($name);
         $node->expects($this->any())->method('getOptions')->willReturn($options);
-        $node->expects($this->any())->method('getChildren')->willReturn($children);
+        $node->expects($this->any())->method('getChildren')->willReturn(new \ArrayIterator($children));
 
         return $node;
     }

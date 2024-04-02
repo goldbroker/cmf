@@ -1,19 +1,11 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2017 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Symfony\Cmf\Bundle\BlockBundle\Cache;
 
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockLoaderInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
+use Sonata\BlockBundle\Model\EmptyBlock;
 use Sonata\Cache\CacheAdapterInterface;
 use Sonata\Cache\CacheElement;
 use Sonata\Cache\CacheElementInterface;
@@ -26,23 +18,16 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class BlockJsCache implements CacheAdapterInterface
 {
-    protected $router;
+    protected RouterInterface $router;
 
-    protected $blockRenderer;
+    protected BlockRendererInterface $blockRenderer;
 
-    protected $blockLoader;
+    protected BlockLoaderInterface $blockLoader;
 
-    protected $blockContextManager;
+    protected BlockContextManagerInterface$blockContextManager;
 
-    protected $sync;
+    protected bool $sync;
 
-    /**
-     * @param RouterInterface              $router
-     * @param BlockRendererInterface       $blockRenderer
-     * @param BlockLoaderInterface         $blockLoader
-     * @param BlockContextManagerInterface $blockContextManager
-     * @param bool                         $sync
-     */
     public function __construct(
         RouterInterface $router,
         BlockRendererInterface $blockRenderer,
@@ -96,7 +81,7 @@ class BlockJsCache implements CacheAdapterInterface
      *
      * @param array $keys
      */
-    private function validateKeys(array $keys)
+    private function validateKeys(array $keys): void
     {
         foreach (['block_id', 'updated_at'] as $key) {
             if (!isset($keys[$key])) {
@@ -105,12 +90,7 @@ class BlockJsCache implements CacheAdapterInterface
         }
     }
 
-    /**
-     * @param array $keys
-     *
-     * @return string
-     */
-    protected function getSync(array $keys)
+    protected function getSync(array $keys): string
     {
         $dashifiedId = $this->dashify($keys['block_id']);
 
@@ -155,12 +135,7 @@ CONTENT
 , $dashifiedId, $dashifiedId, $this->router->generate('cmf_block_js_sync_cache', $keys, true));
     }
 
-    /**
-     * @param array $keys
-     *
-     * @return string
-     */
-    protected function getAsync(array $keys)
+    protected function getAsync(array $keys): string
     {
         return sprintf(<<<'CONTENT'
 <div id="block%s" >
@@ -193,17 +168,12 @@ CONTENT
         return new CacheElement($keys, $data, $ttl, $contextualKeys);
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function cacheAction(Request $request)
+    public function cacheAction(Request $request): Response
     {
         $block = $this->blockLoader->load(['name' => $request->get('block_id')]);
 
-        if (!$block) {
-            return new Response('', 404);
+        if ($block instanceof EmptyBlock) {
+            return new Response('', Response::HTTP_NOT_FOUND);
         }
 
         $settings = $request->get(BlockContextManagerInterface::CACHE_KEY, []);

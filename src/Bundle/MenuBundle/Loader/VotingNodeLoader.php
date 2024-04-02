@@ -15,7 +15,7 @@ use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Loader\NodeLoader;
 use Knp\Menu\NodeInterface;
-use Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu;
+use Sonata\BlockBundle\Model\EmptyBlock;
 use Symfony\Cmf\Bundle\MenuBundle\Event\CreateMenuItemFromNodeEvent;
 use Symfony\Cmf\Bundle\MenuBundle\Event\Events;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -50,7 +50,7 @@ class VotingNodeLoader extends NodeLoader
             ));
         }
         $event = new CreateMenuItemFromNodeEvent($data);
-        $this->dispatcher->dispatch(Events::CREATE_ITEM_FROM_NODE, $event);
+        $this->dispatcher->dispatch($event, Events::CREATE_ITEM_FROM_NODE);
 
         if ($event->isSkipNode()) {
             // create an empty menu root to avoid the knp menu from failing.
@@ -66,7 +66,7 @@ class VotingNodeLoader extends NodeLoader
         foreach ($data->getChildren() as $childNode) {
             if ($childNode instanceof NodeInterface) {
                 $child = $this->load($childNode);
-                if (!empty($child)) {
+                if (!$child instanceof EmptyBlock) {
                     $item->addChild($child);
                 }
             }

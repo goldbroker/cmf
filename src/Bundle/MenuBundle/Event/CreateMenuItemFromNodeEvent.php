@@ -1,19 +1,10 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2017 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Symfony\Cmf\Bundle\MenuBundle\Event;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\NodeInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * This event is raised when a menu node is to be transformed into a menu item.
@@ -26,33 +17,20 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class CreateMenuItemFromNodeEvent extends Event
 {
-    /**
-     * @var NodeInterface
-     */
-    private $node;
+    private NodeInterface $node;
 
-    /**
-     * @var ItemInterface
-     */
-    private $item;
+    private ?ItemInterface $item = null;
 
     /**
      * Whether or not to skip processing of this node.
-     *
-     * @var bool
      */
-    private $skipNode = false;
+    private bool $skipNode = false;
 
     /**
      * Whether or not to skip processing of child nodes.
-     *
-     * @var bool
      */
-    private $skipChildren = false;
+    private bool $skipChildren = false;
 
-    /**
-     * @param NodeInterface $node
-     */
     public function __construct(NodeInterface $node)
     {
         $this->node = $node;
@@ -63,7 +41,7 @@ class CreateMenuItemFromNodeEvent extends Event
      *
      * @return NodeInterface
      */
-    public function getNode()
+    public function getNode(): NodeInterface
     {
         return $this->node;
     }
@@ -76,7 +54,7 @@ class CreateMenuItemFromNodeEvent extends Event
      *
      * @return ItemInterface
      */
-    public function getItem()
+    public function getItem(): ?ItemInterface
     {
         return $this->item;
     }
@@ -88,9 +66,9 @@ class CreateMenuItemFromNodeEvent extends Event
      * will still be built and added after eventual children this menu item
      * has.
      *
-     * @param ItemInterface $item Menu item to use
+     * @param ?ItemInterface $item Menu item to use
      */
-    public function setItem(ItemInterface $item = null)
+    public function setItem(?ItemInterface $item = null): void
     {
         $this->item = $item;
     }
@@ -105,15 +83,15 @@ class CreateMenuItemFromNodeEvent extends Event
      *
      * @param bool $skipNode
      */
-    public function setSkipNode($skipNode)
+    public function setSkipNode(bool $skipNode): void
     {
-        $this->skipNode = (bool) $skipNode;
+        $this->skipNode = $skipNode;
     }
 
     /**
      * @return bool Whether the node associated to this event is to be skipped
      */
-    public function isSkipNode()
+    public function isSkipNode(): bool
     {
         return $this->skipNode;
     }
@@ -129,16 +107,16 @@ class CreateMenuItemFromNodeEvent extends Event
      *
      * @param bool $skipChildren
      */
-    public function setSkipChildren($skipChildren)
+    public function setSkipChildren(bool $skipChildren): void
     {
-        $this->skipChildren = (bool) $skipChildren;
+        $this->skipChildren = $skipChildren;
     }
 
     /**
      * @return bool Whether the children of the node associated to this event
      *              should be handled or ignored
      */
-    public function isSkipChildren()
+    public function isSkipChildren(): bool
     {
         return $this->skipChildren;
     }
