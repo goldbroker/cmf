@@ -27,7 +27,7 @@ class ReferenceBlock extends AbstractBlock
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'cmf.block.reference';
     }

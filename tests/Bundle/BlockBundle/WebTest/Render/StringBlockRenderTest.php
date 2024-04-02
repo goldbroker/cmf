@@ -23,10 +23,10 @@ class StringBlockRenderTest extends BaseTestCase
      */
     public function setUp(): void
     {
+        $this->client = $this->createClient();
         $this->db('PHPCR')->loadFixtures([
             'Tests\Symfony\Cmf\Bundle\BlockBundle\Fixtures\App\DataFixtures\Phpcr\LoadBlockData',
         ]);
-        $this->client = $this->createClient();
     }
 
     public function testRenderStringTwig()

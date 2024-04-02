@@ -32,7 +32,7 @@ class SimpleBlock extends AbstractBlock implements TranslatableInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'cmf.block.simple';
     }

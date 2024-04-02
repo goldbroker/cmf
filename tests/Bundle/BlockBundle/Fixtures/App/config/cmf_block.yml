@@ -7,3 +7,9 @@ cmf_block:
 sonata_block:
     default_contexts:
         - CMS
+#
+#cmf_media:
+#    persistence:
+#        phpcr:
+#            enabled: true
+#            media_basepath: /test

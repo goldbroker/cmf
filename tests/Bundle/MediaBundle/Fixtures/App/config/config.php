@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+use Doctrine\Bundle\PHPCRBundle\DependencyInjection\Compiler\DoctrinePhpcrMappingsPass;
+
 $container->setParameter('cmf_testing.bundle_fqn', 'Symfony\Cmf\Bundle\MediaBundle');
 $loader->import(CMF_TEST_CONFIG_DIR.'/default.php');
 $loader->import(CMF_TEST_CONFIG_DIR.'/phpcr_odm.php');
@@ -18,3 +20,12 @@ if (version_compare(strtolower(\Symfony\Component\HttpKernel\Kernel::VERSION), '
     $loader->import(__DIR__.'/cmf_media_3.yml');
 }
 $loader->import(__DIR__.'/security.yml');
+
+$phpcrCompilerClass = 'Doctrine\Bundle\PHPCRBundle\DependencyInjection\Compiler\DoctrinePhpcrMappingsPass';
+if (class_exists($phpcrCompilerClass)) {
+    $container->addCompilerPass(
+        DoctrinePhpcrMappingsPass::createAnnotationMappingDriver(
+            [Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content::class],
+            [realpath(__DIR__ . '/../Document')]
+        ));
+}

@@ -18,7 +18,7 @@ class ImageRepositoryTest extends BaseTestCase
     public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures(array(
-            'Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\DataFixtures\Phpcr\LoadMediaData',
+            'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\DataFixtures\Phpcr\LoadMediaData',
         ));
     }
 

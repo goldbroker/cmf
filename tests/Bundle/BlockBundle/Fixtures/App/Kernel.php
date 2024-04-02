@@ -26,6 +26,7 @@ class Kernel extends TestKernel
         $this->addBundles([
             new \Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle(),
             new \Symfony\Cmf\Bundle\BlockBundle\CmfBlockBundle(),
+            new \Symfony\Cmf\Bundle\MediaBundle\CmfMediaBundle(),
             new \Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle(),
             new \Sonata\BlockBundle\SonataBlockBundle(),
             new \Knp\Bundle\MenuBundle\KnpMenuBundle(),

@@ -4,3 +4,5 @@
 /composer.lock
 /Dockerfile
 /docker-compose.yaml
+/tests/Bundle/**/Fixtures/App/var
+/tests/data

@@ -9,22 +9,24 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Controller;
+namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Controller;
 
 use Doctrine\ODM\PHPCR\Document\Generic;
 use PHPCR\Util\PathHelper;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Bundle\MediaBundle\File\UploadFileHelperInterface;
-use Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Document\Content;
 use Symfony\Cmf\Bundle\MediaBundle\Util\LegacyFormHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content;
 
-class PhpcrFileTestController extends Controller
+class PhpcrFileTestController extends AbstractController
 {
     public function getUploadForm()
     {
-        return $this->container->get('form.factory')->createNamedBuilder(null, LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\FormType'))
+        return $this->container
+            ->get('form.factory')
+            ->createNamedBuilder('form', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\FormType'))
             ->add('file', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\FileType'))
             ->getForm()
         ;
@@ -66,7 +68,7 @@ class PhpcrFileTestController extends Controller
         $editorUploadForm = $this->getUploadForm();
 
         // get a content object
-        $contentClass = 'Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Document\Content';
+        $contentClass = 'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content';
         $contentObject = $dm->getRepository($contentClass)->findOneBy(array());
 
         // Form - content object with file embedded

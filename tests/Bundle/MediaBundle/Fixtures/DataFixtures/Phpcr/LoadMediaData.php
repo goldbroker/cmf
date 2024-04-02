@@ -1,23 +1,14 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2017 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\DataFixtures\Phpcr;
+namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\DataFixtures\Phpcr;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\ODM\PHPCR\Document\Generic;
 use Doctrine\Persistence\ObjectManager;
 use PHPCR\Util\NodeHelper;
-use Doctrine\ODM\PHPCR\Document\Generic;
 use Symfony\Cmf\Bundle\MediaBundle\Doctrine\Phpcr\File;
 use Symfony\Cmf\Bundle\MediaBundle\Doctrine\Phpcr\Image;
-use Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Document\Content;
+use Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content;
 
 class LoadMediaData implements FixtureInterface
 {

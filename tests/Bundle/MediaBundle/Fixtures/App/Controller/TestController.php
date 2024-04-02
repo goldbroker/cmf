@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Controller;
+namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class TestController extends Controller
+class TestController extends AbstractController
 {
     public function indexAction(Request $request)
     {

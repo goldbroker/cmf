@@ -11,6 +11,7 @@
 
 namespace Tests\Symfony\Cmf\Bundle\MediaBundle\WebTest\TestApp;
 
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class FileTest extends BaseTestCase
@@ -19,11 +20,11 @@ class FileTest extends BaseTestCase
 
     public function setUp(): void
     {
-        $this->db('PHPCR')->loadFixtures(array(
-            'Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\DataFixtures\Phpcr\LoadMediaData',
-        ));
-        $this->testDataDir = $this->getContainer()->get('kernel')->getRootDir().'/Resources/data';
         $this->client = $this->createClient();
+        $this->db('PHPCR')->loadFixtures(array(
+            'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\DataFixtures\Phpcr\LoadMediaData',
+        ));
+        $this->testDataDir = $this->getContainer()->get('kernel')->getProjectDir().'/Resources/data';
     }
 
     public function testPage()
@@ -55,11 +56,12 @@ class FileTest extends BaseTestCase
 
     public function testEditorUpload()
     {
-        $this->client = $this->createClient(array(), array(
+        $auth = [
             'PHP_AUTH_USER' => 'admin',
             'PHP_AUTH_PW' => 'adminpass',
-        ));
-        $crawler = $this->client->request('get', $this->getContainer()->get('router')->generate('phpcr_file_test'));
+        ];
+
+        $crawler = $this->client->request('get', $this->getContainer()->get('router')->generate('phpcr_file_test'), $auth);
         $cntDownloadLinks = $crawler->filter('.downloads li a')->count();
 
         $buttonCrawlerNode = $crawler->filter('form.editor.default')->selectButton('submit');

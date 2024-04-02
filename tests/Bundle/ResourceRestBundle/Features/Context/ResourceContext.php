@@ -99,7 +99,7 @@ class ResourceContext implements Context
     public function createFile($filename, PyStringNode $content)
     {
         $filesytem = new Filesystem();
-        $file = str_replace('%kernel.root_dir%', $this->kernel->getRootDir(), $filename);
+        $file = str_replace('%kernel.root_dir%', $this->kernel->getProjectDir(), $filename);
         $filesytem->mkdir(\dirname($file));
 
         file_put_contents($file, (string) $content);

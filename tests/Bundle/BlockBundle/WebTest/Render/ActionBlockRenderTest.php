@@ -12,6 +12,7 @@
 namespace Tests\Symfony\Cmf\Bundle\BlockBundle\WebTest\Render;
 
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Nicolas Bastien <nbastien@prestaconcept.net>
@@ -23,16 +24,17 @@ class ActionBlockRenderTest extends BaseTestCase
      */
     public function setUp(): void
     {
+        $this->client = $this->createClient();
         $this->db('PHPCR')->loadFixtures([
             'Tests\Symfony\Cmf\Bundle\BlockBundle\Fixtures\App\DataFixtures\Phpcr\LoadBlockData',
         ]);
-        $this->client = $this->createClient();
     }
 
     public function testRenderActionTwig()
     {
         $crawler = $this->client->request('GET', '/render-action-test');
 
+        /* @var $res Response */
         $res = $this->client->getResponse();
         $this->assertEquals(200, $res->getStatusCode());
 

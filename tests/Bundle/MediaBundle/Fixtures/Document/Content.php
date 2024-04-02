@@ -9,12 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Document;
+namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document;
 
+use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCRODM;
 use Symfony\Cmf\Bundle\MediaBundle\Doctrine\Phpcr\File;
 use Symfony\Cmf\Bundle\MediaBundle\FileInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCRODM;
+
 
 /**
  * @PHPCRODM\Document(referenceable=true)

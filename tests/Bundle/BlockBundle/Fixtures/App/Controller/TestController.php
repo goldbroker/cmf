@@ -1,24 +1,15 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2017 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Tests\Symfony\Cmf\Bundle\BlockBundle\Fixtures\App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Nicolas Bastien <nbastien@prestaconcept.net>
  */
-class TestController extends Controller
+class TestController extends AbstractController
 {
     /**
      * @param Request $request
@@ -27,7 +18,7 @@ class TestController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('::index.html.twig');
+        return $this->render('index.html.twig');
     }
 
     /**
@@ -41,7 +32,7 @@ class TestController extends Controller
     {
         $block = $this->get('doctrine_phpcr')->getManager()->find(null, '/test/blocks/'.$id);
 
-        return $this->render('::tests/render.html.twig', ['block' => $block]);
+        return $this->render('render.html.twig', ['block' => $block]);
     }
 
     /**

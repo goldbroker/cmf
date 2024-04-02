@@ -4,6 +4,30 @@ cmf_media:
             enabled: true
             media_basepath: /test
 
+cmf_block:
+    persistence:
+        phpcr:
+            enabled: true
+            block_basepath: /test
+
+cmf_core:
+    publish_workflow:
+        request_listener: false
+
+cmf_menu:
+    persistence:
+        phpcr:
+            enabled: true
+            menu_basepath: /test/menus
+    voters:
+        content_identity:
+            content_key: 'test'
+        uri_prefix: ~
+
+doctrine_phpcr:
+    odm:
+        auto_mapping: true
+
 # The LiipImagineBundle can be used if you want to convert on demand an image
 # to a specific format. (ie a controller render the file)
 # more information can be found here : https://github.com/liip/LiipImagineBundle
@@ -11,7 +35,7 @@ liip_imagine:
     loaders:
         default:
             filesystem:
-                data_root: %kernel.cmf_test_web_dir%
+                data_root: '%kernel.cmf_test_web_dir%'
     filter_sets:
         # define the filter to be used with the image preview
         image_upload_thumbnail:

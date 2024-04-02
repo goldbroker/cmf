@@ -1,46 +1,25 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2017 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Symfony\Cmf\Bundle\BlockBundle\Block;
 
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
+use Twig\Environment;
 
 class ActionBlockService extends AbstractBlockService
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
+    private RequestStack $requestStack;
 
-    /**
-     * @var FragmentHandler
-     */
-    protected $renderer;
+    protected FragmentHandler $renderer;
 
-    /**
-     * @param string          $name
-     * @param EngineInterface $templating
-     * @param FragmentHandler $renderer
-     * @param RequestStack    $requestStack
-     */
-    public function __construct($name, EngineInterface $templating, FragmentHandler $renderer, RequestStack $requestStack)
+    public function __construct(Environment $twig, FragmentHandler $renderer, RequestStack $requestStack)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
         $this->renderer = $renderer;
         $this->requestStack = $requestStack;
     }
@@ -48,7 +27,7 @@ class ActionBlockService extends AbstractBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         /** @var $block ActionBlock */
         $block = $blockContext->getBlock();

@@ -48,7 +48,10 @@
         "twig/twig": "^1.14.2 || ^2.0",
         "jackalope/jackalope-fs": "^0.0.4",
         "symfony-cmf/routing-bundle": "^2.5",
-        "mockery/mockery": "^1.6"
+        "mockery/mockery": "^1.6",
+        "doctrine/doctrine-bundle": "^2.12",
+        "symfony/css-selector": "^4.4 || ^5.0 || ^6.0",
+        "liip/imagine-bundle": "^2.12"
     },
     "replace": {
         "symfony-cmf/block-bundle": "*",
@@ -76,7 +79,14 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Symfony\\Cmf\\Bundle\\": "tests/Bundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\BlockBundle\\": "tests/Bundle/BlockBundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\ContentBundle\\": "tests/Bundle/ContentBundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\CoreBundle\\": "tests/Bundle/CoreBundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\MediaBundle\\": "tests/Bundle/MediaBundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\MenuBundle\\": "tests/Bundle/MenuBundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\ResourceBundle\\": "tests/Bundle/ResourceBundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\ResourceRestBundle\\": "tests/Bundle/ResourceRestBundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\TreeBrowserBundle\\": "tests/Bundle/TreeBrowserBundle/",
             "Tests\\Symfony\\Cmf\\Component\\": "tests/Component/"
         }
     },

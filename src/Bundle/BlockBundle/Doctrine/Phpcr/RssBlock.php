@@ -21,7 +21,7 @@ class RssBlock extends ActionBlock
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'cmf.block.action';
     }

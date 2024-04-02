@@ -9,23 +9,25 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Controller;
+namespace Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Controller;
 
 use Doctrine\ODM\PHPCR\Document\Generic;
 use PHPCR\Util\PathHelper;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Bundle\MediaBundle\Doctrine\Phpcr\Image;
 use Symfony\Cmf\Bundle\MediaBundle\File\UploadFileHelperInterface;
-use Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Document\Content;
 use Symfony\Cmf\Bundle\MediaBundle\Util\LegacyFormHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content;
 
-class PhpcrImageTestController extends Controller
+class PhpcrImageTestController extends AbstractController
 {
     protected function getUploadForm()
     {
-        return $this->container->get('form.factory')->createNamedBuilder(null, LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\FormType'))
+        return $this->container
+            ->get('form.factory')
+            ->createNamedBuilder('form', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\FormType'))
             ->add('image', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\FileType'))
             ->getForm()
         ;
@@ -78,7 +80,7 @@ class PhpcrImageTestController extends Controller
         $images = $dm->getRepository($imageClass)->findAll();
 
         // get content with image object
-        $contentClass = 'Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\Document\Content';
+        $contentClass = 'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content';
         $contentObject = $this->getImageContentObject($dm->getRepository($contentClass)->findAll());
 
         $uploadForm = $this->getUploadForm();

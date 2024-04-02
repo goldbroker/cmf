@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2017 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Symfony\Cmf\Bundle\BlockBundle\Block;
 
 use Sonata\BlockBundle\Block\BlockContextInterface;
@@ -16,7 +7,7 @@ use Sonata\BlockBundle\Block\Service\AbstractBlockService;
 use Sonata\BlockBundle\Block\Service\BlockServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Twig\Environment;
 
 /**
  * The menu block service renders the template with the specified menu node.
@@ -27,9 +18,9 @@ class MenuBlockService extends AbstractBlockService implements BlockServiceInter
 {
     protected $template = '@CmfBlock/Block/block_menu.html.twig';
 
-    public function __construct($name, $templating, $template = null)
+    public function __construct(Environment $twig, $template = null)
     {
-        parent::__construct($name, $templating);
+        parent::__construct($twig);
 
         if ($template) {
             $this->template = $template;
@@ -39,7 +30,7 @@ class MenuBlockService extends AbstractBlockService implements BlockServiceInter
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null)
+    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
     {
         $block = $blockContext->getBlock();
 
@@ -60,25 +51,14 @@ class MenuBlockService extends AbstractBlockService implements BlockServiceInter
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultSettings(OptionsResolverInterface $resolver)
-    {
-        $this->configureSettings($resolver);
-    }
-
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'template' => $this->template,
         ]);
     }
 
-    /**
-     * @param string $template
-     */
-    public function setTemplate($template)
+    public function setTemplate(string $template): void
     {
         $this->template = $template;
     }
