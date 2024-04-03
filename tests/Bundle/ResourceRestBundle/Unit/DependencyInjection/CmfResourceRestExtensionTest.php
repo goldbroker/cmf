@@ -21,7 +21,7 @@ class CmfResourceRestExtensionTest extends AbstractExtensionTestCase
         return [new CmfResourceRestExtension()];
     }
 
-    public function provideExtension()
+    public function provideExtension(): array
     {
         return [
             [
@@ -43,6 +43,8 @@ class CmfResourceRestExtensionTest extends AbstractExtensionTestCase
     public function testExtension($config)
     {
         $this->container->setParameter('kernel.bundles', ['JMSSerializerBundle' => true]);
+
+        $this->expectNotToPerformAssertions();
 
         $this->load($config);
 

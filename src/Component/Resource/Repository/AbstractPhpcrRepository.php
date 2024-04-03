@@ -17,8 +17,8 @@ use Symfony\Cmf\Component\Resource\Puli\AbstractRepository;
 use Symfony\Cmf\Component\Resource\Puli\Api\ResourceRepository;
 use Symfony\Cmf\Component\Resource\Puli\ArrayResourceCollection;
 use Symfony\Cmf\Component\Resource\Repository\Api\EditableRepository;
+use Symfony\Component\Filesystem\Path;
 use Webmozart\Assert\Assert;
-use Webmozart\PathUtil\Path;
 
 /**
  * Abstract repository for both PHPCR and PHPCR-ODM repositories.

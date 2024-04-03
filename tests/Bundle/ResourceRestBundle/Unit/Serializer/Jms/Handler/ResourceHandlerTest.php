@@ -93,8 +93,9 @@ class ResourceHandlerTest extends TestCase
         $this->childResource->getPath()->willReturn('/path/to/child');
         $this->childResource->getRepositoryPath()->willReturn('/child/repository/path');
         $this->childResource->getRepository()->willReturn($this->repository->reveal());
-        $this->childResource->listChildren()->willReturn([
-        ]);
+        $this->childResource->listChildren()->willReturn([]);
+
+        $this->expectNotToPerformAssertions();
 
         $expected = [
             'repository_alias' => 'repo',

@@ -12,8 +12,8 @@
 namespace Symfony\Cmf\Component\Resource\Puli;
 
 use Symfony\Cmf\Component\Resource\Puli\Api\ResourceRepository;
+use Symfony\Component\Filesystem\Path;
 use Webmozart\Assert\Assert;
-use Webmozart\PathUtil\Path;
 
 /**
  * Abstract base for repositories providing tools to avoid code duplication.

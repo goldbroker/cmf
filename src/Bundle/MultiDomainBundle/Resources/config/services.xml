@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="cmf_multi_domain.locale_listener.class">Symfony\Cmf\Bundle\MultiDomainBundle\EventListener\LocaleListener</parameter>
+        <parameter key="cmf_multi_domain.router_listener.class">Symfony\Cmf\Bundle\MultiDomainBundle\EventListener\RouterListener</parameter>
+    </parameters>
+
+    <services>
+        <service id="cmf_multi_domain.locale_listener" class="%cmf_multi_domain.locale_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="20" />
+            <argument>%cmf_multi_domain.domains%</argument>
+            <argument>%cmf_multi_domain.excluded_paths%</argument>
+        </service>
+
+        <service id="cmf_multi_domain.router_listener" class="%cmf_multi_domain.router_listener.class%">
+            <tag name="kernel.event_listener" event="cmf_routing.pre_dynamic_generate" method="onGenerate" />
+            <argument type="service" id="router" />
+            <argument>%cmf_routing.dynamic.persistence.phpcr.route_basepaths%</argument>
+            <argument>%cmf_multi_domain.domains%</argument>
+        </service>
+    </services>
+</container>

@@ -29,6 +29,8 @@ class PhpcrOdmTraversalFinderTest extends \PHPUnit\Framework\TestCase
 
     public function testFind()
     {
+        $this->expectNotToPerformAssertions();
+
         $this->managerRegistry->getManager()->willReturn($this->manager->reveal());
         $this->manager->find(null, '/foo')->willReturn($this->document);
         $this->manager->getChildren($this->document, '*')->willReturn(array());
