@@ -11,24 +11,35 @@
     "license": "MIT",
     "require": {
         "php": "^7.4 || ^8",
+        "doctrine/annotations": "^1.10",
         "doctrine/phpcr-bundle": "^1.3 || ^2.0",
         "doctrine/phpcr-odm": "^1.4.2 || ^2.0",
         "knplabs/knp-menu-bundle": "^2.2 || ^3.0",
         "knplabs/knp-menu": "^2.0 || ^3.0",
         "jms/serializer-bundle": "^2.0 || ^3.0",
-        "sonata-project/block-bundle": "^3.11 || ^4",
-        "symfony/filesystem": "^4.4 || ^5.0",
-        "symfony/framework-bundle": "^4.4 || ^5.0",
-        "symfony/options-resolver": "^4.4 || ^5.0",
-        "symfony/templating": "^4.4 || ^5.0",
-        "symfony/twig-bundle": "^4.4 || ^5.0",
-        "symfony/security-core": "^4.4 || ^5.0",
-        "symfony/validator": "^4.4 || ^5.0",
+        "sonata-project/admin-bundle": "^3.101",
+        "sonata-project/block-bundle": "^3.11",
+        "symfony/config": "^4.4",
+        "symfony/dependency-injection": "^4.4",
+        "symfony/finder": "^4.4",
+        "symfony/form": "^4.4",
+        "symfony/http-foundation": "^4.4",
+        "symfony/http-kernel": "^4.4",
+        "symfony/property-access": "^4.4",
+        "symfony/filesystem": "^5.0",
+        "symfony/framework-bundle": "^4.4",
+        "symfony/options-resolver": "^4.4",
+        "symfony/templating": "^4.4",
+        "symfony/twig-bundle": "^4.4",
+        "symfony/security-core": "^4.4",
+        "symfony/validator": "^4.4",
         "symfony-cmf/routing-bundle": "^2.0 || ^3.0",
         "webmozart/assert": "^1.2",
         "helios-ag/fm-elfinder-bundle": "^10.0.4",
         "knplabs/gaufrette": "^0.10.0",
-        "imagine/imagine": "^1.3"
+        "imagine/imagine": "^1.3",
+        "burgov/key-value-form-bundle": "^1.0",
+        "friendsofsymfony/ckeditor-bundle": "^1.0"
     },
     "require-dev": {
         "behat/behat": "^3.0.6",
@@ -38,20 +49,28 @@
         "matthiasnoback/symfony-config-test": "^4",
         "mikey179/vfsstream": "^1.2",
         "phpspec/prophecy": "^1.12",
-        "sonata-project/admin-bundle": "^3.1 || ^4",
-        "symfony/asset": "^4.4 || ^5.0",
-        "symfony/form": "^4.4 || ^5.0",
+        "phpunit/phpunit": "^8.5",
+        "symfony/asset": "^4.4",
         "symfony/monolog-bundle": "^3.0",
         "symfony/phpunit-bridge": "^7.0",
-        "symfony/security-bundle": "^4.4 || ^5.0",
-        "symfony/yaml": "^4.4 || ^5.0",
+        "symfony/security-bundle": "^4.4",
+        "symfony/yaml": "^4.4",
         "symfony-cmf/testing": "*",
         "twig/twig": "^1.14.2 || ^2.0",
         "jackalope/jackalope-fs": "^0.0.4",
         "mockery/mockery": "^1.6",
-        "doctrine/doctrine-bundle": "^2.12",
-        "symfony/css-selector": "^4.4 || ^5.0",
-        "liip/imagine-bundle": "^2.12"
+        "doctrine/doctrine-bundle": "^1.12",
+        "symfony/css-selector": "^4.4",
+        "liip/imagine-bundle": "^2.12",
+        "sonata-project/core-bundle": "^3.20"
+    },
+    "conflict": {
+        "jms/serializer-bundle": "<2.3.1",
+        "sonata/cache": "<1.1.1",
+        "sonata-project/doctrine-extensions": "<=1.3.0"
+    },
+    "provide": {
+        "sonata-project/admin-bundle-persistency-layer": "1.0.0"
     },
     "replace": {
         "symfony-cmf/block-bundle": "*",
@@ -62,8 +81,10 @@
         "symfony-cmf/resource": "*",
         "symfony-cmf/resource-bundle": "*",
         "symfony-cmf/resource-rest-bundle": "*",
+        "symfony-cmf/sonata-phpcr-admin-integration-bundle": "*",
         "symfony-cmf/tree-browser-bundle": "*",
-        "m4nu/multi-domain-bundle": "*"
+        "m4nu/multi-domain-bundle": "*",
+        "sonata-project/doctrine-phpcr-admin-bundle": "*"
     },
     "autoload": {
         "psr-4": {
@@ -75,8 +96,10 @@
             "Symfony\\Cmf\\Bundle\\MultiDomainBundle\\": "src/Bundle/MultiDomainBundle/",
             "Symfony\\Cmf\\Bundle\\ResourceBundle\\": "src/Bundle/ResourceBundle/",
             "Symfony\\Cmf\\Bundle\\ResourceRestBundle\\": "src/Bundle/ResourceRestBundle/",
+            "Symfony\\Cmf\\Bundle\\SonataPhpcrAdminIntegrationBundle\\": "src/Bundle/SonataPhpcrAdminIntegrationBundle/",
             "Symfony\\Cmf\\Bundle\\TreeBrowserBundle\\": "src/Bundle/TreeBrowserBundle/",
-            "Symfony\\Cmf\\Component\\": "src/Component/"
+            "Symfony\\Cmf\\Component\\": "src/Component/",
+            "Sonata\\DoctrinePHPCRAdminBundle\\": "src/Sonata/DoctrinePHPCRAdminBundle/"
         }
     },
     "autoload-dev": {
@@ -89,12 +112,11 @@
             "Tests\\Symfony\\Cmf\\Bundle\\MultiDomainBundle\\": "tests/Bundle/MultiDomainBundle/",
             "Tests\\Symfony\\Cmf\\Bundle\\ResourceBundle\\": "tests/Bundle/ResourceBundle/",
             "Tests\\Symfony\\Cmf\\Bundle\\ResourceRestBundle\\": "tests/Bundle/ResourceRestBundle/",
+            "Tests\\Symfony\\Cmf\\Bundle\\SonataPhpcrAdminIntegrationBundle\\": "tests/Bundle/SonataPhpcrAdminIntegrationBundle/",
             "Tests\\Symfony\\Cmf\\Bundle\\TreeBrowserBundle\\": "tests/Bundle/TreeBrowserBundle/",
-            "Tests\\Symfony\\Cmf\\Component\\": "tests/Component/"
+            "Tests\\Symfony\\Cmf\\Component\\": "tests/Component/",
+            "Tests\\Sonata\\DoctrinePHPCRAdminBundle\\": "tests/Sonata/DoctrinePHPCRAdminBundle/"
         }
-    },
-    "conflict": {
-        "sonata/cache": "<1.1.1"
     },
     "config": {
         "allow-plugins": {

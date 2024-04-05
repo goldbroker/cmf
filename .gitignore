@@ -1,8 +1,8 @@
 /.idea/
 /vendor/
-/.phpunit.result.cache
+/**/.phpunit.result.cache
 /composer.lock
 /Dockerfile
 /docker-compose.yaml
-/tests/Bundle/**/Fixtures/App/var
+/tests/**/Fixtures/App/var/
 /tests/data
