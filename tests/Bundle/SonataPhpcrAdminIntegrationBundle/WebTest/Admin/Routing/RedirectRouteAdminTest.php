@@ -16,12 +16,17 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class RedirectRouteAdminTest extends BaseTestCase
 {
-    public function setUp()
+    public static function getKernelClass(): string
     {
+        return \Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Kernel::class;
+    }
+
+    public function setUp(): void
+    {
+        $this->client = $this->createClient();
         $this->db('PHPCR')->loadFixtures([
             'Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\DataFixtures\Phpcr\LoadRouteData',
         ]);
-        $this->client = $this->createClient();
     }
 
     public function testRedirectRouteList()

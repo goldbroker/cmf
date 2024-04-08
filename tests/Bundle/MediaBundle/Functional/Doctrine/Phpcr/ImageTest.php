@@ -21,6 +21,11 @@ class ImageTest extends BaseTestCase
 {
     protected $dm;
 
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Kernel::class;
+    }
+
     public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures(array(

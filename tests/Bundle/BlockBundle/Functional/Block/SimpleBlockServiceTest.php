@@ -12,12 +12,19 @@
 namespace Tests\Symfony\Cmf\Bundle\BlockBundle\Functional\Block;
 
 use Sonata\BlockBundle\Block\BlockContext;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Cmf\Bundle\BlockBundle\Block\SimpleBlockService;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock;
+use Twig\Environment;
 
 class SimpleBlockServiceTest extends \PHPUnit\Framework\TestCase
 {
+    private $twig;
+
+    public function setUp(): void
+    {
+        $this->twig = $this->createMock(Environment::class);
+    }
+
     public function testExecutionOfEnabledBlock()
     {
         $template = '@CmfBlock/Block/block_simple.html.twig';
@@ -25,9 +32,9 @@ class SimpleBlockServiceTest extends \PHPUnit\Framework\TestCase
         $simpleBlock->setEnabled(true);
         $blockContext = new BlockContext($simpleBlock, ['template' => $template]);
 
-        $templatingMock = $this->createMock(EngineInterface::class);
-        $templatingMock->expects($this->once())
-            ->method('renderResponse')
+        $this->twig
+            ->expects($this->once())
+            ->method('render')
             ->with(
                 $this->equalTo($template),
                 $this->equalTo([
@@ -35,7 +42,7 @@ class SimpleBlockServiceTest extends \PHPUnit\Framework\TestCase
                 ])
             );
 
-        $simpleBlockService = new SimpleBlockService('test-service', $templatingMock, $template);
+        $simpleBlockService = new SimpleBlockService($this->twig, $template);
         $simpleBlockService->execute($blockContext);
     }
 
@@ -44,11 +51,11 @@ class SimpleBlockServiceTest extends \PHPUnit\Framework\TestCase
         $simpleBlock = new SimpleBlock();
         $simpleBlock->setEnabled(false);
 
-        $templatingMock = $this->createMock(EngineInterface::class);
-        $templatingMock->expects($this->never())
-             ->method('renderResponse');
+        $this->twig
+            ->expects($this->never())
+            ->method('render');
 
-        $simpleBlockService = new SimpleBlockService('test-service', $templatingMock);
+        $simpleBlockService = new SimpleBlockService($this->twig);
         $simpleBlockService->execute(new BlockContext($simpleBlock));
     }
 }

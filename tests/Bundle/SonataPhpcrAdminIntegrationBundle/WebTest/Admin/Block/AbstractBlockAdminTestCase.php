@@ -49,10 +49,15 @@ abstract class AbstractBlockAdminTestCase extends BaseTestCase
      */
     abstract public function testBlockShow();
 
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Kernel::class;
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures([
             'Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\DataFixtures\Phpcr\LoadBlockData',

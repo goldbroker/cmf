@@ -16,10 +16,15 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class MenuNodeReferrersExtensionTest extends BaseTestCase
 {
-    public function setUp()
+    public static function getKernelClass(): string
     {
-        $this->db('PHPCR')->loadFixtures([LoadMenuData::class]);
+        return \Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Kernel::class;
+    }
+
+    public function setUp(): void
+    {
         $this->client = $this->createClient();
+        $this->db('PHPCR')->loadFixtures([LoadMenuData::class]);
     }
 
     public function testEdit()

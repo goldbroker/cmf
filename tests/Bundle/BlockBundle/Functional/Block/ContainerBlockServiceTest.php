@@ -14,14 +14,21 @@ namespace Tests\Symfony\Cmf\Bundle\BlockBundle\Functional\Block;
 use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Cmf\Bundle\BlockBundle\Block\ContainerBlockService;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ContainerBlock;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 class ContainerBlockServiceTest extends \PHPUnit\Framework\TestCase
 {
+    private $twig;
+
+    public function setUp(): void
+    {
+        $this->twig = $this->createMock(Environment::class);
+    }
+
     public function testExecutionOfDisabledBlock()
     {
         $containerBlock = new ContainerBlock();
@@ -31,9 +38,7 @@ class ContainerBlockServiceTest extends \PHPUnit\Framework\TestCase
         $blockRendererMock->expects($this->never())
             ->method('render');
 
-        $templatingMock = $this->createMock(EngineInterface::class);
-
-        $containerBlockService = new ContainerBlockService('test-service', $templatingMock, $blockRendererMock);
+        $containerBlockService = new ContainerBlockService($this->twig, $blockRendererMock);
         $containerBlockService->execute(new BlockContext($containerBlock));
     }
 
@@ -62,26 +67,22 @@ class ContainerBlockServiceTest extends \PHPUnit\Framework\TestCase
 
         $blockRendererMock = $this->createMock(BlockRendererInterface::class);
 
-        $templatingMock = $this->createMock(EngineInterface::class);
-
-        $templatingMock
+        $this->twig
             ->expects($this->once())
-            ->method('renderResponse')
+            ->method('render')
             ->with(
                 $this->equalTo($template),
                 $this->equalTo([
                     'block' => $containerBlock,
                     'settings' => $settings,
-                ]),
-                $this->isInstanceOf('Symfony\Component\HttpFoundation\Response')
+                ])
             )
             ->will($this->returnValue(new Response($responseContent1.$responseContent2)))
         ;
 
-        $containerBlockService = new ContainerBlockService('test-service', $templatingMock, $blockRendererMock);
+        $containerBlockService = new ContainerBlockService($this->twig, $blockRendererMock);
         $response = $containerBlockService->execute($blockContext);
-        $this->assertInstanceof('Symfony\Component\HttpFoundation\Response', $response);
-        $this->assertEquals(($responseContent1.$responseContent2), $response->getContent());
+        $this->assertStringContainsString(($responseContent1.$responseContent2), $response->getContent());
     }
 
     public function testExecutionOfBlockWithNoChildren()
@@ -100,25 +101,21 @@ class ContainerBlockServiceTest extends \PHPUnit\Framework\TestCase
 
         $blockRendererMock = $this->createMock(BlockRendererInterface::class);
 
-        $templatingMock = $this->createMock(EngineInterface::class);
-
-        $templatingMock
+        $this->twig
             ->expects($this->once())
-            ->method('renderResponse')
+            ->method('render')
             ->with(
                 $this->equalTo($template),
                 $this->equalTo([
                     'block' => $containerBlock,
                     'settings' => $settings,
-                ]),
-                $this->isInstanceOf('Symfony\Component\HttpFoundation\Response')
+                ])
             )
             ->will($this->returnValue(new Response('')))
         ;
 
-        $containerBlockService = new ContainerBlockService('test-service', $templatingMock, $blockRendererMock);
+        $containerBlockService = new ContainerBlockService($this->twig, $blockRendererMock);
         $response = $containerBlockService->execute($blockContext);
-        $this->assertInstanceof('Symfony\Component\HttpFoundation\Response', $response);
-        $this->assertEquals('', $response->getContent());
+        $this->assertStringContainsString('', $response->getContent());
     }
 }

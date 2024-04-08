@@ -26,27 +26,33 @@ sonata_unit_tests:
 	@vendor/bin/simple-phpunit --configuration tests/Sonata/DoctrinePHPCRAdminBundle/phpunit.xml.dist --testsuite "unit tests"
 
 sonata_functional_tests:
-	@echo
-	@echo '+++ run sonata functional tests +++'
 	@vendor/bin/simple-phpunit --configuration tests/Sonata/DoctrinePHPCRAdminBundle/phpunit.xml.dist --testsuite "functional tests"
 
-cmf_functional_tests: functional_tests_block functional_tests_teardown
+cmf_functional_tests: functional_tests_block functional_tests_content functional_tests_core functional_tests_media functional_tests_menu functional_tests_resource functional_tests_resource_rest functional_tests_sonata_phpcr_admin_integration
 
 functional_tests_block:
-	export KERNEL_CLASS=Tests\Symfony\Cmf\Bundle\BlockBundle\Fixtures\App\Kernel
-	@vendor/bin/simple-phpunit --testsuite "functional tests" test\Bundle\BlockBundle
+	@vendor/bin/simple-phpunit --testsuite "functional tests" tests/Bundle/BlockBundle
 
-#
-#functional_tests_phpcr_content:
-#	PACKAGE=symfony-cmf/content-bundle
-#    export KERNEL_CLASS=Tests\Symfony\Cmf\Bundle\ContentBundle\Fixtures\App\Kernel
-#functional_tests_phpcr_content: functional_tests_phpcr
-#
-#functional_tests_phpcr_media:
-#	PACKAGE=symfony-cmf/media-bundle
-#    export KERNEL_CLASS=Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Kernel
-#functional_tests_phpcr_media: functional_tests_phpcr
-#
+functional_tests_content:
+	@vendor/bin/simple-phpunit --testsuite "functional tests" tests/Bundle/ContentBundle
+
+functional_tests_core:
+	@vendor/bin/simple-phpunit --testsuite "functional tests" tests/Bundle/CoreBundle
+
+functional_tests_media:
+	@vendor/bin/simple-phpunit --testsuite "functional tests" tests/Bundle/MediaBundle
+
+functional_tests_menu:
+	@vendor/bin/simple-phpunit --testsuite "functional tests" tests/Bundle/MenuBundle
+
+functional_tests_resource:
+	@vendor/bin/simple-phpunit --testsuite "functional tests" tests/Bundle/ResourceBundle
+
+functional_tests_resource_rest:
+	@vendor/bin/simple-phpunit --testsuite "functional tests" tests/Bundle/ResourceRestBundle
+
+functional_tests_sonata_phpcr_admin_integration:
+	@vendor/bin/simple-phpunit --testsuite "functional tests" tests/Bundle/SonataPhpcrAdminIntegrationBundle
 
 functional_tests_setup:
 	@if [ "${CONSOLE}" = "" ]; then echo "Console executable missing"; exit 1; fi

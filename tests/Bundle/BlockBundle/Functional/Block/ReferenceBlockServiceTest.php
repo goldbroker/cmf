@@ -14,26 +14,31 @@ namespace Tests\Symfony\Cmf\Bundle\BlockBundle\Functional\Block;
 use Sonata\BlockBundle\Block\BlockContext;
 use Sonata\BlockBundle\Block\BlockContextManagerInterface;
 use Sonata\BlockBundle\Block\BlockRendererInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Cmf\Bundle\BlockBundle\Block\ReferenceBlockService;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock;
+use Twig\Environment;
 
 class ReferenceBlockServiceTest extends \PHPUnit\Framework\TestCase
 {
+    private $twig;
+
+    public function setUp(): void
+    {
+        $this->twig = $this->createMock(Environment::class);
+    }
+
     public function testExecutionOfDisabledBlock()
     {
         $referenceBlock = new ReferenceBlock();
         $referenceBlock->setEnabled(false);
-
-        $templatingMock = $this->createMock(EngineInterface::class);
 
         $blockRendererMock = $this->createMock(BlockRendererInterface::class);
         $blockRendererMock->expects($this->never())
              ->method('render');
         $blockContextManagerMock = $this->createMock(BlockContextManagerInterface::class);
 
-        $referenceBlockService = new ReferenceBlockService('test-service', $templatingMock, $blockRendererMock, $blockContextManagerMock);
+        $referenceBlockService = new ReferenceBlockService($this->twig, $blockRendererMock, $blockContextManagerMock);
         $referenceBlockService->execute(new BlockContext($referenceBlock));
     }
 
@@ -49,8 +54,6 @@ class ReferenceBlockServiceTest extends \PHPUnit\Framework\TestCase
 
         $referenceBlockContext = new BlockContext($referenceBlock);
 
-        $templatingMock = $this->createMock(EngineInterface::class);
-
         $blockRendererMock = $this->createMock(BlockRendererInterface::class);
         $blockRendererMock->expects($this->once())
             ->method('render')
@@ -64,7 +67,7 @@ class ReferenceBlockServiceTest extends \PHPUnit\Framework\TestCase
                 $this->returnValue($simpleBlockContext)
             );
 
-        $referenceBlockService = new ReferenceBlockService('test-service', $templatingMock, $blockRendererMock, $blockContextManagerMock);
+        $referenceBlockService = new ReferenceBlockService($this->twig, $blockRendererMock, $blockContextManagerMock);
         $referenceBlockService->execute($referenceBlockContext);
     }
 }

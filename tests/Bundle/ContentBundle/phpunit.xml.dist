@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         failOnWarning="true"
+         failOnRisky="true"
+         stopOnFailure="false"
+         bootstrap="./bootstrap.php"
+>
+    <testsuites>
+        <testsuite name="unit tests">
+            <directory>./Unit</directory>
+        </testsuite>
+
+        <testsuite name="functional tests">
+            <directory>./WebTest</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

@@ -21,6 +21,11 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class PublishWorkflowTest extends BaseTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\CoreBundle\Fixtures\App\Kernel::class;
+    }
+
     /**
      * @var AuthorizationCheckerInterface
      */

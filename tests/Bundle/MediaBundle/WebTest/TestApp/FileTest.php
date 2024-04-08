@@ -18,6 +18,11 @@ class FileTest extends BaseTestCase
 {
     private $testDataDir;
 
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Kernel::class;
+    }
+
     public function setUp(): void
     {
         $this->client = $this->createClient();

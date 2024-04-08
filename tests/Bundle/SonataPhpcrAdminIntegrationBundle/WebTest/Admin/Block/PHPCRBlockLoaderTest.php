@@ -16,7 +16,7 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class PHPCRBlockLoaderTest extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures([
             'Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\DataFixtures\Phpcr\LoadBlockData',

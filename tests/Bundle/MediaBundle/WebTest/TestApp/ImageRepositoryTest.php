@@ -15,6 +15,11 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class ImageRepositoryTest extends BaseTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Kernel::class;
+    }
+
     public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures(array(
@@ -22,7 +27,7 @@ class ImageRepositoryTest extends BaseTestCase
         ));
     }
 
-    public function imageSearchProvider()
+    public function imageSearchProvider(): array
     {
         return array(
             array('/',             2, 'logo', 'cmf-logo.png'),

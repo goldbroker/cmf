@@ -13,6 +13,11 @@ namespace Tests\Symfony\Cmf\Bundle\ResourceBundle\Functional;
 
 class PhpcrOdmRepositoryTest extends PhpcrRepositoryTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\ResourceBundle\Fixtures\App\Kernel::class;
+    }
+
     protected function getRepository()
     {
         return $this->repositoryRegistry->get('test_repository_phpcr_odm');

@@ -23,6 +23,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CheckboxUrlLabelFormTypeTest extends BaseTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\CoreBundle\Fixtures\App\Kernel::class;
+    }
+
     public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures([LoadRouteData::class]);

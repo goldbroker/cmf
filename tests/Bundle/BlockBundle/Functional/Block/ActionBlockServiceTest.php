@@ -12,19 +12,19 @@
 namespace Tests\Symfony\Cmf\Bundle\BlockBundle\Functional\Block;
 
 use Sonata\BlockBundle\Block\BlockContext;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Cmf\Bundle\BlockBundle\Block\ActionBlockService;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Fragment\FragmentHandler;
+use Twig\Environment;
 
 class ActionBlockServiceTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var EngineInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var Environment|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $templating;
+    private $twig;
 
     /**
      * @var FragmentHandler|\PHPUnit\Framework\MockObject\MockObject
@@ -35,7 +35,7 @@ class ActionBlockServiceTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->templating = $this->createMock(EngineInterface::class);
+        $this->twig = $this->createMock(Environment::class);
         $this->kernel = $this->createMock(FragmentHandler::class);
         $this->requestStack = $this->createMock(RequestStack::class);
     }
@@ -51,7 +51,7 @@ class ActionBlockServiceTest extends \PHPUnit\Framework\TestCase
             ->method('render')
         ;
 
-        $actionBlockService = new ActionBlockService($this->requestStack, 'test-service', $this->templating, $this->kernel);
+        $actionBlockService = new ActionBlockService($this->twig, $this->kernel, $this->requestStack);
         $actionBlockService->execute(new BlockContext($actionBlock));
     }
 
@@ -77,10 +77,9 @@ class ActionBlockServiceTest extends \PHPUnit\Framework\TestCase
             ->will($this->returnValue($request))
         ;
 
-        $actionBlockService = new ActionBlockService($this->requestStack, 'test-service', $this->templating, $this->kernel);
+        $actionBlockService = new ActionBlockService($this->twig, $this->kernel, $this->requestStack);
 
         $response = $actionBlockService->execute(new BlockContext($actionBlock));
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $response);
         $this->assertEquals($content, $response->getContent());
     }
 }

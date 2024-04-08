@@ -9,14 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\WebTest\Admin;
+namespace Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\WebTest\Content\Admin;
 
 use Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\DataFixtures\Phpcr\LoadStaticContentData;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class StaticContentAdminTest extends BaseTestCase
 {
-    public function setUp()
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Kernel::class;
+    }
+
+    public function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures([LoadStaticContentData::class]);
         $this->client = $this->createClient();

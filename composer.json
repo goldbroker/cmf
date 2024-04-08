@@ -62,7 +62,9 @@
         "doctrine/doctrine-bundle": "^1.12",
         "symfony/css-selector": "^4.4",
         "liip/imagine-bundle": "^2.12",
-        "sonata-project/core-bundle": "^3.20"
+        "sonata-project/core-bundle": "^3.20",
+        "symfony/serializer": "^4.4",
+        "sonata-project/seo-bundle": "^2.9"
     },
     "conflict": {
         "jms/serializer-bundle": "<2.3.1",

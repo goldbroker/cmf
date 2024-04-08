@@ -19,6 +19,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ActionBlockRenderTest extends BaseTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\BlockBundle\Fixtures\App\Kernel::class;
+    }
+
     /**
      * {@inheritdoc}
      */

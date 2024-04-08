@@ -20,19 +20,29 @@ use Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\WebTest\Admin\Tes
  */
 class SeoContentAdminExtensionTest extends TestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Kernel::class;
+    }
+
+    public function setUp(): void
+    {
+        $this->client = $this->createClient();
+    }
+
     public function testAdminExtensionExists()
     {
-        $crawler = $this->getClient()->request('GET', '/admin/cmf/seo/seoawarecontent/list');
+        $crawler = $this->client->request('GET', '/admin/cmf/seo/seoawarecontent/list');
 
-        $this->assertResponseSuccess($this->getClient()->getResponse());
+        $this->assertResponseSuccess($this->client->getResponse());
         $this->assertCount(1, $crawler->filter('html:contains("content-1")'));
     }
 
     public function testItemEditView()
     {
-        $crawler = $this->getClient()->request('GET', '/admin/cmf/seo/seoawarecontent/test/content/content-1/edit');
+        $crawler = $this->client->request('GET', '/admin/cmf/seo/seoawarecontent/test/content/content-1/edit');
 
-        $this->assertResponseSuccess($this->getClient()->getResponse());
+        $this->assertResponseSuccess($this->client->getResponse());
 
         $this->assertCount(1, $crawler->filter('html:contains("SEO")'));
         $this->assertCount(1, $crawler->filter('html:contains("Title")'));
@@ -45,7 +55,7 @@ class SeoContentAdminExtensionTest extends TestCase
     {
         $crawler = $this->client->request('GET', '/admin/cmf/seo/seoawarecontent/create');
 
-        $this->assertResponseSuccess($this->getClient()->getResponse());
+        $this->assertResponseSuccess($this->client->getResponse());
 
         $this->assertCount(1, $crawler->filter('html:contains("SEO")'));
         $this->assertCount(1, $crawler->filter('html:contains("Title")'));

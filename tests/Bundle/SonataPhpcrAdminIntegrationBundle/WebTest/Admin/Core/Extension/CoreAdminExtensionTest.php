@@ -20,19 +20,24 @@ use Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\WebTest\Admin\Tes
  */
 class CoreAdminExtensionTest extends TestCase
 {
-    public function setUp()
+    public static function getKernelClass(): string
     {
+        return \Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Kernel::class;
+    }
+
+    public function setUp(): void
+    {
+        $this->client = $this->createClient();
         $this->db('PHPCR')->loadFixtures([
             'Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\DataFixtures\Phpcr\LoadCoreData',
         ]);
-        $this->client = $this->createClient();
     }
 
     public function testItemEditView()
     {
-        $crawler = $this->getClient()->request('GET', '/admin/cmf/core/extensions/test/core/with-extensions/edit');
+        $crawler = $this->client->request('GET', '/admin/cmf/core/extensions/test/core/with-extensions/edit');
 
-        $this->assertResponseSuccess($this->getClient()->getResponse());
+        $this->assertResponseSuccess($this->client->getResponse());
 
         $this->assertCount(1, $crawler->filter('html:contains("Publishable")'));
         $this->assertCount(1, $crawler->filter('html:contains("Publish from")'));
@@ -43,7 +48,7 @@ class CoreAdminExtensionTest extends TestCase
     {
         $crawler = $this->client->request('GET', '/admin/cmf/core/extensions/create');
 
-        $this->assertResponseSuccess($this->getClient()->getResponse());
+        $this->assertResponseSuccess($this->client->getResponse());
 
         $this->assertCount(1, $crawler->filter('html:contains("Publishable")'));
         $this->assertCount(1, $crawler->filter('html:contains("Publish from")'));

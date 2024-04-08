@@ -16,6 +16,11 @@ namespace Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\WebTest\Adm
  */
 class ActionBlockAdminTest extends AbstractBlockAdminTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Kernel::class;
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -18,6 +18,11 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
  */
 class ContainerBlockRenderTest extends BaseTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\BlockBundle\Fixtures\App\Kernel::class;
+    }
+
     /**
      * {@inheritdoc}
      */

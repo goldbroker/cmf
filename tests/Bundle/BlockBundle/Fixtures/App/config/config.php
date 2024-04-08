@@ -18,3 +18,5 @@ $loader->import(CMF_TEST_CONFIG_DIR.'/phpcr_odm.php');
 $loader->import(__DIR__.'/cmf_core.yml');
 $loader->import(__DIR__.'/cmf_block.yml');
 $loader->import(__DIR__.'/cmf_menu.yml');
+
+$loader->import(__DIR__.'/security.yml');

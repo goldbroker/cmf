@@ -15,6 +15,11 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class RenderingTest extends BaseTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\MenuBundle\Fixtures\App\Kernel::class;
+    }
+
     protected function setUp(): void
     {
         $this->db('PHPCR')->loadFixtures([

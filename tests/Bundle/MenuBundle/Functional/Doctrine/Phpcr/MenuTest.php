@@ -27,6 +27,11 @@ class MenuTest extends BaseTestCase
 
     private $rootDocument;
 
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\MenuBundle\Fixtures\App\Kernel::class;
+    }
+
     protected function setUp(): void
     {
         $this->db('PHPCR')->createTestNode();

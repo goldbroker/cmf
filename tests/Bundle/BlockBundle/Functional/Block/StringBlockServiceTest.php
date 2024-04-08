@@ -12,12 +12,19 @@
 namespace Tests\Symfony\Cmf\Bundle\BlockBundle\Functional\Block;
 
 use Sonata\BlockBundle\Block\BlockContext;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Cmf\Bundle\BlockBundle\Block\StringBlockService;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\StringBlock;
+use Twig\Environment;
 
 class StringBlockServiceTest extends \PHPUnit\Framework\TestCase
 {
+    private $twig;
+
+    public function setUp(): void
+    {
+        $this->twig = $this->createMock(Environment::class);
+    }
+
     public function testExecutionOfEnabledBlock()
     {
         $template = '@CmfBlock/Block/block_string.html.twig';
@@ -25,9 +32,9 @@ class StringBlockServiceTest extends \PHPUnit\Framework\TestCase
         $stringBlock->setEnabled(true);
         $blockContext = new BlockContext($stringBlock, ['template' => $template]);
 
-        $templatingMock = $this->createMock(EngineInterface::class);
-        $templatingMock->expects($this->once())
-            ->method('renderResponse')
+        $this->twig
+            ->expects($this->once())
+            ->method('render')
             ->with(
                 $this->equalTo($template),
                 $this->equalTo([
@@ -35,7 +42,7 @@ class StringBlockServiceTest extends \PHPUnit\Framework\TestCase
                 ])
             );
 
-        $stringBlockService = new StringBlockService('test-service', $templatingMock, $template);
+        $stringBlockService = new StringBlockService($this->twig, $template);
         $stringBlockService->execute($blockContext);
     }
 
@@ -44,11 +51,11 @@ class StringBlockServiceTest extends \PHPUnit\Framework\TestCase
         $stringBlock = new StringBlock();
         $stringBlock->setEnabled(false);
 
-        $templatingMock = $this->createMock(EngineInterface::class);
-        $templatingMock->expects($this->never())
-             ->method('renderResponse');
+        $this->twig
+            ->expects($this->never())
+            ->method('render');
 
-        $stringBlockService = new StringBlockService('test-service', $templatingMock);
+        $stringBlockService = new StringBlockService($this->twig);
         $stringBlockService->execute(new BlockContext($stringBlock));
     }
 }

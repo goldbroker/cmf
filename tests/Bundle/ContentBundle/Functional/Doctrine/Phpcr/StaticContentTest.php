@@ -16,6 +16,11 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class StaticContentTest extends BaseTestCase
 {
+    public static function getKernelClass(): string
+    {
+        return \Tests\Symfony\Cmf\Bundle\ContentBundle\Fixtures\App\Kernel::class;
+    }
+
     public function setUp(): void
     {
         $this->db('PHPCR')->createTestNode();

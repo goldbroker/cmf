@@ -16,10 +16,15 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class MenuAdminTest extends BaseTestCase
 {
-    public function setUp()
+    public static function getKernelClass(): string
     {
-        $this->db('PHPCR')->loadFixtures([LoadMenuData::class]);
+        return \Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Kernel::class;
+    }
+
+    public function setUp(): void
+    {
         $this->client = $this->createClient();
+        $this->db('PHPCR')->loadFixtures([LoadMenuData::class]);
         $this->documentManager = $this->client->getContainer()->get('doctrine_phpcr.odm.document_manager');
     }
 
