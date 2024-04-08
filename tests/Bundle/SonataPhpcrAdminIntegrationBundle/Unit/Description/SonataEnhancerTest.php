@@ -29,12 +29,20 @@ class SonataEnhancerTest extends \PHPUnit\Framework\TestCase
             'FooController'
         );
         $this->container = new ContainerBuilder();
-        $this->pool = new Pool($this->container, 'Test', 'logo');
-        $this->pool->setAdminClasses([
-            'stdClass' => ['std_class_admin'],
-            'Exception' => ['std_class_admin'],
-        ]);
-        $this->pool->setAdminServiceIds(['std_class_admin']);
+        $this->pool = new Pool(
+            $this->container,
+            [
+                'Test',
+                'std_class_admin'
+            ],
+            [
+                'logo'
+            ],
+            [
+                'stdClass' => ['std_class_admin'],
+                'Exception' => ['std_class_admin'],
+            ]
+        );
 
         $this->container->set('std_class_admin', $this->admin);
         $this->generator = $this->prophesize(UrlGeneratorInterface::class);
@@ -70,7 +78,7 @@ class SonataEnhancerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('/std_class_delete', $description->get(Descriptor::LINK_REMOVE_HTML));
     }
 
-    public function provideDescriptionData()
+    public function provideDescriptionData(): array
     {
         return [
             [new \stdClass()],

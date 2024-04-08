@@ -13,6 +13,9 @@ namespace Tests\Symfony\Cmf\Bundle\BlockBundle\Unit\Twig\Extension;
 
 use Symfony\Cmf\Bundle\BlockBundle\Templating\Helper\CmfBlockHelper;
 use Symfony\Cmf\Bundle\BlockBundle\Twig\Extension\CmfBlockExtension;
+use Twig\Environment;
+use Twig\Error\RuntimeError;
+use Twig\Loader\ArrayLoader;
 
 class CmfBlockExtensionTest extends \PHPUnit\Framework\TestCase
 {
@@ -20,7 +23,7 @@ class CmfBlockExtensionTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        if (!class_exists('Twig_Environment')) {
+        if (!class_exists(Environment::class)) {
             $this->markTestSkipped('Twig is not available.');
         }
     }
@@ -30,7 +33,7 @@ class CmfBlockExtensionTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmbedFilter($template, $calls = 1)
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Array([]), ['debug' => true, 'cache' => false, 'autoescape' => 'html', 'optimizations' => 0]);
+        $twig = new Environment(new ArrayLoader([]), ['debug' => true, 'cache' => false, 'autoescape' => 'html', 'optimizations' => 0]);
         $twig->addExtension(new CmfBlockExtension($this->getBlockHelper()));
 
         $this->getBlockHelper()->expects($this->exactly($calls))
@@ -38,12 +41,12 @@ class CmfBlockExtensionTest extends \PHPUnit\Framework\TestCase
 
         try {
             $twig->createTemplate($template)->render([]);
-        } catch (\Twig_Error_Runtime $e) {
+        } catch (RuntimeError $e) {
             throw $e->getPrevious();
         }
     }
 
-    public function getEmbedFilterData()
+    public function getEmbedFilterData(): array
     {
         return [
             ['{{ "bar"|cmf_embed_blocks }}'],

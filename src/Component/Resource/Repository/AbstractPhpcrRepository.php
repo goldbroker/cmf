@@ -59,7 +59,7 @@ abstract class AbstractPhpcrRepository extends AbstractRepository implements Res
     /**
      * {@inheritdoc}
      */
-    public function hasChildren($path)
+    public function hasChildren($path): bool
     {
         $children = $this->listChildren($path);
 
@@ -168,7 +168,7 @@ abstract class AbstractPhpcrRepository extends AbstractRepository implements Res
      *
      * @return string
      */
-    public function resolvePath($path)
+    public function resolvePath(string $path): string
     {
         $path = $this->sanitizePath($path);
 
@@ -176,9 +176,7 @@ abstract class AbstractPhpcrRepository extends AbstractRepository implements Res
             $path = $this->basePath.$path;
         }
 
-        $path = Path::canonicalize($path);
-
-        return $path;
+        return Path::canonicalize($path);
     }
 
     /**
@@ -188,14 +186,14 @@ abstract class AbstractPhpcrRepository extends AbstractRepository implements Res
      *
      * @return string
      */
-    protected function unresolvePath($path)
+    protected function unresolvePath(string $path): string
     {
         $path = substr($path, strlen($this->basePath));
 
         return $path;
     }
 
-    protected function isGlobbed($string)
+    protected function isGlobbed($string): bool
     {
         return $this->globHelper->isGlobbed($string);
     }

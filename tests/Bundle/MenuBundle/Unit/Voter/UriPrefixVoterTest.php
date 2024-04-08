@@ -14,6 +14,7 @@ namespace Tests\Symfony\Cmf\Bundle\MenuBundle\Unit\Voter;
 use Knp\Menu\ItemInterface;
 use Symfony\Cmf\Bundle\MenuBundle\Voter\UriPrefixVoter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Route;
 
 class UriPrefixVoterTest extends \PHPUnit\Framework\TestCase
@@ -27,8 +28,10 @@ class UriPrefixVoterTest extends \PHPUnit\Framework\TestCase
         $this->request = $this->prophesize(Request::class);
         $this->request->getLocale()->willReturn('');
 
-        $this->voter = new UriPrefixVoter();
-        $this->voter->setRequest($this->request->reveal());
+        $requestStack = $this->createMock(RequestStack::class);
+        $requestStack->method('getMasterRequest')->willReturn($this->request->reveal());
+
+        $this->voter = new UriPrefixVoter($requestStack);
     }
 
     public function testSkipsWhenNoContentIsAvailable()
@@ -38,9 +41,9 @@ class UriPrefixVoterTest extends \PHPUnit\Framework\TestCase
 
     public function testSkipsWhenNoRequestIsAvailable()
     {
-        $this->voter->setRequest(null);
+        $voter = new UriPrefixVoter();
 
-        $this->assertNull($this->voter->matchItem($this->createItem()));
+        $this->assertNull($voter->matchItem($this->createItem()));
     }
 
     public function testSkipsIfContentDoesNotExtendRoute()

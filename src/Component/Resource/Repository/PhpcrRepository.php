@@ -157,7 +157,8 @@ class PhpcrRepository extends AbstractPhpcrRepository
     private function doMoveNodes(array $nodes, $sourceQuery, $targetPath)
     {
         if (false === $this->isGlobbed($sourceQuery)) {
-            return $this->session->move(current($nodes)->getPath(), $targetPath);
+            $this->session->move(current($nodes)->getPath(), $targetPath);
+            return;
         }
 
         foreach ($nodes as $node) {

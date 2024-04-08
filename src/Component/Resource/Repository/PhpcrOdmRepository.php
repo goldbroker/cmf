@@ -116,7 +116,7 @@ class PhpcrOdmRepository extends AbstractPhpcrRepository
     /**
      * {@inheritdoc}
      */
-    protected function buildCollection(array $documents)
+    protected function buildCollection(array $documents): ArrayResourceCollection
     {
         $collection = new ArrayResourceCollection();
 
