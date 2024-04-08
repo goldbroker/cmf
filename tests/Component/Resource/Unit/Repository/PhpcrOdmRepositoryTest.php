@@ -16,7 +16,6 @@ use Doctrine\ODM\PHPCR\DocumentManagerInterface;
 use Doctrine\ODM\PHPCR\UnitOfWork;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPCR\NodeInterface;
-use Prophecy\Argument;
 use Symfony\Cmf\Component\Resource\Puli\ArrayResourceCollection;
 use Symfony\Cmf\Component\Resource\Repository\PhpcrOdmRepository;
 use Symfony\Cmf\Component\Resource\Repository\Resource\PhpcrOdmResource;
@@ -44,22 +43,20 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->documentManager = $this->prophesize(DocumentManagerInterface::class);
-        $this->managerRegistry = $this->prophesize(ManagerRegistry::class);
-        $this->childrenCollection = $this->prophesize(ChildrenCollection::class);
-        $this->uow = $this->prophesize(UnitOfWork::class);
+        $this->documentManager = $this->createMock(DocumentManagerInterface::class);
+        $this->managerRegistry = $this->createMock(ManagerRegistry::class);
+        $this->childrenCollection = $this->createMock(ChildrenCollection::class);
+        $this->uow = $this->createMock(UnitOfWork::class);
+
         $this->document = new \stdClass();
-
         $this->child1 = new \stdClass();
+        $this->child2 = new \stdClass();
 
-        // because Prophecy doesn't care much about object IDs...
-        $this->child2 = new stdClass2();
+        $this->node1 = $this->createMock(NodeInterface::class);
+        $this->node2 = $this->createMock(NodeInterface::class);
 
-        $this->node1 = $this->prophesize(NodeInterface::class);
-        $this->node2 = $this->prophesize(NodeInterface::class);
-
-        $this->managerRegistry->getManager()->willReturn($this->documentManager);
-        $this->documentManager->getUnitOfWork()->willReturn($this->uow->reveal());
+        $this->managerRegistry->method('getManager')->willReturn($this->documentManager);
+        $this->documentManager->method('getUnitOfWork')->willReturn($this->uow);
     }
 
     /**
@@ -69,7 +66,7 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testGet($basePath, $requestedPath, $canonicalPath, $evaluatedPath)
     {
-        $this->documentManager->find(null, $evaluatedPath)->willReturn($this->document);
+        $this->documentManager->method('find')->with(null, $evaluatedPath)->willReturn($this->document);
 
         $res = $this->getRepository($basePath)->get($requestedPath);
 
@@ -83,10 +80,10 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testFind()
     {
-        $this->documentManager->find(null, '/base/path/cmf/foobar')->willReturn($this->document);
-        $this->uow->getDocumentId($this->document)->willReturn('/cmf/foobar');
+        $this->documentManager->method('find')->with(null, '/base/path/cmf/foobar')->willReturn($this->document);
+        $this->uow->method('getDocumentId')->with($this->document)->willReturn('/cmf/foobar');
 
-        $this->finder->find('/base/path/cmf/*')->willReturn([
+        $this->finder->method('find')->with('/base/path/cmf/*')->willReturn([
             $this->document,
         ]);
 
@@ -105,13 +102,14 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testListChildren($basePath, $requestedPath, $canonicalPath, $absPath)
     {
-        $this->documentManager->find(null, $absPath)->willReturn($this->document);
-        $this->childrenCollection->toArray()->willReturn([
-            $this->child1, $this->child2,
+        $this->documentManager->method('find')->with(null, $absPath)->willReturn($this->document);
+        $this->childrenCollection->method('toArray')->willReturn([
+            $this->child1,
+            $this->child2
         ]);
-        $this->documentManager->getChildren($this->document)->willReturn($this->childrenCollection);
-        $this->uow->getDocumentId($this->child1)->willReturn($absPath.'/child1');
-        $this->uow->getDocumentId($this->child2)->willReturn($absPath.'/child2');
+        $this->documentManager->method('getChildren')->with($this->document)->willReturn($this->childrenCollection);
+        $this->uow->method('getDocumentId')->with($this->child1)->willReturn($absPath.'/child1');
+        $this->uow->method('getDocumentId')->with($this->child2)->willReturn($absPath.'/child2');
 
         $res = $this->getRepository($basePath)->listChildren($requestedPath);
 
@@ -133,9 +131,10 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
             $children[] = new \stdClass();
         }
 
-        $this->childrenCollection->toArray()->willReturn($children);
-        $this->documentManager->find(null, '/test')->willReturn($this->document);
-        $this->documentManager->getChildren($this->document)->willReturn($this->childrenCollection);
+        $this->documentManager->method('getChildren')->with($this->document)->willReturn($this->childrenCollection);
+        $this->childrenCollection->method('toArray')->willReturn($children);
+        $this->documentManager->method('find')->with(null, '/test')->willReturn($this->document);
+        $this->uow->method('getDocumentId')->willReturn('/test');
 
         $res = $this->getRepository()->hasChildren('/test');
 
@@ -147,7 +146,7 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('No PHPCR-ODM document could be found at "/test"');
 
-        $this->documentManager->find(null, '/test')->willReturn(null);
+        $this->documentManager->method('find')->with(null, '/test')->willReturn(null);
         $this->getRepository()->get('/test');
     }
 
@@ -156,14 +155,13 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testRemove()
     {
-        $this->finder->find('/test/*')->willReturn([
+        $this->finder->method('find')->with('/test/*')->willReturn([
             $this->child1,
             $this->child2,
         ]);
 
-        $this->documentManager->remove($this->child1)->shouldBeCalled();
-        $this->documentManager->remove($this->child2)->shouldBeCalled();
-        $this->documentManager->flush()->shouldBeCalled();
+        $this->documentManager->expects($this->exactly(2))->method('remove')->withConsecutive([$this->child1], [$this->child2]);
+        $this->documentManager->expects($this->once())->method('flush');
 
         $number = $this->getRepository()->remove('/test/*', 'glob');
         $this->assertEquals(2, $number);
@@ -174,10 +172,10 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testRemoveException()
     {
-        $this->finder->find('/test/path1')->willReturn([
+        $this->finder->method('find')->with('/test/path1')->willReturn([
             $this->document,
         ]);
-        $this->documentManager->remove($this->document)->willThrow(new \InvalidArgumentException('test'));
+        $this->documentManager->method('remove')->with($this->document)->will($this->throwException(new \InvalidArgumentException('test')));
 
         try {
             $this->getRepository()->remove('/test/path1');
@@ -197,11 +195,11 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testMove()
     {
-        $this->finder->find('/test/path1')->willReturn([
+        $this->finder->method('find')->with('/test/path1')->willReturn([
             $this->document,
         ]);
-        $this->documentManager->move($this->document, '/foo/bar')->shouldBeCalled();
-        $this->documentManager->flush()->shouldBeCalled();
+        $this->documentManager->expects($this->once())->method('move')->with($this->document, '/foo/bar');
+        $this->documentManager->expects($this->once())->method('flush');
 
         $number = $this->getRepository()->move('/test/path1', '/foo/bar');
 
@@ -213,19 +211,21 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testMoveMultiple()
     {
-        $this->finder->find('/test/*')->willReturn([
+        $this->finder->method('find')->with('/test/*')->willReturn([
             $this->child1,
             $this->child2,
         ]);
 
-        $this->documentManager->getNodeForDocument(Argument::exact($this->child1))->willReturn($this->node1->reveal());
-        $this->documentManager->getNodeForDocument(Argument::exact($this->child2))->willReturn($this->node2->reveal());
-        $this->node1->getName()->willReturn('path1');
-        $this->node2->getName()->willReturn('path2');
+        $this->documentManager->method('getNodeForDocument')->with($this->child1)->willReturn($this->node1);
+        $this->documentManager->method('getNodeForDocument')->with($this->child2)->willReturn($this->node2);
+        $this->node1->method('getName')->willReturn('path1');
+        $this->node2->method('getName')->willReturn('path2');
 
-        $this->documentManager->move(Argument::exact($this->child1), '/foo/path1')->shouldBeCalled();
-        $this->documentManager->move(Argument::exact($this->child2), '/foo/path2')->shouldBeCalled();
-        $this->documentManager->flush()->shouldBeCalled();
+        $this->documentManager->expects($this->exactly(2))->method('move')->withConsecutive(
+            [$this->child1, '/foo/path1'],
+            [$this->child2, '/foo/path2']
+        );
+        $this->documentManager->expects($this->once())->method('flush');
 
         $number = $this->getRepository()->move('/test/*', '/foo');
 
@@ -237,10 +237,12 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testMoveException()
     {
-        $this->finder->find('/test/path1')->willReturn([
+        $this->finder->method('find')->with('/test/path1')->willReturn([
             $this->document,
         ]);
-        $this->documentManager->move($this->document, '/test/path2')->willThrow(new \InvalidArgumentException('test'));
+        $this->documentManager->method('move')->with($this->document, '/test/path2')->will(
+            $this->throwException(new \InvalidArgumentException('test'))
+        );
 
         try {
             $this->getRepository()->move('/test/path1', '/test/path2');
@@ -275,24 +277,24 @@ class PhpcrOdmRepositoryTest extends AbstractPhpcrRepositoryTestCase
     {
         $evaluatedPath = '/test/foo';
 
-        $this->documentManager->find(null, $evaluatedPath)->willReturn($this->child1);
-        $this->documentManager->getNodeForDocument($this->child1)->willReturn($this->node1->reveal());
-        $this->node1->getParent()->willReturn($this->node2->reveal());
-        $this->node1->getName()->willReturn('foo');
-        $this->node2->getNodeNames()->willReturn(new \ArrayIterator([
+        $this->documentManager->method('find')->with(null, $evaluatedPath)->willReturn($this->child1);
+        $this->documentManager->method('getNodeForDocument')->with($this->child1)->willReturn($this->node1);
+        $this->node1->method('getParent')->willReturn($this->node2);
+        $this->node1->method('getName')->willReturn('foo');
+        $this->node2->method('getNodeNames')->willReturn(new \ArrayIterator([
             'foo', 'bar', 'baz',
         ]));
-        $this->node2->getPath()->willReturn('/test');
-        $this->documentManager->find(null, '/test')->willReturn($this->document);
-        $this->documentManager->reorder($this->document, 'foo', 'baz', $before)->shouldBeCalled();
-        $this->documentManager->flush()->shouldBeCalled();
+        $this->node2->method('getPath')->willReturn('/test');
+        $this->documentManager->method('find')->with(null, '/test')->willReturn($this->document);
+        $this->documentManager->expects($this->once())->method('reorder')->with($this->document, 'foo', 'baz', $before);
+        $this->documentManager->expects($this->once())->method('flush');
 
         $this->getRepository('/test')->reorder('/foo', $position);
     }
 
     protected function getRepository($path = null)
     {
-        $repository = new PhpcrOdmRepository($this->managerRegistry->reveal(), $path, $this->finder->reveal());
+        $repository = new PhpcrOdmRepository($this->managerRegistry, $path, $this->finder);
 
         return $repository;
     }

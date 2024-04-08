@@ -12,6 +12,8 @@
 namespace Tests\Symfony\Cmf\Bundle\MenuBundle\Unit\Voter;
 
 use Symfony\Cmf\Bundle\MenuBundle\Voter\RequestParentContentIdentityVoter;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestParentContentIdentityVoterTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,10 +23,16 @@ class RequestParentContentIdentityVoterTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->request = $this->prophesize('Symfony\Component\HttpFoundation\Request');
+        $this->request = $this->prophesize(Request::class);
 
-        $this->voter = new RequestParentContentIdentityVoter('_content', __CLASS__.'_ChildContent');
-        $this->voter->setRequest($this->request->reveal());
+        $requestStack = $this->createMock(RequestStack::class);
+        $requestStack->method('getMasterRequest')->willReturn($this->request->reveal());
+
+        $this->voter = new RequestParentContentIdentityVoter(
+            '_content',
+            __CLASS__.'_ChildContent',
+            $requestStack
+        );
     }
 
     public function testSkipsWhenNoContentIsAvailable()
@@ -34,9 +42,12 @@ class RequestParentContentIdentityVoterTest extends \PHPUnit\Framework\TestCase
 
     public function testSkipsWhenNoRequestIsAvailable()
     {
-        $this->voter->setRequest(null);
+        $voter = new RequestParentContentIdentityVoter(
+            '_content',
+            __CLASS__.'_ChildContent'
+        );
 
-        $this->assertNull($this->voter->matchItem($this->createItem()));
+        $this->assertNull($voter->matchItem($this->createItem()));
     }
 
     public function testSkipsWhenNoContentAttributeWasDefined()

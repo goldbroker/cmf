@@ -46,7 +46,7 @@ class PhpcrOdmRepository extends AbstractPhpcrRepository
     /**
      * {@inheritdoc}
      */
-    public function get($path)
+    public function get(string $path)
     {
         $document = $this->getDocument($path);
         $resource = new PhpcrOdmResource($path, $document);
@@ -116,7 +116,7 @@ class PhpcrOdmRepository extends AbstractPhpcrRepository
     /**
      * {@inheritdoc}
      */
-    protected function buildCollection(array $documents)
+    protected function buildCollection(array $documents): ArrayResourceCollection
     {
         $collection = new ArrayResourceCollection();
 

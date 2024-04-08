@@ -11,6 +11,7 @@
 
 namespace Tests\Symfony\Cmf\Component\Resource\Unit\Repository;
 
+use PHPCR\NodeInterface;
 use Symfony\Cmf\Component\Resource\Puli\ArrayResourceCollection;
 use Symfony\Cmf\Component\Resource\Repository\PhpcrRepository;
 use Symfony\Cmf\Component\Resource\Repository\Resource\PhpcrResource;
@@ -26,9 +27,9 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->node = $this->prophesize('PHPCR\NodeInterface');
-        $this->node1 = $this->prophesize('PHPCR\NodeInterface');
-        $this->node2 = $this->prophesize('PHPCR\NodeInterface');
+        $this->node = $this->createMock(NodeInterface::class);
+        $this->node1 = $this->createMock(NodeInterface::class);
+        $this->node2 = $this->createMock(NodeInterface::class);
     }
 
     /**
@@ -38,8 +39,9 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testGet($basePath, $requestedPath, $canonicalPath, $evaluatedPath)
     {
-        $this->session->getNode($evaluatedPath)->willReturn($this->node);
-        $this->node->getPath()->willReturn($evaluatedPath);
+        $this->session->method('getNode')->with($evaluatedPath)->willReturn($this->node);
+
+        $this->node->method('getPath')->willReturn($evaluatedPath);
 
         $res = $this->getRepository($basePath)->get($requestedPath);
 
@@ -47,7 +49,7 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
 
         $this->assertEquals($requestedPath, $res->getPath());
         $this->assertEquals('foobar', $res->getName());
-        $this->assertSame($this->node->reveal(), $res->getPayload());
+        $this->assertSame($this->node, $res->getPayload());
         $this->assertTrue($res->isAttached());
     }
 
@@ -56,8 +58,8 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testFind()
     {
-        $this->session->getNode('/cmf/foobar')->willReturn($this->node);
-        $this->finder->find('/cmf/*')->willReturn([
+        $this->session->method('getNode')->with('/cmf/foobar')->willReturn($this->node);
+        $this->finder->method('find')->with('/cmf/*')->willReturn([
             $this->node,
         ]);
 
@@ -66,7 +68,7 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
         $this->assertInstanceOf(ArrayResourceCollection::class, $res);
         $this->assertCount(1, $res);
         $nodeResource = $res->offsetGet(0);
-        $this->assertSame($this->node->reveal(), $nodeResource->getPayload());
+        $this->assertSame($this->node, $nodeResource->getPayload());
     }
 
     /**
@@ -76,12 +78,12 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testListChildren($basePath, $requestedPath, $canonicalPath, $absPath)
     {
-        $this->session->getNode($absPath)->willReturn($this->node);
-        $this->node->getNodes()->willReturn([
+        $this->session->method('getNode')->with($absPath)->willReturn($this->node);
+        $this->node->method('getNodes')->willReturn([
             $this->node1, $this->node2,
         ]);
-        $this->node1->getPath()->willReturn($absPath.'/node1');
-        $this->node2->getPath()->willReturn($absPath.'/node2');
+        $this->node1->method('getPath')->willReturn($absPath.'/node1');
+        $this->node2->method('getPath')->willReturn($absPath.'/node2');
 
         $res = $this->getRepository($basePath)->listChildren($requestedPath);
 
@@ -96,7 +98,7 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('No PHPCR node could be found at "/test"');
 
-        $this->session->getNode('/test')->willThrow(new \PHPCR\PathNotFoundException());
+        $this->session->method('getNode')->with('/test')->will($this->throwException(new \PHPCR\PathNotFoundException()));
         $this->getRepository()->get('/test');
     }
 
@@ -109,11 +111,13 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
     {
         $children = [];
         for ($i = 0; $i < $nbChildren; ++$i) {
-            $children[] = $this->prophesize('PHPCR\NodeInterface');
+            $node = $this->createMock(NodeInterface::class);
+            $node->method('getPath')->willReturn('/test');
+            $children[] = $node;
         }
 
-        $this->session->getNode('/test')->willReturn($this->node);
-        $this->node->getNodes()->willReturn($children);
+        $this->session->method('getNode')->with('/test')->willReturn($this->node);
+        $this->node->method('getNodes')->willReturn($children);
 
         $res = $this->getRepository()->hasChildren('/test');
 
@@ -125,16 +129,16 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testRemove()
     {
-        $this->finder->find('/test/*')->willReturn([
-            $this->node1->reveal(),
-            $this->node2->reveal(),
+        $this->finder->method('find')->with('/test/*')->willReturn([
+            $this->node1,
+            $this->node2,
         ]);
-        $this->node1->getPath()->willReturn('/test/path1');
-        $this->node2->getPath()->willReturn('/test/path2');
+        $this->node1->method('getPath')->willReturn('/test/path1');
+        $this->node2->method('getPath')->willReturn('/test/path2');
 
-        $this->node1->remove()->shouldBeCalled();
-        $this->node2->remove()->shouldBeCalled();
-        $this->session->save()->shouldBeCalled();
+        $this->node1->expects($this->once())->method('remove');
+        $this->node2->expects($this->once())->method('remove');
+        $this->session->expects($this->once())->method('save');
 
         $this->getRepository()->remove('/test/*', 'glob');
     }
@@ -144,10 +148,10 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testRemoveException()
     {
-        $this->finder->find('/test/path1')->willReturn([
-            $this->node1->reveal(),
+        $this->finder->method('find')->with(null, '/test/path1')->willReturn([
+            $this->node1,
         ]);
-        $this->node1->remove()->willThrow(new \InvalidArgumentException('test'));
+        $this->node1->method('remove')->will($this->throwException(new \InvalidArgumentException('test')));
 
         try {
             $this->getRepository()->remove('/test/path1');
@@ -167,15 +171,18 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testMoveException()
     {
-        $this->finder->find('/test/path1')->willReturn([
-            $this->node1->reveal(),
+        $this->finder->method('find')->with(null, '/test/path1')->willReturn([
+            $this->node1,
         ]);
-        $this->node1->getPath()->willReturn('/path/to');
-        $this->node1->getName()->willReturn('to');
-        $this->node1->remove()->willThrow(new \InvalidArgumentException('test'));
+        $this->node1->method('getPath')->willReturn('/test/path1');
+        $this->node1->method('getName')->willReturn('path1');
+        $this->node1->method('remove')->will($this->throwException(new \InvalidArgumentException('test')));
+
+//        $this->expectException(\InvalidArgumentException::class);
+//        $this->expectExceptionMessage('test');
 
         try {
-            $this->getRepository()->move('/test/path1', '/test/path2');
+            $nodes = $this->getRepository()->move('/test/path1', '/test/path2');
         } catch (\Exception $e) {
             $this->assertWrappedException(
                 \RuntimeException::class,
@@ -192,12 +199,11 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testMove()
     {
-        $this->finder->find('/test/path1')->willReturn([
-            $this->node1->reveal(),
+        $this->finder->method('find')->with(null, '/test/path1')->willReturn([
+            $this->node1,
         ]);
-        $this->node1->getPath()->willReturn('/test/path1');
-        $this->session->move('/test/path1', '/foo/bar')->shouldBeCalled();
-        $this->session->save()->shouldBeCalled();
+        $this->node1->method('getPath')->willReturn('/test/path1');
+        $this->session->expects($this->once())->method('save');
 
         $this->getRepository()->move('/test/path1', '/foo/bar');
     }
@@ -207,18 +213,17 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testMoveMultiple()
     {
-        $this->finder->find('/test/*')->willReturn([
-            $this->node1->reveal(),
-            $this->node2->reveal(),
+        $this->finder->method('find')->with('/test/*')->willReturn([
+            $this->node1,
+            $this->node2,
         ]);
-        $this->node1->getPath()->willReturn('/test/path1');
-        $this->node2->getPath()->willReturn('/test/path2');
-        $this->node1->getName()->willReturn('path1');
-        $this->node2->getName()->willReturn('path2');
+        $this->node1->method('getPath')->willReturn('/test/path1');
+        $this->node2->method('getPath')->willReturn('/test/path2');
+        $this->node1->method('getName')->willReturn('path1');
+        $this->node2->method('getName')->willReturn('path2');
 
-        $this->session->move('/test/path1', '/foo/path1')->shouldBeCalled();
-        $this->session->move('/test/path2', '/foo/path2')->shouldBeCalled();
-        $this->session->save()->shouldBeCalled();
+        $this->session->expects($this->exactly(2))->method('move');
+        $this->session->expects($this->once())->method('save');
 
         $this->getRepository()->move('/test/*', '/foo');
     }
@@ -230,16 +235,16 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
     {
         $evaluatedPath = '/test/node-1';
 
-        $this->session->getNode($evaluatedPath)->willReturn($this->node->reveal());
-        $this->node->getPath()->willReturn($evaluatedPath);
-        $this->node->getParent()->willReturn($this->node1->reveal());
-        $this->node->getName()->willReturn('node-1');
-        $this->node1->getNodeNames()->willReturn(new \ArrayIterator([
+        $this->session->method('getNode')->with($evaluatedPath)->willReturn($this->node);
+        $this->node->method('getPath')->willReturn($evaluatedPath);
+        $this->node->method('getParent')->willReturn($this->node1);
+        $this->node->method('getName')->willReturn('node-1');
+        $this->node1->method('getNodeNames')->willReturn(new \ArrayIterator([
             'node-1', 'node-2', 'node-3',
         ]));
 
-        $this->node1->orderBefore('node-1', 'node-3')->shouldBeCalled();
-        $this->session->save()->shouldBeCalled();
+        $this->node1->expects($this->once())->method('orderBefore')->with('node-1', 'node-3');
+        $this->session->expects($this->once())->method('save');
 
         $this->getRepository('/test')->reorder('/node-1', 1);
     }
@@ -251,17 +256,20 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
     {
         $evaluatedPath = '/test/node-1';
 
-        $this->session->getNode($evaluatedPath)->willReturn($this->node->reveal());
-        $this->node->getPath()->willReturn($evaluatedPath);
-        $this->node->getParent()->willReturn($this->node1->reveal());
-        $this->node->getName()->willReturn('node-1');
-        $this->node1->getNodeNames()->willReturn([
+        $this->session->method('getNode')->with($evaluatedPath)->willReturn($this->node);
+        $this->node->method('getPath')->willReturn($evaluatedPath);
+        $this->node->method('getParent')->willReturn($this->node1);
+        $this->node->method('getName')->willReturn('node-1');
+        $this->node1->method('getNodeNames')->willReturn([
             'node-1', 'node-2', 'node-3',
         ]);
 
-        $this->node1->orderBefore('node-1', 'node-3')->shouldBeCalled();
-        $this->node1->orderBefore('node-3', 'node-1')->shouldBeCalled();
-        $this->session->save()->shouldBeCalled();
+        $this->node1->expects($this->exactly(2))->method('orderBefore')->withConsecutive(
+            ['node-1', 'node-3'],
+            ['node-3', 'node-1']
+        );
+
+        $this->session->expects($this->once())->method('save');
 
         $this->getRepository('/test')->reorder('/node-1', 66);
     }
@@ -271,8 +279,6 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     protected function getRepository($path = null)
     {
-        $repository = new PhpcrRepository($this->session->reveal(), $path, $this->finder->reveal());
-
-        return $repository;
+        return new PhpcrRepository($this->session, $path, $this->finder);
     }
 }

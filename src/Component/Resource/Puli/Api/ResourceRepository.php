@@ -53,7 +53,7 @@ interface ResourceRepository
      * @throws \InvalidArgumentException if the path is invalid. The path must
      *                                   be a non-empty string starting with "/"
      */
-    public function get($path);
+    public function get(string $path);
 
     /**
      * Returns the resources matching a query.

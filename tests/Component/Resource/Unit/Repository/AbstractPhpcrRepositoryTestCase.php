@@ -22,8 +22,8 @@ abstract class AbstractPhpcrRepositoryTestCase extends \PHPUnit\Framework\TestCa
 
     public function setUp(): void
     {
-        $this->session = $this->prophesize(SessionInterface::class);
-        $this->finder = $this->prophesize(FinderInterface::class);
+        $this->session = $this->createMock(SessionInterface::class);
+        $this->finder = $this->createMock(FinderInterface::class);
     }
 
     abstract public function testGetNotExisting();
@@ -34,7 +34,7 @@ abstract class AbstractPhpcrRepositoryTestCase extends \PHPUnit\Framework\TestCa
      */
     abstract public function testHasChildren($nbChildren, $hasChildren);
 
-    public function provideHasChildren()
+    public function provideHasChildren(): array
     {
         return [
             [2, true],
@@ -92,12 +92,11 @@ abstract class AbstractPhpcrRepositoryTestCase extends \PHPUnit\Framework\TestCa
         $this->getRepository($basePath)->get($requestedPath);
     }
 
-    public function provideGetInvalid()
+    public function provideGetInvalid(): array
     {
         return [
             [null, 'cmf/foobar'],
             [null, ''],
-            [null, new \stdClass()],
             ['asd', 'asd'],
         ];
     }
@@ -117,7 +116,7 @@ abstract class AbstractPhpcrRepositoryTestCase extends \PHPUnit\Framework\TestCa
      */
     public function testRemoveZeroNodesFound()
     {
-        $this->finder->find('/path/to/foo')->willReturn([]);
+        $this->finder->method('find')->with('/path/to/foo')->willReturn([]);
         $numberOfNodes = $this->getRepository()->remove('/path/to/foo');
         $this->assertEquals(0, $numberOfNodes);
     }
@@ -127,7 +126,7 @@ abstract class AbstractPhpcrRepositoryTestCase extends \PHPUnit\Framework\TestCa
      */
     public function testMoveZeroNodes()
     {
-        $this->finder->find('/path/to/foo')->willReturn([]);
+        $this->finder->method('find')->with('/path/to/foo')->willReturn([]);
         $numberOfNodes = $this->getRepository()->move('/path/to/foo', '/bar/bar');
         $this->assertEquals(0, $numberOfNodes);
     }

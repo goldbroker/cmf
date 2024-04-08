@@ -46,7 +46,7 @@ class PhpcrRepository extends AbstractPhpcrRepository
     /**
      * {@inheritdoc}
      */
-    public function get($path)
+    public function get(string $path)
     {
         $node = $this->getNode($path);
 
@@ -157,7 +157,8 @@ class PhpcrRepository extends AbstractPhpcrRepository
     private function doMoveNodes(array $nodes, $sourceQuery, $targetPath)
     {
         if (false === $this->isGlobbed($sourceQuery)) {
-            return $this->session->move(current($nodes)->getPath(), $targetPath);
+            $this->session->move(current($nodes)->getPath(), $targetPath);
+            return;
         }
 
         foreach ($nodes as $node) {
@@ -165,7 +166,7 @@ class PhpcrRepository extends AbstractPhpcrRepository
         }
     }
 
-    private function getNode($path)
+    private function getNode(string $path)
     {
         $resolvedPath = $this->resolvePath($path);
 

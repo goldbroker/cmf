@@ -35,7 +35,7 @@ class Router implements RouterInterface
     {
     }
 
-    public function generate($name, $parameters = [], $absolute = false)
+    public function generate($name, $parameters = [], $absolute = false): string
     {
         return '/test/'.$name;
     }
@@ -54,7 +54,7 @@ class CheckboxUrlLabelFormTypeTest extends TypeTestCase
         $this->assertSame('/test/b', $view->vars['paths']['b']);
     }
 
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [
             new PreloadedExtension([
