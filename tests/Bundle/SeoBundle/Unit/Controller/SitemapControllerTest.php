@@ -17,39 +17,29 @@ use Symfony\Cmf\Bundle\SeoBundle\Model\UrlInformation;
 use Symfony\Cmf\Bundle\SeoBundle\Sitemap\UrlInformationProvider;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * @author Maximilian Berghoff <Maximilian.Berghoff@gmx.de>
  */
 class SitemapControllerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var EngineInterface
-     */
-    protected $templating;
+    protected Environment $twig;
 
-    /**
-     * @var UrlInformationProvider
-     */
-    private $provider;
-
-    /**
-     * @var SitemapController
-     */
-    private $controller;
+    private SitemapController $controller;
 
     public function setUp(): void
     {
-        $this->provider = $this->createMock(UrlInformationProvider::class);
-        $this->provider
+        $provider = $this->createMock(UrlInformationProvider::class);
+        $provider
             ->expects($this->any())
             ->method('getUrlInformation')
             ->will($this->returnValue($this->createUrlInformation()));
 
-        $this->templating = $this->createMock(EngineInterface::class);
+        $this->twig = $this->createMock(Environment::class);
         $this->controller = new SitemapController(
-            $this->provider,
-            $this->templating,
+            $provider,
+            $this->twig,
             [
                 'test' => [
                     'templates' => [
@@ -91,7 +81,7 @@ class SitemapControllerTest extends \PHPUnit\Framework\TestCase
 
     public function testRequestXml()
     {
-        $this->templating->expects($this->once())
+        $this->twig->expects($this->once())
             ->method('render')
             ->with($this->equalTo('CmfSeoBundle:Sitemap:index.xml.twig'), $this->anything())
             ->will($this->returnValue('some-xml-string'));
@@ -105,7 +95,7 @@ class SitemapControllerTest extends \PHPUnit\Framework\TestCase
     public function testRequestHtml()
     {
         $expectedResponse = new Response('some-html-string');
-        $this->templating->expects($this->once())->method('render')->will($this->returnValue($expectedResponse));
+        $this->twig->expects($this->once())->method('render')->will($this->returnValue($expectedResponse));
 
         /** @var Response $response */
         $response = $this->controller->indexAction('html', 'test');

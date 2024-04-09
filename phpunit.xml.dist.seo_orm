@@ -6,7 +6,7 @@
          failOnWarning="true"
          failOnRisky="true"
          stopOnFailure="false"
-         bootstrap="./tests/Bundle/MediaBundle/bootstrap.php"
+         bootstrap="./tests/Bundle/SeoBundle/bootstrap.orm.php"
 >
     <testsuites>
         <testsuite name="functional tests">

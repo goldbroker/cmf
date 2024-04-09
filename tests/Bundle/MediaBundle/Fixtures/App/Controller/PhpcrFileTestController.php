@@ -18,7 +18,7 @@ use Symfony\Cmf\Bundle\MediaBundle\File\UploadFileHelperInterface;
 use Symfony\Cmf\Bundle\MediaBundle\Util\LegacyFormHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content;
+use Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Document\Content;
 
 class PhpcrFileTestController extends AbstractController
 {
@@ -68,7 +68,7 @@ class PhpcrFileTestController extends AbstractController
         $editorUploadForm = $this->getUploadForm();
 
         // get a content object
-        $contentClass = 'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content';
+        $contentClass = 'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Document\Content';
         $contentObject = $dm->getRepository($contentClass)->findOneBy(array());
 
         // Form - content object with file embedded

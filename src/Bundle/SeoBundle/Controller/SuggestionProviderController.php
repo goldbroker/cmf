@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
+use Twig\Environment;
 
 /**
  * This presentation model enriches the the values to render the
@@ -54,7 +55,7 @@ class SuggestionProviderController extends ExceptionController
     private $exclusionRequestMatcher;
 
     /**
-     * @param \Twig_Environment       $twig
+     * @param Environment             $twig
      * @param bool                    $debug
      * @param RequestMatcherInterface $requestMatcher     The exclusion matcher to decider whether a route should be handled
      *                                                    by this error handling. It uses the defined exclusion_rules in the
@@ -63,11 +64,11 @@ class SuggestionProviderController extends ExceptionController
      * @param array                   $suggestionProvider A list of provider and group pairs
      */
     public function __construct(
-        \Twig_Environment $twig,
-        $debug,
+        Environment $twig,
+        bool $debug,
         RequestMatcherInterface $requestMatcher,
-        $templates,
-        $suggestionProvider
+        array $templates,
+        array $suggestionProvider
     ) {
         $this->templates = $templates;
         $this->exclusionRequestMatcher = $requestMatcher;
@@ -106,7 +107,7 @@ class SuggestionProviderController extends ExceptionController
                 $templateForSuggestion,
                 [
                     'status_code' => $code,
-                    'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+                    'status_text' => Response::$statusTexts[$code] ?? '',
                     'message' => $exception->getMessage(),
                     'exception' => $exception,
                     'logger' => $logger,
@@ -120,17 +121,9 @@ class SuggestionProviderController extends ExceptionController
 
     /**
      * You can define your templates for each format in the bundle's configuration.
-     *
-     * @param string $format
-     *
-     * @return string
      */
-    private function getTemplateForSuggestions($format = 'html')
+    private function getTemplateForSuggestions(string $format = 'html'): ?string
     {
-        if (!isset($this->templates[$format])) {
-            return;
-        }
-
-        return $this->templates[$format];
+        return $this->templates[$format] ?? null;
     }
 }

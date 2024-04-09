@@ -18,13 +18,9 @@ class Kernel extends TestKernel
 {
     public function configure()
     {
-        $this->requireBundleSet('default');
-
-        if ('phpcr' === $this->environment) {
-            $this->requireBundleSets(['phpcr_odm']);
-        } elseif ('orm' === $this->environment) {
-            $this->requireBundleSet('doctrine_orm');
-        }
+        $this->requireBundleSets([
+            'default', 'phpcr_odm', 'doctrine_orm'
+        ]);
 
         $this->registerConfiguredBundles();
     }

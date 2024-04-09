@@ -53,7 +53,7 @@ class SitemapTest extends BaseTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(200, $response->getStatusCode(), $response->getContent());
-        $this->assertContains('"always"', $response->getContent());
+        $this->assertStringContainsString('"always"', $response->getContent());
     }
 
     public function testSitemapNotFound()
@@ -62,7 +62,7 @@ class SitemapTest extends BaseTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(404, $response->getStatusCode(), $response->getContent());
-        $this->assertContains('Unknown sitemap', $response->getContent());
+        $this->assertStringContainsString('Unknown sitemap', $response->getContent());
     }
 
     public function getFormats()

@@ -18,12 +18,12 @@ use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class SeoMetadataTest extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         (new ORMPurger($this->getDbManager('ORM')->getOm()))->purge();
     }
 
-    protected function getKernelConfiguration()
+    protected static function getKernelConfiguration(): array
     {
         return [
             'environment' => 'orm',

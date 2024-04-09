@@ -11,7 +11,6 @@
 
 namespace Tests\Symfony\Cmf\Bundle\MediaBundle\WebTest\TestApp;
 
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class FileTest extends BaseTestCase
@@ -27,7 +26,7 @@ class FileTest extends BaseTestCase
     {
         $this->client = $this->createClient();
         $this->db('PHPCR')->loadFixtures(array(
-            'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\DataFixtures\Phpcr\LoadMediaData',
+            'Tests\Symfony\Cmf\Bundle\MediaBundle\Resources\DataFixtures\Phpcr\LoadMediaData',
         ));
         $this->testDataDir = $this->getContainer()->get('kernel')->getProjectDir().'/Resources/data';
     }

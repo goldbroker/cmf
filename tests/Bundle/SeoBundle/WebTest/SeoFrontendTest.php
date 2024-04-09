@@ -60,7 +60,7 @@ class SeoFrontendTest extends BaseTestCase
             return 'description' === $nameValue || 'keywords' === $nameValue;
         });
 
-        $actualMeta = $metaCrawler->extract('content', 'content');
+        $actualMeta = $metaCrawler->extract(['content']);
         $expectedMeta = [
             'testkey, content1, content',
             'Default description. Description of content 1.',
@@ -93,7 +93,7 @@ class SeoFrontendTest extends BaseTestCase
             return 'description' === $nameValue || 'keywords' === $nameValue;
         });
 
-        $actualMeta = $metaCrawler->extract('content', 'content');
+        $actualMeta = $metaCrawler->extract(['content']);
         $expectedMeta = [
             'testkey, test, key',
             'Default description. content of strategy test. ...',
@@ -123,7 +123,7 @@ class SeoFrontendTest extends BaseTestCase
             return $expectedKey === $node->attr($expectedType);
         });
 
-        $actualMeta = $metaCrawler->extract('content', 'content');
+        $actualMeta = $metaCrawler->extract(['content']);
         $actualMeta = reset($actualMeta);
         $this->assertEquals($expectedValue, $actualMeta);
     }

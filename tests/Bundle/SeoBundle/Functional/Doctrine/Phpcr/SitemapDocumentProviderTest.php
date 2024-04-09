@@ -24,7 +24,7 @@ class SitemapDocumentProviderTest extends BaseTestCase
      */
     private $documentProvider;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->db('PHPCR')->createTestNode();
         $this->dm = $this->db('PHPCR')->getOm();

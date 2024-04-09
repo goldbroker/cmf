@@ -9,10 +9,6 @@
          bootstrap="./tests/Bundle/MenuBundle/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="unit tests">
-            <directory>./Unit</directory>
-        </testsuite>
-
         <testsuite name="functional tests">
             <directory>./Functional</directory>
             <directory>./WebTest</directory>

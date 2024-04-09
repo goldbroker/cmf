@@ -13,13 +13,14 @@ namespace Tests\Symfony\Cmf\Bundle\SeoBundle\Functional\Doctrine\Phpcr;
 
 use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
 use Doctrine\ODM\PHPCR\Document\Generic;
+use Doctrine\ODM\PHPCR\Exception\OutOfBoundsException;
 use Symfony\Cmf\Bundle\SeoBundle\Doctrine\Phpcr\SeoMetadata;
 use Tests\Symfony\Cmf\Bundle\SeoBundle\Fixtures\App\Document\SeoAwareContent;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 class SeoMetadataTest extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         (new PHPCRPurger($this->getDbManager('PHPCR')->getOm()))->purge();
         $this->db('PHPCR')->createTestNode();
@@ -68,12 +69,11 @@ class SeoMetadataTest extends BaseTestCase
         $this->assertEquals($seoMetadata->getExtraHttp(), $persistedSeoMetadata->getExtraHttp());
     }
 
-    /**
-     * @expectedException \Doctrine\ODM\PHPCR\Exception\OutOfBoundsException
-     * @expectedExceptionMessage It cannot have children
-     */
     public function testAddSeoMetadataChild()
     {
+        $this->expectException(OutOfBoundsException::class);
+        $this->expectExceptionMessage('It cannot have children');
+
         $seoMetadata = new SeoMetadata();
         $seoMetadata->setName('seo-metadata');
         $seoMetadata->setParentDocument($this->dm->find(null, '/test'));

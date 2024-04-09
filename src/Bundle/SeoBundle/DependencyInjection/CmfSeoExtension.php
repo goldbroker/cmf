@@ -76,7 +76,7 @@ class CmfSeoExtension extends Extension
             );
         }
 
-        $errorConfig = isset($config['error']) ? $config['error'] : [];
+        $errorConfig = $config['error'] ?? [];
         $this->loadErrorHandling($errorConfig, $container);
 
         if ($this->isConfigEnabled($container, $config['sitemap'])) {
@@ -116,7 +116,7 @@ class CmfSeoExtension extends Extension
         $params = ['translation_domain', 'title', 'description', 'original_route_pattern'];
 
         foreach ($params as $param) {
-            $value = isset($config[$param]) ? $config[$param] : null;
+            $value = $config[$param] ?? null;
             $container->setParameter('cmf_seo.'.$param, $value);
         }
     }
@@ -124,7 +124,7 @@ class CmfSeoExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function getNamespace()
+    public function getNamespace(): string
     {
         return 'http://cmf.symfony.com/schema/dic/seo';
     }
@@ -132,7 +132,7 @@ class CmfSeoExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function getXsdValidationBasePath()
+    public function getXsdValidationBasePath(): string
     {
         return __DIR__.'/../Resources/config/schema';
     }
@@ -172,7 +172,7 @@ class CmfSeoExtension extends Extension
      * @param array            $config
      * @param ContainerBuilder $container
      */
-    private function loadAlternateLocaleProvider($config, ContainerBuilder $container)
+    private function loadAlternateLocaleProvider(array $config, ContainerBuilder $container)
     {
         $alternateLocaleProvider = null === $config['provider_id']
             ? $this->defaultAlternateLocaleProviderId
@@ -211,15 +211,14 @@ class CmfSeoExtension extends Extension
     private function loadErrorHandling($config, ContainerBuilder $container)
     {
         foreach (['parent', 'sibling'] as $group) {
-            $remove = isset($config['enable_'.$group.'_provider'])
-                    && !$config['enable_'.$group.'_provider'] ? true : false;
+            $remove = isset($config['enable_'.$group.'_provider']) && !$config['enable_'.$group.'_provider'];
             if ($container->has('cmf_seo.error.suggestion_provider.'.$group) && $remove) {
                 $container->removeDefinition('cmf_seo.error.suggestion_provider.'.$group);
             }
         }
 
-        $templates = isset($config['templates']) ? $config['templates'] : [];
-        $exclusionRules = isset($config['exclusion_rules']) ? $config['exclusion_rules'] : [];
+        $templates = $config['templates'] ?? [];
+        $exclusionRules = $config['exclusion_rules'] ?? [];
         $container->setParameter('cmf_seo.error.templates', $templates);
 
         $exclusionMatcherDefinition = $container->getDefinition('cmf_seo.error.exclusion_matcher');

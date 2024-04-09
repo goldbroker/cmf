@@ -19,7 +19,7 @@ use Symfony\Cmf\Bundle\MediaBundle\File\UploadFileHelperInterface;
 use Symfony\Cmf\Bundle\MediaBundle\Util\LegacyFormHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content;
+use Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Document\Content;
 
 class PhpcrImageTestController extends AbstractController
 {
@@ -80,7 +80,7 @@ class PhpcrImageTestController extends AbstractController
         $images = $dm->getRepository($imageClass)->findAll();
 
         // get content with image object
-        $contentClass = 'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content';
+        $contentClass = 'Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Document\Content';
         $contentObject = $this->getImageContentObject($dm->getRepository($contentClass)->findAll());
 
         $uploadForm = $this->getUploadForm();

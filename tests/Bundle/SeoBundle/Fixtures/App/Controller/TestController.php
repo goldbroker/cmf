@@ -11,9 +11,9 @@
 
 namespace Tests\Symfony\Cmf\Bundle\SeoBundle\Fixtures\App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class TestController extends Controller
+class TestController extends AbstractController
 {
     public function indexAction($contentDocument)
     {
@@ -24,6 +24,6 @@ class TestController extends Controller
             ],
         ];
 
-        return $this->render('::tests/index.html.twig', $params);
+        return $this->render('index.html.twig', $params);
     }
 }

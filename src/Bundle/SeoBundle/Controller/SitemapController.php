@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * Controller to handle requests for sitemap.
@@ -25,23 +26,15 @@ use Symfony\Component\Templating\EngineInterface;
  */
 class SitemapController
 {
-    /**
-     * @var EngineInterface
-     */
-    private $templating;
+    private Environment $twig;
 
     /**
      * The complete configurations for all sitemap with its
      * definitions for their templates.
-     *
-     * @var array
      */
-    private $configurations;
+    private array $configurations;
 
-    /**
-     * @var UrlInformationProvider
-     */
-    private $sitemapProvider;
+    private UrlInformationProvider$sitemapProvider;
 
     /**
      * You should provide templates for html and xml.
@@ -49,15 +42,15 @@ class SitemapController
      * Json is serialized by default, but can be customized with a template
      *
      * @param UrlInformationProvider $sitemapProvider
-     * @param EngineInterface        $templating
+     * @param Environment            $twig
      * @param array                  $configurations  list of available sitemap configurations
      */
     public function __construct(
         UrlInformationProvider $sitemapProvider,
-        EngineInterface $templating,
+        Environment $twig,
         array $configurations
     ) {
-        $this->templating = $templating;
+        $this->twig = $twig;
         $this->configurations = $configurations;
         $this->sitemapProvider = $sitemapProvider;
     }
@@ -90,7 +83,7 @@ class SitemapController
         $urlInformation = $this->sitemapProvider->getUrlInformation($sitemap);
 
         if (isset($templates[$_format])) {
-            return new Response($this->templating->render($templates[$_format], ['urls' => $urlInformation]));
+            return new Response($this->twig->render($templates[$_format], ['urls' => $urlInformation]));
         }
 
         return $this->createJsonResponse($urlInformation);

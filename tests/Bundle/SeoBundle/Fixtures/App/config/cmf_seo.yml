@@ -16,15 +16,15 @@ cmf_seo:
         enable_parent_provider: true
         enable_sibling_provider: true
         templates:
-            html: ":tests:exception.html.twig"
+            html: "@TestsCmfSeo/exception.html.twig"
         exclusion_rules:
             - { path: 'excluded' }
     sitemap:
         defaults:
             default_change_frequency: never
             templates:
-                xml: 'CmfSeoBundle:Sitemap:index.xml.twig'
-                html: 'CmfSeoBundle:Sitemap:index.html.twig'
+                xml: '@CmfSeo/Sitemap/index.xml.twig'
+                html: '@CmfSeo/Sitemap/index.html.twig'
         configurations:
             sitemap: ~
             frequent:

@@ -25,7 +25,7 @@ $phpcrCompilerClass = 'Doctrine\Bundle\PHPCRBundle\DependencyInjection\Compiler\
 if (class_exists($phpcrCompilerClass)) {
     $container->addCompilerPass(
         DoctrinePhpcrMappingsPass::createAnnotationMappingDriver(
-            [Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\Document\Content::class],
+            [\Tests\Symfony\Cmf\Bundle\MediaBundle\Fixtures\App\Document\Content::class],
             [realpath(__DIR__ . '/../Document')]
         ));
 }
