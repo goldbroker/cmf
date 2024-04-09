@@ -11,7 +11,6 @@
 
 use JMS\SerializerBundle\JMSSerializerBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
-use Symfony\Bundle\WebServerBundle\WebServerBundle;
 use Symfony\Cmf\Bundle\ResourceBundle\CmfResourceBundle;
 use Symfony\Cmf\Bundle\ResourceRestBundle\CmfResourceRestBundle;
 
@@ -20,5 +19,4 @@ return [
     CmfResourceBundle::class => ['all' => true],
     JMSSerializerBundle::class => ['all' => true],
     TwigBundle::class => ['all' => true],
-    WebServerBundle::class => ['all' => true],
 ];

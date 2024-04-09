@@ -62,6 +62,7 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
         $this->finder->method('find')->with('/cmf/*')->willReturn([
             $this->node,
         ]);
+        $this->node->method('getPath')->willReturn('foobar');
 
         $res = $this->getRepository()->find('/cmf/*');
 
@@ -148,7 +149,7 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testRemoveException()
     {
-        $this->finder->method('find')->with(null, '/test/path1')->willReturn([
+        $this->finder->method('find')->with('/test/path1')->willReturn([
             $this->node1,
         ]);
         $this->node1->method('remove')->will($this->throwException(new \InvalidArgumentException('test')));
@@ -166,20 +167,15 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function testMoveException()
     {
-        $this->finder->method('find')->with(null, '/test/path1')->willReturn([
+        $this->finder->method('find')->with('/test/path1')->willReturn([
             $this->node1,
         ]);
         $this->node1->method('getPath')->willReturn('/test/path1');
         $this->node1->method('getName')->willReturn('path1');
-        $this->node1->method('remove')->will($this->throwException(new \InvalidArgumentException('test')));
-
-//        $this->expectException(\InvalidArgumentException::class);
-//        $this->expectExceptionMessage('test');
+        $this->session->method('move')->will($this->throwException(new \InvalidArgumentException('test')));
 
         try {
             $nodes = $this->getRepository()->move('/test/path1', '/test/path2');
@@ -199,7 +195,7 @@ class PhpcrRepositoryTest extends AbstractPhpcrRepositoryTestCase
      */
     public function testMove()
     {
-        $this->finder->method('find')->with(null, '/test/path1')->willReturn([
+        $this->finder->method('find')->with('/test/path1')->willReturn([
             $this->node1,
         ]);
         $this->node1->method('getPath')->willReturn('/test/path1');

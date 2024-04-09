@@ -11,6 +11,8 @@
 
 namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Fixtures\App;
 
+use Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle;
+use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -20,7 +22,10 @@ class Kernel extends TestKernel
     {
         $this->requireBundleSets(['default', 'phpcr_odm']);
 
-        $this->registerConfiguredBundles();
+        $this->addBundles([
+            new CmfRoutingBundle(),
+            new CmfCoreBundle(),
+        ]);
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

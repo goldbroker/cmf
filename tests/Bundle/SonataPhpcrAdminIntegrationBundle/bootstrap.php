@@ -25,7 +25,7 @@ putenv(sprintf('KERNEL_CLASS=%s', $_ENV['KERNEL_CLASS']));
 
 require_once __DIR__.'/../../../vendor/symfony-cmf/testing/bootstrap/bootstrap.php';
 
-$application = new Application(new Kernel());
+$application = new Application(new Kernel('test', true));
 $application->setAutoExit(false);
 
 // Load fixtures of the AppTestBundle

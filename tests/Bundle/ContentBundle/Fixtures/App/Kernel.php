@@ -11,6 +11,11 @@
 
 namespace Tests\Symfony\Cmf\Bundle\ContentBundle\Fixtures\App;
 
+use Knp\Bundle\MenuBundle\KnpMenuBundle;
+use Symfony\Cmf\Bundle\ContentBundle\CmfContentBundle;
+use Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle;
+use Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle;
+use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -23,19 +28,14 @@ class Kernel extends TestKernel
             'phpcr_odm',
         ]);
 
-        $contents = require $this->getKernelDir().'/config/bundles.php';
-        foreach ($contents as $class => $envs) {
-            if (isset($envs['all']) || isset($envs[$this->environment])) {
-                if (!class_exists($class)) {
-                    throw new \InvalidArgumentException(sprintf(
-                        'Bundle class "%s" does not exist.',
-                        $class
-                    ));
-                }
 
-                $this->requiredBundles[$class] = new $class();
-            }
-        }
+        $this->addBundles([
+            new KnpMenuBundle(),
+            new CmfContentBundle(),
+            new CmfRoutingBundle(),
+            new CmfMenuBundle(),
+            new CmfCoreBundle(),
+        ]);
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

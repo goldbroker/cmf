@@ -6,7 +6,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Tests\Symfony\Cmf\Bundle\BlockBundle\Fixtures\App\Controller\TestController">
+        <service id="cmf_block_test.test_controller" class="Tests\Symfony\Cmf\Bundle\BlockBundle\Fixtures\App\Controller\TestController">
             <tag name="controller.service_arguments"/>
             <call method="setContainer">
                 <argument type="service" id="test.service_container"/>
