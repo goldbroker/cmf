@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Admin;
 
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Sonata\AdminBundle\FieldDescription\BaseFieldDescription;
 
 /**
@@ -54,12 +55,7 @@ class FieldDescription extends BaseFieldDescription
      */
     public function getTargetEntity()
     {
-        if (isset($this->associationMapping['targetDocument'])) {
-            return $this->associationMapping['targetDocument'];
-        }
-        if (isset($this->associationMapping['referringDocument'])) {
-            return $this->associationMapping['referringDocument'];
-        }
+        return $this->getTargetModel();
     }
 
     /**
@@ -115,5 +111,33 @@ class FieldDescription extends BaseFieldDescription
         }
 
         $this->parentAssociationMappings = $parentAssociationMappings;
+    }
+
+    public function getTargetModel(): ?string
+    {
+        if (isset($this->associationMapping['targetDocument'])) {
+            return $this->associationMapping['targetDocument'];
+        }
+
+        if (isset($this->associationMapping['referringDocument'])) {
+            return $this->associationMapping['referringDocument'];
+        }
+
+        return null;
+    }
+
+    public function describesAssociation(): bool
+    {
+        return $this->describesSingleValuedAssociation() || $this->describesCollectionValuedAssociation();
+    }
+
+    public function describesSingleValuedAssociation(): bool
+    {
+        return \is_int($this->mappingType) && $this->mappingType === ($this->mappingType & ClassMetadataInfo::TO_ONE);
+    }
+
+    public function describesCollectionValuedAssociation(): bool
+    {
+        return \is_int($this->mappingType) && $this->mappingType === ($this->mappingType & ClassMetadataInfo::TO_MANY);
     }
 }

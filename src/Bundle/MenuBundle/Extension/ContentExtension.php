@@ -13,6 +13,7 @@ namespace Symfony\Cmf\Bundle\MenuBundle\Extension;
 
 use Knp\Menu\Factory\ExtensionInterface;
 use Knp\Menu\ItemInterface;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -65,8 +66,8 @@ class ContentExtension implements ExtensionInterface
             }
 
             $options['uri'] = $this->contentRouter->generate(
-                $options['content'],
-                isset($options['routeParameters']) ? $options['routeParameters'] : [],
+                RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
+                array_merge($options['routeParameters'] ?? [], [RouteObjectInterface::ROUTE_OBJECT => $options['content']]),
                 (isset($options['routeAbsolute']) && $options['routeAbsolute']) ? UrlGeneratorInterface::ABSOLUTE_URL : UrlGeneratorInterface::ABSOLUTE_PATH
             );
         }

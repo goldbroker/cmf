@@ -115,7 +115,7 @@ class ModelManager implements ModelManagerInterface
     public function find($class, $id)
     {
         if (!isset($id)) {
-            return;
+            return null;
         }
 
         if (null === $class) {
@@ -274,7 +274,7 @@ class ModelManager implements ModelManagerInterface
 
         // the document is not managed
         if (!$document || !$this->getDocumentManager()->contains($document)) {
-            return;
+            return null;
         }
 
         $values = $this->getIdentifierValues($document);
@@ -561,5 +561,18 @@ class ModelManager implements ModelManagerInterface
 
         return $values['_sort_by']->getName() === $fieldDescription->getName()
             || $values['_sort_by']->getName() === $fieldDescription->getOption('sortable');
+    }
+
+    public function supportsQuery(object $query): bool
+    {
+        return true;
+    }
+
+    public function reverseTransform(object $object, array $array = []): void
+    {
+    }
+
+    public function getDefaultPerPageOptions(string $class)
+    {
     }
 }

@@ -27,7 +27,7 @@ interface RepositoryRegistryInterface
      *
      * @return string[]
      */
-    public function names();
+    public function names(): array;
 
     /**
      * Return all repositories.
@@ -36,16 +36,14 @@ interface RepositoryRegistryInterface
      *
      * @return ResourceRepository[]
      */
-    public function all();
+    public function all(): array;
 
     /**
      * Return the named repository.
      *
-     * @param null|string $name
-     *
      * @return ResourceRepository
      */
-    public function get($repositoryName = null);
+    public function get(?string $name = null): ResourceRepository;
 
     /**
      * Return the name assigned to the given resource repository.
@@ -54,7 +52,7 @@ interface RepositoryRegistryInterface
      *
      * @throws \RuntimeException If the name cannot be determined
      */
-    public function getRepositoryName(ResourceRepository $resource);
+    public function getRepositoryName(ResourceRepository $resource): string;
 
     /**
      * Return the type for the given resource repository.
@@ -63,5 +61,5 @@ interface RepositoryRegistryInterface
      *
      * @throws \RuntimeException If the resource repository is not mapped
      */
-    public function getRepositoryType(ResourceRepository $resource);
+    public function getRepositoryType(ResourceRepository $resource): string;
 }

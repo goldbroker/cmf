@@ -54,7 +54,7 @@ class RepositoryRegistry implements RepositoryRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function names()
+    public function names(): array
     {
         return array_keys($this->serviceMap);
     }
@@ -62,7 +62,7 @@ class RepositoryRegistry implements RepositoryRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function all()
+    public function all(): array
     {
         $repositories = [];
         foreach (array_keys($this->serviceMap) as $name) {
@@ -75,22 +75,23 @@ class RepositoryRegistry implements RepositoryRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function get($repositoryName = null)
+    public function get(?string $name = null): ResourceRepository
     {
-        if (null === $repositoryName) {
+        if (null === $name) {
             $repositoryName = $this->defaultRepositoryName;
         }
 
-        if (!isset($this->serviceMap[$repositoryName])) {
+        if (!isset($this->serviceMap[$name])) {
             throw new \InvalidArgumentException(sprintf(
                 'Repository "%s" has not been registered, available repositories: "%s".',
-                $repositoryName,
+                $name,
                 implode('", "', array_keys($this->serviceMap))
             ));
         }
 
-        $repository = $this->container->get($this->serviceMap[$repositoryName]);
-        $this->names[spl_object_hash($repository)] = $repositoryName;
+        /** @var ResourceRepository $repository */
+        $repository = $this->container->get($this->serviceMap[$name]);
+        $this->names[spl_object_hash($repository)] = $name;
 
         return $repository;
     }
@@ -98,9 +99,9 @@ class RepositoryRegistry implements RepositoryRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function getRepositoryName(ResourceRepository $repository)
+    public function getRepositoryName(ResourceRepository $resource): string
     {
-        $hash = spl_object_hash($repository);
+        $hash = spl_object_hash($resource);
         if (isset($this->names[$hash])) {
             return $this->names[$hash];
         }
@@ -108,16 +109,16 @@ class RepositoryRegistry implements RepositoryRegistryInterface
         throw new \RuntimeException(sprintf(
             'Repository of class "%s" was not instantiated by this registry, I '.
             'don\'t know what its name is.',
-            get_class($repository)
+            get_class($resource)
         ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getRepositoryType(ResourceRepository $repository)
+    public function getRepositoryType(ResourceRepository $resource): string
     {
-        $class = get_class($repository);
+        $class = get_class($resource);
         if (!isset($this->typeMap[$class])) {
             throw new \RuntimeException(sprintf(
                 'Repository of class "%s" is not known, could not determine its type.',

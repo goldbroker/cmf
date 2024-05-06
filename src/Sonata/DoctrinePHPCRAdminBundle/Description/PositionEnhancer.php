@@ -15,6 +15,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Description;
 
 use Doctrine\Persistence\ManagerRegistry;
 use PHPCR\PathNotFoundException;
+use PHPCR\SessionInterface;
 use PHPCR\Util\PathHelper;
 use Symfony\Cmf\Component\Resource\Description\Description;
 use Symfony\Cmf\Component\Resource\Description\DescriptionEnhancerInterface;
@@ -26,17 +27,11 @@ use Symfony\Cmf\Component\Resource\Repository\Resource\CmfResource;
  *
  * @author Maximilian Berghoff <Maximilian.Berghoff@mayflower.de>
  */
-class PositionEnhancer implements DescriptionEnhancerInterface
+class PositionEnhancer
 {
-    /**
-     * @var \PHPCR\SessionInterface
-     */
-    private $session;
+    private SessionInterface $session;
 
-    /**
-     * @param $sessionName
-     */
-    public function __construct(ManagerRegistry $manager, $sessionName)
+    public function __construct(ManagerRegistry $manager, string $sessionName)
     {
         $this->session = $manager->getConnection($sessionName);
     }

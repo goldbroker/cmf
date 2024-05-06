@@ -42,32 +42,19 @@ class Admin extends AbstractAdmin
      *
      * @param string $rootPath
      */
-    public function setRootPath($rootPath)
+    public function setRootPath(?string $rootPath): void
     {
         $this->rootPath = $rootPath;
     }
 
-    /**
-     * @return string
-     */
-    public function getRootPath()
+    public function getRootPath(): ?string
     {
         return $this->rootPath;
     }
 
-    /**
-     * @param string $context
-     *
-     * @return ProxyQueryInterface
-     */
-    public function createQuery($context = 'list')
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
-        $query = $this->getModelManager()->createQuery($this->getClass());
         $query->setRootPath($this->getRootPath());
-
-        foreach ($this->extensions as $extension) {
-            $extension->configureQuery($this, $query, $context);
-        }
 
         return $query;
     }
