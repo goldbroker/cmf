@@ -12,7 +12,6 @@
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
 use Sonata\BlockBundle\SonataBlockBundle;
-use Sonata\CoreBundle\SonataCoreBundle;
 use Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle;
 
@@ -29,7 +28,7 @@ return [
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
     SonataBlockBundle::class => ['all' => true],
-    SonataCoreBundle::class => ['all' => true],
+    Sonata\Form\Bridge\Symfony\SonataFormBundle::class => ['all' => true],
     SonataAdminBundle::class => ['all' => true],
     KnpMenuBundle::class => ['all' => true],
     SonataDoctrinePHPCRAdminBundle::class => ['all' => true],
