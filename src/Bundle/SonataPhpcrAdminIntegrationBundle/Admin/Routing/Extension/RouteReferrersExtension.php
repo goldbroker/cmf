@@ -13,7 +13,7 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing\Ext
 
 use Sonata\AdminBundle\Admin\AbstractAdminExtension;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Form\Type\CollectionType;
+use Sonata\Form\Type\CollectionType;
 
 /**
  * Admin extension to add routes tab to content implementing the

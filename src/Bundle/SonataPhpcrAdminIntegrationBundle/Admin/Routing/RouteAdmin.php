@@ -14,7 +14,7 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Form\Type\ImmutableArrayType;
+use Sonata\Form\Type\ImmutableArrayType;
 use Symfony\Cmf\Bundle\RoutingBundle\Form\Type\RouteTypeType;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route;
 use Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\AbstractAdmin;

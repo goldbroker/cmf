@@ -13,7 +13,7 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Menu\Extens
 
 use Sonata\AdminBundle\Admin\AbstractAdminExtension;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\CoreBundle\Form\Type\CollectionType;
+use Sonata\Form\Type\CollectionType;
 
 /**
  * Admin extension to add menu items tab to content.
