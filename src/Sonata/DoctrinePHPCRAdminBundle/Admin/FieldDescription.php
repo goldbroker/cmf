@@ -33,7 +33,7 @@ class FieldDescription extends BaseFieldDescription
      * @throws \InvalidArgumentException if the mapping is no array or of an
      *                                   unknown type
      */
-    public function setAssociationMapping($associationMapping)
+    public function setAssociationMapping($associationMapping): void
     {
         if (!\is_array($associationMapping)) {
             throw new \InvalidArgumentException('The association mapping must be an array');
@@ -53,7 +53,7 @@ class FieldDescription extends BaseFieldDescription
     /**
      * {@inheritdoc}
      */
-    public function getTargetEntity()
+    public function getTargetEntity(): ?string
     {
         return $this->getTargetModel();
     }
@@ -63,7 +63,7 @@ class FieldDescription extends BaseFieldDescription
      *
      * @throws \InvalidArgumentException if the mapping information is not an array
      */
-    public function setFieldMapping($fieldMapping)
+    public function setFieldMapping($fieldMapping): void
     {
         if (!\is_array($fieldMapping)) {
             throw new \InvalidArgumentException('The field mapping must be an array');
@@ -79,7 +79,7 @@ class FieldDescription extends BaseFieldDescription
     /**
      * {@inheritdoc}
      */
-    public function isIdentifier()
+    public function isIdentifier(): bool
     {
         return $this->fieldMapping['id'] ?? false;
     }
@@ -102,7 +102,7 @@ class FieldDescription extends BaseFieldDescription
      * @throws \InvalidArgumentException if the list of mappings does contain
      *                                   something else than arrays
      */
-    public function setParentAssociationMappings(array $parentAssociationMappings)
+    public function setParentAssociationMappings(array $parentAssociationMappings): void
     {
         foreach ($parentAssociationMappings as $parentAssociationMapping) {
             if (!\is_array($parentAssociationMapping)) {
@@ -124,11 +124,6 @@ class FieldDescription extends BaseFieldDescription
         }
 
         return null;
-    }
-
-    public function describesAssociation(): bool
-    {
-        return $this->describesSingleValuedAssociation() || $this->describesCollectionValuedAssociation();
     }
 
     public function describesSingleValuedAssociation(): bool

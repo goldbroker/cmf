@@ -18,29 +18,17 @@ namespace Symfony\Cmf\Bundle\BlockBundle\Templating\Helper;
  */
 class EmbedBlocksParser
 {
-    private $prefix;
+    private string $prefix;
 
-    private $postfix;
+    private string $postfix;
 
-    /**
-     * EmbedBlocksParser constructor.
-     *
-     * @param string $prefix
-     * @param string $postfix
-     */
-    public function __construct($prefix, $postfix)
+    public function __construct(string $prefix, string $postfix)
     {
         $this->prefix = $prefix;
         $this->postfix = $postfix;
     }
 
-    /**
-     * @param string   $text
-     * @param callable $callback
-     *
-     * @return string
-     */
-    public function parse($text, callable $callback)
+    public function parse(string $text, callable $callback): string
     {
         $segments = $this->segmentize($text);
         foreach ($segments as &$segment) {
@@ -55,12 +43,7 @@ class EmbedBlocksParser
         return implode('', $segments);
     }
 
-    /**
-     * @param string $text
-     *
-     * @return array
-     */
-    protected function segmentize($text)
+    protected function segmentize(string $text): array
     {
         $segments = explode($this->prefix, $text);
         foreach ($segments as $index => &$segment) {

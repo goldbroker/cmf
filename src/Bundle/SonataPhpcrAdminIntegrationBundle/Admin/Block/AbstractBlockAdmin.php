@@ -22,14 +22,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 abstract class AbstractBlockAdmin extends AbstractAdmin
 {
     /**
-     * @var string
-     */
-    protected $translationDomain = 'CmfSonataPhpcrAdminIntegrationBundle';
-
-    /**
      * {@inheritdoc}
      */
-    public function getExportFormats()
+    public function getExportFormats(): array
     {
         return [];
     }
@@ -37,9 +32,9 @@ abstract class AbstractBlockAdmin extends AbstractAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->tab('form.tab_general')
                 ->with('form.group_location', ['class' => 'col-md-3'])
                     ->add(
@@ -52,6 +47,6 @@ abstract class AbstractBlockAdmin extends AbstractAdmin
             ->end()
         ;
 
-        $this->addTransformerToField($formMapper->getFormBuilder(), 'parentDocument');
+        $this->addTransformerToField($form->getFormBuilder(), 'parentDocument');
     }
 }

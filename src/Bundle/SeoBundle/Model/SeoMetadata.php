@@ -102,17 +102,15 @@ class SeoMetadata implements SeoMetadataInterface
     /**
      * @param mixed $locale
      */
-    public function setLocale($locale)
+    public function setLocale(?string $locale): void
     {
         $this->locale = $locale;
-
-        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }

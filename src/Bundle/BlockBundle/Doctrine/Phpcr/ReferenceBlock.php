@@ -19,33 +19,19 @@ use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\AbstractBlock;
  */
 class ReferenceBlock extends AbstractBlock
 {
-    /**
-     * @var BlockInterface
-     */
-    private $referencedBlock;
+    private ?BlockInterface $referencedBlock = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType(): string
     {
         return 'cmf.block.reference';
     }
 
-    /**
-     * @return BlockInterface|null
-     */
-    public function getReferencedBlock()
+    public function getReferencedBlock(): ?BlockInterface
     {
         return $this->referencedBlock;
     }
 
-    /**
-     * @param BlockInterface $referencedBlock
-     *
-     * @return $this
-     */
-    public function setReferencedBlock(BlockInterface $referencedBlock)
+    public function setReferencedBlock(BlockInterface $referencedBlock): ReferenceBlock
     {
         $this->referencedBlock = $referencedBlock;
 

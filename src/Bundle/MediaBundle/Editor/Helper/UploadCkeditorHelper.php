@@ -20,7 +20,7 @@ class UploadCkeditorHelper extends UploadDefaultHelper
     /**
      * {@inheritdoc}
      */
-    public function getUploadResponse(Request $request, array $files)
+    public function getUploadResponse(Request $request, array $files): Response
     {
         if (!isset($files[0]) && !$files[0] instanceof FileInterface) {
             throw new \InvalidArgumentException(

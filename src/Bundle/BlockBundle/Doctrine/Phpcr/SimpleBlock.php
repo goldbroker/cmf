@@ -19,68 +19,35 @@ use Symfony\Cmf\Bundle\CoreBundle\Translatable\TranslatableInterface;
  */
 class SimpleBlock extends AbstractBlock implements TranslatableInterface
 {
-    /**
-     * @var string
-     */
-    protected $title;
+    protected ?string $title = null;
 
-    /**
-     * @var string
-     */
-    protected $body;
+    protected ?string $body = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType(): string
     {
         return 'cmf.block.simple';
     }
 
-    /**
-     * Set title.
-     *
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): SimpleBlock
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * Get title.
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * Set body.
-     *
-     * @param string $body
-     *
-     * @return $this
-     */
-    public function setBody($body)
+    public function setBody(string $body): SimpleBlock
     {
         $this->body = $body;
 
         return $this;
     }
 
-    /**
-     * Get body.
-     *
-     * @return string
-     */
-    public function getBody()
+    public function getBody(): ?string
     {
         return $this->body;
     }

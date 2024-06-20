@@ -104,16 +104,16 @@ class ContentAdmin extends Admin
             ->end();
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper
+        $list
             ->addIdentifier('id')
             ->add('title');
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->with('form.group_general')
             ->add('name', TextType::class)
             ->add('title', TextType::class)
@@ -165,13 +165,13 @@ class ContentAdmin extends Admin
             )
             ->end();
 
-        $formMapper->getFormBuilder()->get('parentDocument')->addModelTransformer(
+        $form->getFormBuilder()->get('parentDocument')->addModelTransformer(
             new DocumentToPathTransformer(
                 $this->managerRegistry->getManagerForClass($this->getClass())
             )
         );
 
-        $formMapper->getFormBuilder()->get('singleRoute')->addModelTransformer(
+        $form->getFormBuilder()->get('singleRoute')->addModelTransformer(
             new DocumentToPathTransformer(
                 $this->managerRegistry->getManagerForClass($this->getClass())
             )

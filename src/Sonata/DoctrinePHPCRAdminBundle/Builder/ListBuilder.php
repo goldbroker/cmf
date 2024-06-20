@@ -50,7 +50,7 @@ class ListBuilder implements ListBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function buildField($type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function buildField($type, FieldDescriptionInterface $fieldDescription): void
     {
         if (null === $type) {
             $guessType = $this->guesser->guess($fieldDescription);
@@ -59,16 +59,15 @@ class ListBuilder implements ListBuilderInterface
             $fieldDescription->setType($type);
         }
 
-        $this->fixFieldDescription($admin, $fieldDescription);
+        $this->fixFieldDescription($fieldDescription);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin)
+    public function addField(FieldDescriptionCollection $list, $type, FieldDescriptionInterface $fieldDescription): void
     {
-        $this->buildField($type, $fieldDescription, $admin);
-        $admin->addListFieldDescription($fieldDescription->getName(), $fieldDescription);
+        $this->buildField($type, $fieldDescription);
 
         $list->add($fieldDescription);
     }
@@ -78,14 +77,14 @@ class ListBuilder implements ListBuilderInterface
      *
      * @throws \RuntimeException if the $fieldDescription does not have a type
      */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
+    public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
     {
         if ('_action' === $fieldDescription->getName() || 'actions' === $fieldDescription->getType()) {
             $this->buildActionFieldDescription($fieldDescription);
         }
 
-        $fieldDescription->setAdmin($admin);
         $metadata = null;
+        $admin = $fieldDescription->getAdmin();
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
             /** @var ClassMetadata $metadata */

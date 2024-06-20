@@ -22,7 +22,6 @@ class CmfResourceBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $extension = $container->getExtension('cmf_resource');
-        //$extension->addRepositoryFactory('filesystem', new FilesystemFactory());
         $extension->addRepositoryFactory('phpcr/phpcr', new PhpcrFactory());
         $extension->addRepositoryFactory('doctrine/phpcr-odm', new DoctrinePhpcrOdmFactory());
 

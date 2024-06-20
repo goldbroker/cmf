@@ -17,14 +17,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class TreeManagerType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['root'] = $options['root'];
         //$view->vars['create_in_overlay'] = $options['create_in_overlay'];
@@ -36,7 +35,7 @@ class TreeManagerType extends AbstractType
     /**
      * NEXT_MAJOR: remove this method.
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(OptionsResolver $resolver): void
     {
         $this->configureOptions($resolver);
     }
@@ -44,7 +43,7 @@ class TreeManagerType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired(['root']);
 
@@ -61,7 +60,7 @@ class TreeManagerType extends AbstractType
     /**
      * NEXT_MAJOR: remove this method.
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->getBlockPrefix();
     }
@@ -69,7 +68,7 @@ class TreeManagerType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'doctrine_phpcr_odm_tree_manager';
     }

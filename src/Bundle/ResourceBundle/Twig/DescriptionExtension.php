@@ -13,11 +13,13 @@ namespace Symfony\Cmf\Bundle\ResourceBundle\Twig;
 
 use Symfony\Cmf\Component\Resource\Description\DescriptionFactory;
 use Symfony\Cmf\Component\Resource\Puli\Api\PuliResource;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * @author Daniel Leech <daniel@dantleech.com>
  */
-class DescriptionExtension extends \Twig_Extension
+class DescriptionExtension extends AbstractExtension
 {
     private $descriptionFactory;
 
@@ -26,10 +28,10 @@ class DescriptionExtension extends \Twig_Extension
         $this->descriptionFactory = $descriptionFactory;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('cmf_resource_description', [$this, 'getDescription']),
+            new TwigFunction('cmf_resource_description', [$this, 'getDescription']),
         ];
     }
 
@@ -38,7 +40,7 @@ class DescriptionExtension extends \Twig_Extension
         return $this->descriptionFactory->getPayloadDescriptionFor($resource);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'cmf_resource_description';
     }

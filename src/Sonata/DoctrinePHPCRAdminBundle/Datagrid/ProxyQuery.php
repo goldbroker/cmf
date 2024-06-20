@@ -169,7 +169,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * {@inheritdoc}
      */
-    public function setSortBy($parentAssociationMappings, $fieldMapping)
+    public function setSortBy($parentAssociationMappings, $fieldMapping): ProxyQueryInterface
     {
         $this->sortBy = $fieldMapping['fieldName'];
 
@@ -181,7 +181,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @return string the property to be sorted by
      */
-    public function getSortBy()
+    public function getSortBy(): ?string
     {
         return $this->sortBy;
     }
@@ -195,7 +195,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @throws \InvalidArgumentException if $sortOrder is not one of ASC or DESC
      */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder($sortOrder): ProxyQueryInterface
     {
         if (!\in_array($sortOrder, ['ASC', 'DESC'], true)) {
             throw new \InvalidArgumentException(sprintf('The parameter $sortOrder must be one of "ASC" or "DESC", got "%s"', $sortOrder));
@@ -210,7 +210,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @return string ASC or DESC
      */
-    public function getSortOrder()
+    public function getSortOrder(): ?string
     {
         return $this->sortOrder;
     }
@@ -241,7 +241,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * {@inheritdoc}
      */
-    public function setFirstResult($firstResult)
+    public function setFirstResult($firstResult): ProxyQueryInterface
     {
         $this->qb->setFirstResult($firstResult);
 
@@ -253,7 +253,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @return int the offset
      */
-    public function getFirstResult()
+    public function getFirstResult(): ?int
     {
         return $this->qb->getFirstResult();
     }
@@ -263,7 +263,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * {@inheritdoc}
      */
-    public function setMaxResults($maxResults)
+    public function setMaxResults($maxResults): ProxyQueryInterface
     {
         $this->qb->setMaxResults($maxResults);
 
@@ -275,7 +275,7 @@ class ProxyQuery implements ProxyQueryInterface
      *
      * @return int
      */
-    public function getMaxResults()
+    public function getMaxResults(): ?int
     {
         return $this->qb->getMaxResults();
     }

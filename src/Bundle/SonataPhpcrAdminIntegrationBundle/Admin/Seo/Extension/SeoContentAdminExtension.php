@@ -43,13 +43,13 @@ class SeoContentAdminExtension extends AbstractAdminExtension
         $this->formTab = $formTab;
     }
 
-    public function configureFormFields(FormMapper $formMapper)
+    public function configureFormFields(FormMapper $form): void
     {
-        if ($formMapper->hasOpenTab()) {
-            $formMapper->end();
+        if ($form->hasOpenTab()) {
+            $form->end();
         }
 
-        $formMapper
+        $form
             ->tab($this->formTab, 'form.tab_seo' === $this->formTab
                 ? ['translation_domain' => 'CmfSonataPhpcrAdminIntegrationBundle']
                 : []
@@ -68,12 +68,12 @@ class SeoContentAdminExtension extends AbstractAdminExtension
         ;
     }
 
-    public function preUpdate(AdminInterface $admin, $seoAware)
+    public function preUpdate(AdminInterface $admin, $seoAware): void
     {
         $this->propagateLocale($seoAware);
     }
 
-    public function prePersist(AdminInterface $admin, $seoAware)
+    public function prePersist(AdminInterface $admin, $seoAware): void
     {
         $this->propagateLocale($seoAware);
     }

@@ -29,30 +29,28 @@ class StaticContent extends ModelStaticContent implements HierarchyInterface
 
     /**
      * PHPCR document name.
-     *
-     * @var string
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * PHPCR node.
-     *
-     * @var NodeInterface
      */
-    protected $node;
+    protected ?NodeInterface $node = null;
 
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent)
+    public function setParentDocument($parent): HierarchyInterface
     {
         $this->parent = $parent;
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getParentDocument()
+    public function getParentDocument(): ?object
     {
         return $this->parent;
     }
@@ -61,7 +59,7 @@ class StaticContent extends ModelStaticContent implements HierarchyInterface
      * @deprecated For BC with the PHPCR-ODM 1.4 HierarchyInterface
      * @see setParentDocument
      */
-    public function setParent($parent)
+    public function setParent($parent): HierarchyInterface
     {
         @trigger_error('The '.__METHOD__.'() method is deprecated and will be removed in version 3.0. Use setParentDocument() instead.', E_USER_DEPRECATED);
 
@@ -72,19 +70,19 @@ class StaticContent extends ModelStaticContent implements HierarchyInterface
      * @deprecated For BC with the PHPCR-ODM 1.4 HierarchyInterface
      * @see getParentDocument
      */
-    public function getParent()
+    public function getParent(): ?object
     {
         @trigger_error('The '.__METHOD__.'() method is deprecated and will be removed in version 3.0. Use getParentDocument() instead.', E_USER_DEPRECATED);
 
         return $this->getParentDocument();
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -94,7 +92,7 @@ class StaticContent extends ModelStaticContent implements HierarchyInterface
      *
      * @return NodeInterface
      */
-    public function getNode()
+    public function getNode(): NodeInterface
     {
         return $this->node;
     }

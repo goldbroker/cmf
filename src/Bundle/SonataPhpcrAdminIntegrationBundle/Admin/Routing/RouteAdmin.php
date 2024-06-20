@@ -24,8 +24,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RouteAdmin extends AbstractAdmin
 {
-    protected $translationDomain = 'CmfSonataPhpcrAdminIntegrationBundle';
-
     /**
      * Root path for the route content selection.
      *
@@ -33,14 +31,14 @@ class RouteAdmin extends AbstractAdmin
      */
     protected $contentRoot;
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper->addIdentifier('path', 'text');
+        $list->addIdentifier('path', 'text');
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->tab('form.tab_general')
                 ->with('form.group_location', ['class' => 'col-md-3'])
                     ->add(
@@ -53,7 +51,7 @@ class RouteAdmin extends AbstractAdmin
         ;
 
         if (null === $this->getParentFieldDescription()) {
-            $formMapper
+            $form
                 ->with('form.group_target', ['class' => 'col-md-9'])
                     ->add(
                         'content',
@@ -89,16 +87,16 @@ class RouteAdmin extends AbstractAdmin
             ;
         }
 
-        $formMapper
+        $form
             ->end(); // tab general/routing
 
-        $this->addTransformerToField($formMapper->getFormBuilder(), 'parentDocument');
+        $this->addTransformerToField($form->getFormBuilder(), 'parentDocument');
         if (null === $this->getParentFieldDescription()) {
-            $this->addTransformerToField($formMapper->getFormBuilder(), 'content');
+            $this->addTransformerToField($form->getFormBuilder(), 'content');
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper->add('name', 'doctrine_phpcr_nodename');
     }
@@ -108,7 +106,7 @@ class RouteAdmin extends AbstractAdmin
         $this->contentRoot = $contentRoot;
     }
 
-    public function getExportFormats()
+    public function getExportFormats(): array
     {
         return [];
     }
@@ -120,7 +118,7 @@ class RouteAdmin extends AbstractAdmin
      *
      * @return array Value for sonata_type_immutable_array
      */
-    protected function configureFieldsForDefaults($dynamicDefaults)
+    protected function configureFieldsForDefaults($dynamicDefaults): array
     {
         $defaults = [
             '_controller' => ['_controller', TextType::class, ['required' => false, 'translation_domain' => 'CmfSonataPhpcrAdminIntegrationBundle']],
@@ -168,7 +166,7 @@ class RouteAdmin extends AbstractAdmin
      *
      * @return array Value for sonata_type_immutable_array
      */
-    protected function configureFieldsForOptions(array $dynamicOptions)
+    protected function configureFieldsForOptions(array $dynamicOptions): array
     {
         $options = [
             'add_locale_pattern' => ['add_locale_pattern', CheckboxType::class, ['required' => false, 'label' => 'form.label_add_locale_pattern', 'translation_domain' => 'CmfSonataPhpcrAdminIntegrationBundle']],
@@ -185,23 +183,23 @@ class RouteAdmin extends AbstractAdmin
         return $options;
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $defaults = array_filter($object->getDefaults());
         $object->setDefaults($defaults);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $defaults = array_filter($object->getDefaults());
         $object->setDefaults($defaults);
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof Route && $object->getId()
             ? $object->getId()
-            : $this->trans('link_add', [], 'SonataAdminBundle')
+            : $this->getTranslator()->trans('link_add', [], 'SonataAdminBundle')
         ;
     }
 }

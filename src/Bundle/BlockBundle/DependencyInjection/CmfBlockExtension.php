@@ -11,46 +11,14 @@
 
 namespace Symfony\Cmf\Bundle\BlockBundle\DependencyInjection;
 
-use Symfony\Cmf\Bundle\BlockBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-final class CmfBlockExtension extends Extension implements PrependExtensionInterface
+final class CmfBlockExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container)
-    {
-        // get all Bundles
-        $bundles = $container->getParameter('kernel.bundles');
-
-        if (isset($bundles['SonataBlockBundle'])) {
-            $config = [
-                'templates' => [
-                    'block_base' => '@CmfBlock/Block/block_base.html.twig',
-                ],
-                'blocks_by_class' => [
-                    0 => [
-                        'class' => 'Symfony\\Cmf\\Bundle\\BlockBundle\\BlockBundle\\Doctrine\\Phpcr\\RssBlock',
-                        'settings' => [
-                            'title' => 'Insert the rss title',
-                            'url' => false,
-                            'maxItems' => 10,
-                            'template' => '@CmfBlock/Block/block_rss.html.twig',
-                            'itemClass' => 'Symfony\\Cmf\\Bundle\\BlockBundle\\BlockBundle\\Model\\FeedItem',
-                        ],
-                    ],
-                ],
-            ];
-            $container->prependExtensionConfig('sonata_block', $config);
-        }
-    }
-
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
@@ -107,12 +75,12 @@ final class CmfBlockExtension extends Extension implements PrependExtensionInter
      *
      * @return string The XSD base path
      */
-    public function getXsdValidationBasePath()
+    public function getXsdValidationBasePath(): string
     {
         return __DIR__.'/../Resources/config/schema';
     }
 
-    public function getNamespace()
+    public function getNamespace(): string
     {
         return 'http://cmf.symfony.com/schema/dic/block';
     }

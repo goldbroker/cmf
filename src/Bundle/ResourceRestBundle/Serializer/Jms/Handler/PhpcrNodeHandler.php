@@ -24,7 +24,7 @@ use PHPCR\NodeInterface;
  */
 class PhpcrNodeHandler implements SubscribingHandlerInterface
 {
-    public static function getSubscribingMethods()
+    public static function getSubscribingMethods(): array
     {
         return [
             [
@@ -44,7 +44,8 @@ class PhpcrNodeHandler implements SubscribingHandlerInterface
         NodeInterface $node,
         array $type,
         Context $context
-    ) {
+    ): array
+    {
         $res = [];
 
         foreach ($node->getProperties() as $name => $property) {

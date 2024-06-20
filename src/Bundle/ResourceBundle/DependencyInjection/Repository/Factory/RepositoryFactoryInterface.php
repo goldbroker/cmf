@@ -11,6 +11,7 @@
 
 namespace Symfony\Cmf\Bundle\ResourceBundle\DependencyInjection\Repository\Factory;
 
+use Symfony\Cmf\Component\Resource\Puli\Api\ResourceRepository;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

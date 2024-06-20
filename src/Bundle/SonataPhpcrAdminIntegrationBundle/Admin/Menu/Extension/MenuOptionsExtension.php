@@ -54,13 +54,13 @@ class MenuOptionsExtension extends AbstractAdminExtension
     /**
      * {@inheritdoc}
      */
-    public function configureFormFields(FormMapper $formMapper)
+    public function configureFormFields(FormMapper $form): void
     {
-        if ($formMapper->hasOpenTab()) {
-            $formMapper->end();
+        if ($form->hasOpenTab()) {
+            $form->end();
         }
 
-        $formMapper
+        $form
             ->tab($this->formTab, 'form.tab_general' === $this->formTab
                 ? ['translation_domain' => 'CmfSonataPhpcrAdminIntegrationBundle']
                 : []
@@ -74,7 +74,7 @@ class MenuOptionsExtension extends AbstractAdminExtension
         ;
 
         if (!$this->advanced) {
-            $formMapper->end()->end();
+            $form->end()->end();
 
             return;
         }
@@ -85,7 +85,7 @@ class MenuOptionsExtension extends AbstractAdminExtension
             'attr' => ['style' => 'clear:both'],
         ];
 
-        $formMapper
+        $form
             ->add(
                 'attributes',
                 KeyValueType::class,

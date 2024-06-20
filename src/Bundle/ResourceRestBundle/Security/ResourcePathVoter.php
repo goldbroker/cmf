@@ -34,7 +34,7 @@ class ResourcePathVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return \in_array($attribute, [ResourceController::ROLE_RESOURCE_READ, ResourceController::ROLE_RESOURCE_WRITE])
             && \is_array($subject) && isset($subject['repository_name']) && isset($subject['path']);
@@ -43,7 +43,7 @@ class ResourcePathVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         foreach ($this->accessMap as $rule) {
             if (!$this->ruleMatches($rule, $attribute, $subject)) {

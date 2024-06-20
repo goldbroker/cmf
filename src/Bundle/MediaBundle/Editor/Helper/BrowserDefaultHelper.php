@@ -12,27 +12,28 @@
 namespace Symfony\Cmf\Bundle\MediaBundle\Editor\Helper;
 
 use Symfony\Cmf\Bundle\MediaBundle\Editor\BrowserEditorHelperInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class BrowserDefaultHelper implements BrowserEditorHelperInterface
 {
-    protected $router;
-    protected $name;
-    protected $parameters;
-    protected $referenceType;
+    protected RouterInterface $router;
+    protected ?string $name = null;
+    protected array $parameters = [];
+    protected int $referenceType;
 
     /**
      * @param RouterInterface $router
-     * @param string          $name          the name of the media browser route
+     * @param ?string         $name          the name of the media browser route
      * @param mixed           $parameters    an array of parameters for the route
      * @param bool|int|string $referenceType the type of reference to be generated
      *                                       (one of the RouterInterface constants)
      */
     public function __construct(
         RouterInterface $router,
-        $name = null,
+        ?string $name = null,
         array $parameters = [],
-        $referenceType = RouterInterface::ABSOLUTE_PATH)
+        $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $this->router = $router;
         $this->name = $name;

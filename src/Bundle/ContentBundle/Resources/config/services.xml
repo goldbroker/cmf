@@ -9,11 +9,12 @@
     <services>
 
         <service id="cmf_content.controller" class="Symfony\Cmf\Bundle\ContentBundle\Controller\ContentController" public="true">
-            <argument type="service" id="templating" on-invalid="ignore"/>
-            <argument>%cmf_content.default_template%</argument>
+            <argument type="service" id="twig"/>
             <argument type="service" id="fos_rest.view_handler" on-invalid="ignore"/>
-            <argument type="service" id="twig" on-invalid="ignore"/>
+            <argument>%cmf_content.default_template%</argument>
         </service>
+
+        <service id="Symfony\Cmf\Bundle\ContentBundle\ViewHandler\FOSRestViewHandlerAdapter" decorates="fos_rest.view_handler" />
 
     </services>
 

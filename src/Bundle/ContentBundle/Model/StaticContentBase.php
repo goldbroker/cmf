@@ -18,15 +18,9 @@ class StaticContentBase
      */
     protected $id;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected ?string $title = null;
 
-    /**
-     * @var string
-     */
-    protected $body;
+    protected ?string $body = null;
 
     /**
      * Explicitly set the primary id, if the storage layer permits this.
@@ -46,26 +40,17 @@ class StaticContentBase
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
-    public function getBody()
+    public function getBody(): ?string
     {
         return $this->body;
     }
@@ -73,7 +58,7 @@ class StaticContentBase
     /**
      * @param string $body
      */
-    public function setBody($body)
+    public function setBody(string $body): void
     {
         $this->body = $body;
     }

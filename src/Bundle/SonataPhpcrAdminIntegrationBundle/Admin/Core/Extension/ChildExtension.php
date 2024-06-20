@@ -28,7 +28,7 @@ class ChildExtension extends AbstractAdminExtension
      *
      * {@inheritdoc}
      */
-    public function alterNewInstance(AdminInterface $admin, $object)
+    public function alterNewInstance(AdminInterface $admin, $object): void
     {
         if (!$admin->hasRequest() || !$parentId = $admin->getRequest()->get('parent')) {
             return;

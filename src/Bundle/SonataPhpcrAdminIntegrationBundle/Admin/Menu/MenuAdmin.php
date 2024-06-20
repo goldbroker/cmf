@@ -20,15 +20,15 @@ class MenuAdmin extends AbstractMenuNodeAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        parent::configureFormFields($formMapper);
+        parent::configureFormFields($form);
 
         $subject = $this->getSubject();
         $isNew = null === $subject->getId();
 
         if (!$isNew) {
-            $formMapper
+            $form
                 ->tab('form.tab_general')
                     ->with('form.group_items', ['class' => 'col-md-6'])
                         ->add('children', TreeManagerType::class, [

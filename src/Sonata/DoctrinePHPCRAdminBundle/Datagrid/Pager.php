@@ -29,9 +29,9 @@ class Pager extends BasePager
      *
      * @return int
      */
-    public function computeNbResult()
+    public function countResults(): int
     {
-        return \count($this->getResults(PHPCRQuery::HYDRATE_PHPCR));
+        return \count($this->getCurrentPageResults(PHPCRQuery::HYDRATE_PHPCR));
     }
 
     /**
@@ -41,7 +41,7 @@ class Pager extends BasePager
      *
      * @return array
      */
-    public function getResults($hydrationMode = null)
+    public function getCurrentPageResults($hydrationMode = null): iterable
     {
         return $this->getQuery()->execute([], $hydrationMode);
     }
@@ -52,22 +52,19 @@ class Pager extends BasePager
      *
      * @throws \RuntimeException the QueryBuilder is uninitialized
      */
-    public function init()
+    public function init(): void
     {
         if (!$this->getQuery()) {
             throw new \RuntimeException('Uninitialized QueryBuilder');
         }
 
-        $this->resetIterator();
-        $this->setNbResults($this->computeNbResult());
-
-        if (0 === $this->getPage() || 0 === $this->getMaxPerPage() || 0 === $this->getNbResults()) {
+        if (0 === $this->getPage() || 0 === $this->getMaxPerPage() || 0 === $this->countResults()) {
             $this->setLastPage(0);
             $this->getQuery()->setFirstResult(0);
             $this->getQuery()->setMaxResults(0);
         } else {
             $offset = ($this->getPage() - 1) * $this->getMaxPerPage();
-            $this->setLastPage((int) ceil($this->getNbResults() / $this->getMaxPerPage()));
+            $this->setLastPage((int) ceil($this->countResults() / $this->getMaxPerPage()));
             $this->getQuery()->setFirstResult($offset);
             $this->getQuery()->setMaxResults($this->getMaxPerPage());
         }
