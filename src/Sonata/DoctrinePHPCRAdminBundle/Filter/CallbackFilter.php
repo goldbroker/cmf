@@ -36,7 +36,7 @@ class CallbackFilter extends BaseFilter
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [
             'callback' => null,
@@ -49,7 +49,7 @@ class CallbackFilter extends BaseFilter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['sonata_type_filter_default', [
             'field_type' => $this->getFieldType(),

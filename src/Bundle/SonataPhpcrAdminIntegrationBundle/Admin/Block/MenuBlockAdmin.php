@@ -27,7 +27,7 @@ class MenuBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('id', 'text')
@@ -38,11 +38,11 @@ class MenuBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        parent::configureFormFields($formMapper);
+        parent::configureFormFields($form);
 
-        $formMapper
+        $form
             ->tab('form.tab_general')
                 ->with('form.group_block', ['class' => 'col-md-9'])
                     ->add(
@@ -54,13 +54,13 @@ class MenuBlockAdmin extends AbstractBlockAdmin
             ->end()
         ;
 
-        $this->addTransformerToField($formMapper->getFormBuilder(), 'menuNode');
+        $this->addTransformerToField($form->getFormBuilder(), 'menuNode');
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('name', 'doctrine_phpcr_nodename')

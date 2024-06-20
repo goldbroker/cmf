@@ -26,7 +26,7 @@ class SimpleBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('id', 'text')
@@ -37,11 +37,11 @@ class SimpleBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        parent::configureFormFields($formMapper);
+        parent::configureFormFields($form);
 
-        $formMapper
+        $form
             ->tab('form.tab_general')
                 ->with('form.group_block', ['class' => 'col-md-9'])
                     ->add('title', TextType::class)
@@ -54,7 +54,7 @@ class SimpleBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('title', 'doctrine_phpcr_string')
@@ -62,7 +62,7 @@ class SimpleBlockAdmin extends AbstractBlockAdmin
         ;
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof SimpleBlock && $object->getTitle()
             ? $object->getTitle()

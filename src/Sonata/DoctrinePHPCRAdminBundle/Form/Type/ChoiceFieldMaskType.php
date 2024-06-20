@@ -18,14 +18,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ChoiceFieldMaskType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $allFieldNames = [];
         foreach ($options['map'] as $value => $fieldNames) {
@@ -43,7 +42,7 @@ class ChoiceFieldMaskType extends AbstractType
     /**
      * NEXT_MAJOR: remove this method.
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(OptionsResolver $resolver): void
     {
         $this->configureOptions($resolver);
     }
@@ -51,7 +50,7 @@ class ChoiceFieldMaskType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'map' => [],
@@ -61,7 +60,7 @@ class ChoiceFieldMaskType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?string
     {
         return ChoiceType::class;
     }
@@ -69,7 +68,7 @@ class ChoiceFieldMaskType extends AbstractType
     /**
      * NEXT_MAJOR: remove this method.
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->getBlockPrefix();
     }
@@ -77,7 +76,7 @@ class ChoiceFieldMaskType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'choice_field_mask';
     }

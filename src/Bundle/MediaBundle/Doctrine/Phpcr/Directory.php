@@ -29,7 +29,7 @@ class Directory extends Folder implements DirectoryInterface
 
     public function __construct()
     {
-        $this->children = new ArrayCollection();
+        parent::__construct();
     }
 
     /**
@@ -61,7 +61,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent)
+    public function setParentDocument($parent): \Doctrine\ODM\PHPCR\Document\AbstractFile
     {
         $this->parent = $parent;
 

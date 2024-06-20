@@ -19,21 +19,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ModelToFileTransformer implements DataTransformerInterface
 {
-    /**
-     * @var UploadFileHelperInterface
-     */
-    private $helper;
+    private UploadFileHelperInterface $helper;
+    private ?string $class;
 
-    /**
-     * @var
-     */
-    private $class;
-
-    /**
-     * @param UploadFileHelperInterface $helper
-     * @param string                    $class
-     */
-    public function __construct(UploadFileHelperInterface $helper, $class = null)
+    public function __construct(UploadFileHelperInterface $helper, ?string $class = null)
     {
         $this->helper = $helper;
         $this->class = $class;
@@ -42,14 +31,14 @@ class ModelToFileTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($uploadedFile)
+    public function reverseTransform($value)
     {
-        if (!$uploadedFile instanceof UploadedFile) {
-            return $uploadedFile;
+        if (!$value instanceof UploadedFile) {
+            return $value;
         }
 
         try {
-            return $this->helper->handleUploadedFile($uploadedFile, $this->class);
+            return $this->helper->handleUploadedFile($value, $this->class);
         } catch (UploadException $e) {
             throw new TransformationFailedException($e->getMessage(), $e->getCode(), $e);
         }
@@ -58,8 +47,8 @@ class ModelToFileTransformer implements DataTransformerInterface
     /**
      * {@inheritdoc}
      */
-    public function transform($file)
+    public function transform($value)
     {
-        return $file;
+        return $value;
     }
 }

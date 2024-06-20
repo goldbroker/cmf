@@ -37,6 +37,8 @@ class VotingNodeLoader extends NodeLoader
 
     public function __construct(FactoryInterface $factory, EventDispatcherInterface $dispatcher)
     {
+        parent::__construct($factory);
+
         $this->menuFactory = $factory;
         $this->dispatcher = $dispatcher;
     }

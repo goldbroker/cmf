@@ -81,7 +81,7 @@ class MenuNode extends MenuNodeBase implements
     /**
      * {@inheritdoc}
      */
-    public function setParentObject($parent)
+    public function setParentObject(object $parent): MenuNode
     {
         $this->parent = $parent;
 
@@ -91,7 +91,7 @@ class MenuNode extends MenuNodeBase implements
     /**
      * {@inheritdoc}
      */
-    public function getParentObject()
+    public function getParentObject(): object
     {
         return $this->parent;
     }
@@ -99,7 +99,7 @@ class MenuNode extends MenuNodeBase implements
     /**
      * @return string the loaded locale of this menu node
      */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
@@ -110,7 +110,7 @@ class MenuNode extends MenuNodeBase implements
      *
      * @param string $locale the locale to use for this menu node
      */
-    public function setLocale($locale)
+    public function setLocale($locale): void
     {
         $this->locale = $locale;
     }
@@ -120,7 +120,7 @@ class MenuNode extends MenuNodeBase implements
      *
      * @return object the content of this menu node
      */
-    public function getContent()
+    public function getContent(): object
     {
         return $this->content;
     }
@@ -158,7 +158,7 @@ class MenuNode extends MenuNodeBase implements
     /**
      * {@inheritdoc}
      */
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         return $this->publishable;
     }
@@ -168,7 +168,7 @@ class MenuNode extends MenuNodeBase implements
      *
      * @param bool $publishable
      */
-    public function setPublishable($publishable)
+    public function setPublishable($publishable): void
     {
         $this->publishable = $publishable;
     }
@@ -176,7 +176,7 @@ class MenuNode extends MenuNodeBase implements
     /**
      * {@inheritdoc}
      */
-    public function getPublishStartDate()
+    public function getPublishStartDate(): ?\DateTime
     {
         return $this->publishStartDate;
     }
@@ -192,7 +192,7 @@ class MenuNode extends MenuNodeBase implements
     /**
      * {@inheritdoc}
      */
-    public function getPublishEndDate()
+    public function getPublishEndDate(): ?\DateTime
     {
         return $this->publishEndDate;
     }

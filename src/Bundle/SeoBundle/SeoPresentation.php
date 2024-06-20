@@ -20,7 +20,7 @@ use Symfony\Cmf\Bundle\SeoBundle\Model\AlternateLocaleCollection;
 use Symfony\Cmf\Bundle\SeoBundle\Model\SeoMetadata;
 use Symfony\Cmf\Bundle\SeoBundle\Model\SeoMetadataInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * This presentation model prepares the data for the SeoPage service of the

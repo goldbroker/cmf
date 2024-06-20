@@ -38,6 +38,10 @@
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
+            </call>
         </service>
 
         <service
@@ -62,6 +66,10 @@
 
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
+            </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
         </service>
 
@@ -88,6 +96,10 @@
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
+            </call>
         </service>
 
         <service
@@ -113,6 +125,10 @@
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
+            </call>
         </service>
 
         <service
@@ -137,6 +153,10 @@
 
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
+            </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
         </service>
 
@@ -166,6 +186,10 @@
 
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
+            </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
         </service>
 

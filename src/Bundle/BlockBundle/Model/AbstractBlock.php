@@ -27,124 +27,60 @@ use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodInterface;
  */
 abstract class AbstractBlock implements BlockInterface, PublishableInterface, PublishTimePeriodInterface, ChildInterface
 {
-    /**
-     * @var string
-     */
-    protected $id;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var object
-     */
-    protected $parentDocument;
-
-    /**
-     * @var int
-     */
-    protected $ttl = 86400;
-
-    /**
-     * @var array
-     */
-    protected $settings = [];
-
-    /**
-     * @var \DateTime
-     */
-    protected $createdAt;
-
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
-
-    /**
-     * @var bool whether this content is publishable
-     */
-    protected $publishable = true;
-
-    /**
-     * @var \DateTime|null publication start time
-     */
-    protected $publishStartDate;
-
-    /**
-     * @var \DateTime|null publication end time
-     */
-    protected $publishEndDate;
+    protected ?string $id = null;
+    protected ?string $name = null;
+    protected ?object $parentDocument = null;
+    protected int $ttl = 86400;
+    protected array $settings = [];
+    protected \DateTime $createdAt;
+    protected \DateTime $updatedAt;
+    protected bool $publishable = true;
+    protected ?\DateTime $publishStartDate = null;
+    protected ?\DateTime $publishEndDate = null;
 
     /**
      * If you want your block model to be translated it has to implement TranslatableInterface
      * this code is just here to make your life easier.
-     *
-     * @var string
      */
-    protected $locale;
+    protected ?string $locale = null;
 
-    /**
-     * @param string $src
-     *
-     * @return string
-     */
-    protected function dashify($src)
+    protected function dashify(string $src): string
     {
-        return preg_replace('/[\/\.]/', '-', $src);
+        return preg_replace('/[\/.]/', '-', $src);
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $id
      */
     public function setId($id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setType($type): void
+    public function setType(string $type): void
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setEnabled($enabled): void
+    public function setEnabled(bool $enabled): void
     {
         $this->setPublishable($enabled);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getEnabled(): bool
     {
         return $this->isPublishable();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setPosition($position): void
+    public function setPosition(int $position): void
     {
         // TODO: implement. https://github.com/symfony-cmf/BlockBundle/issues/150
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPosition(): ?int
     {
         $siblings = $this->getParentObject()->getChildren();
@@ -152,33 +88,21 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
         return array_search($siblings->indexOf($this), $siblings->getKeys());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setCreatedAt(\DateTime $createdAt = null): void
+    public function setCreatedAt(?\DateTime $createdAt = null): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setUpdatedAt(\DateTime $updatedAt = null): void
+    public function setUpdatedAt(?\DateTime $updatedAt = null): void
     {
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
@@ -187,15 +111,15 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function setPublishable($publishable)
+    public function setPublishable(bool $publishable): void
     {
-        return $this->publishable = (bool) $publishable;
+        $this->publishable = $publishable;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         return $this->publishable;
     }
@@ -203,7 +127,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function getPublishStartDate()
+    public function getPublishStartDate(): ?\DateTime
     {
         return $this->publishStartDate;
     }
@@ -211,7 +135,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function setPublishStartDate(\DateTime $publishStartDate = null)
+    public function setPublishStartDate(?\DateTime $publishStartDate = null): AbstractBlock
     {
         $this->publishStartDate = $publishStartDate;
 
@@ -221,7 +145,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function getPublishEndDate()
+    public function getPublishEndDate(): ?\DateTime
     {
         return $this->publishEndDate;
     }
@@ -229,7 +153,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function setPublishEndDate(\DateTime $publishEndDate = null)
+    public function setPublishEndDate(\DateTime $publishEndDate = null): AbstractBlock
     {
         $this->publishEndDate = $publishEndDate;
 
@@ -262,7 +186,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function setName($name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -293,7 +217,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
      *
      * {@inheritdoc}
      */
-    public function getParentObject()
+    public function getParentObject(): object
     {
         return $this->parentDocument;
     }
@@ -313,13 +237,11 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
      *
      * Check if getParentObject is instanceof BlockInterface, otherwise return null
      */
-    public function getParent(): ?self
+    public function getParent(): ?BlockInterface
     {
-        if (($parent = $this->getParentObject()) instanceof BlockInterface) {
-            return $parent;
-        }
+        $parent = $this->getParentObject();
 
-        return null;
+        return $parent instanceof BlockInterface ? $parent : null;
     }
 
     /**
@@ -416,7 +338,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
      *
      * @see TranslatableInterface::getLocale()
      */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
@@ -426,15 +348,9 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
      * TranslatableInterface. This code is just here to make your life easier.
      *
      * @see TranslatableInterface::setLocale()
-     *
-     * @param string $locale
-     *
-     * @return $this
      */
-    public function setLocale($locale)
+    public function setLocale(?string $locale): void
     {
         $this->locale = $locale;
-
-        return $this;
     }
 }

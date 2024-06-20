@@ -23,13 +23,13 @@ use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 
 class UploadFileHelperDoctrine implements UploadFileHelperInterface
 {
-    protected $managerRegistry;
-    protected $managerName;
-    protected $class;
-    protected $rootPath;
-    protected $mediaManager;
-    protected $editorHelpers;
-    protected $allowNonUploadedFiles = false;
+    protected ManagerRegistry $managerRegistry;
+    protected string $managerName;
+    protected string $class;
+    protected string $rootPath;
+    protected MediaManagerInterface $mediaManager;
+    protected array $editorHelpers = [];
+    protected bool $allowNonUploadedFiles = false;
 
     /**
      * @param ManagerRegistry       $registry
@@ -40,9 +40,9 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
      */
     public function __construct(
         ManagerRegistry $registry,
-        $managerName,
-        $class,
-        $rootPath,
+        string $managerName,
+        string $class,
+        string $rootPath,
         MediaManagerInterface $mediaManager)
     {
         $this->managerRegistry = $registry;
@@ -55,7 +55,7 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
     /**
      * {@inheritdoc}
      */
-    public function setAllowNonUploadedFiles($boolean)
+    public function setAllowNonUploadedFiles(bool $boolean)
     {
         $this->allowNonUploadedFiles = $boolean;
     }
@@ -111,7 +111,7 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
      *
      * @return ObjectManager
      */
-    protected function getObjectManager()
+    protected function getObjectManager(): ObjectManager
     {
         return $this->managerRegistry->getManager($this->managerName);
     }
@@ -119,7 +119,7 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
     /**
      * {@inheritdoc}
      */
-    public function addEditorHelper($name, UploadEditorHelperInterface $helper)
+    public function addEditorHelper(string $name, UploadEditorHelperInterface $helper)
     {
         $this->editorHelpers[$name] = $helper;
     }
@@ -127,13 +127,13 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
     /**
      * {@inheritdoc}
      */
-    public function getEditorHelper($name = null)
+    public function getEditorHelper(?string $name = null): ?UploadEditorHelperInterface
     {
         if ($name && isset($this->editorHelpers[$name])) {
             return $this->editorHelpers[$name];
         }
 
-        return isset($this->editorHelpers['default']) ? $this->editorHelpers['default'] : null;
+        return $this->editorHelpers['default'] ?? null;
     }
 
     /**
@@ -177,7 +177,7 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
         ];
 
         $maxFilesize = $errorCode === UPLOAD_ERR_INI_SIZE ? $file->getMaxFilesize() / 1024 : 0;
-        $message = isset($errors[$errorCode]) ? $errors[$errorCode] : 'The file "%s" was not uploaded due to an unknown error.';
+        $message = $errors[$errorCode] ?? 'The file "%s" was not uploaded due to an unknown error.';
 
         return sprintf($message, $file->getClientOriginalName(), $maxFilesize);
     }
@@ -185,7 +185,7 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
     /**
      * {@inheritdoc}
      */
-    public function handleUploadedFile(UploadedFile $uploadedFile, $class = null)
+    public function handleUploadedFile(UploadedFile $uploadedFile, ?string $class = null): FileInterface
     {
         $this->validateFile($uploadedFile);
 
@@ -210,7 +210,7 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
     /**
      * {@inheritdoc}
      */
-    public function getUploadResponse(Request $request, array $uploadedFiles = [])
+    public function getUploadResponse(Request $request, array $uploadedFiles = []): \Symfony\Component\HttpFoundation\Response
     {
         $editorHelper = $this->getEditorHelper($request->get('editor', 'default'));
 

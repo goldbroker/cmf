@@ -14,7 +14,6 @@ namespace Symfony\Cmf\Bundle\ResourceRestBundle\Controller;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Cmf\Bundle\ResourceRestBundle\Serializer\Jms\Handler\ResourceHandler;
-use Symfony\Cmf\Component\Puli\Api\ResourceNotFoundException;
 use Symfony\Cmf\Component\Resource\RepositoryRegistryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,7 +78,7 @@ class ResourceController
             $resource = $repository->get($path);
 
             return $this->createResponse($resource);
-        } catch (ResourceNotFoundException $e) {
+        } catch (\Exception $e) {
             throw new NotFoundHttpException(sprintf('No resource found at path "%s" for repository "%s"', $path, $repositoryName), $e);
         }
     }

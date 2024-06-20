@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 
 class NodeNameFilter extends Filter
 {
@@ -28,7 +28,7 @@ class NodeNameFilter extends Filter
         }
 
         $data['value'] = trim((string) $data['value']);
-        $data['type'] = empty($data['type']) ? ChoiceType::TYPE_CONTAINS : $data['type'];
+        $data['type'] = empty($data['type']) ? ContainsOperatorType::TYPE_CONTAINS : $data['type'];
 
         if ('' === $data['value']) {
             return;
@@ -37,11 +37,11 @@ class NodeNameFilter extends Filter
         $where = $this->getWhere($proxyQuery);
 
         switch ($data['type']) {
-            case ChoiceType::TYPE_EQUAL:
+            case ContainsOperatorType::TYPE_EQUAL:
                 $where->eq()->localName($alias)->literal($data['value']);
 
                 break;
-            case ChoiceType::TYPE_CONTAINS:
+            case ContainsOperatorType::TYPE_CONTAINS:
             default:
                 $where->like()->localName($alias)->literal('%'.$data['value'].'%');
         }
@@ -53,7 +53,7 @@ class NodeNameFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [
             'format' => '%%%s%%',
@@ -63,7 +63,7 @@ class NodeNameFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', [
             'field_type' => $this->getFieldType(),

@@ -17,8 +17,6 @@ use Symfony\Cmf\Bundle\MediaBundle\FileInterface;
 
 class ModelToFileChildAwareTransformer extends ModelToFileTransformer
 {
-    private $helper;
-
     /**
      * @var
      */
@@ -27,10 +25,6 @@ class ModelToFileChildAwareTransformer extends ModelToFileTransformer
      * @var
      */
     private $childOfNode;
-    /**
-     * @var array
-     */
-    private $class;
 
     /**
      * @param UploadFileHelperInterface $helper
@@ -42,8 +36,6 @@ class ModelToFileChildAwareTransformer extends ModelToFileTransformer
     {
         parent::__construct($helper, $class);
 
-        $this->helper = $helper;
-        $this->class = $class;
         $this->emptyData = $emptyData;
         $this->childOfNode = $childOfNode;
     }
@@ -51,9 +43,9 @@ class ModelToFileChildAwareTransformer extends ModelToFileTransformer
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($uploadedFile)
+    public function reverseTransform($value)
     {
-        $file = parent::reverseTransform($uploadedFile);
+        $file = parent::reverseTransform($value);
 
         if (!$file instanceof FileInterface) {
             return $file;

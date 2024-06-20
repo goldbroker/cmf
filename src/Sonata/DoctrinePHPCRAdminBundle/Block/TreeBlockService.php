@@ -62,7 +62,7 @@ class TreeBlockService extends AbstractBlockService
     /**
      * {@inheritdoc}
      */
-    public function configureSettings(OptionsResolver $resolver)
+    public function configureSettings(OptionsResolver $resolver): void
     {
         // the callables are a workaround to make bundle configuration win over the default values
         // see https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/pull/345

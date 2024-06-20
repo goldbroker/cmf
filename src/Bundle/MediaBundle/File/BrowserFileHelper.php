@@ -15,7 +15,7 @@ use Symfony\Cmf\Bundle\MediaBundle\Editor\BrowserEditorHelperInterface;
 
 class BrowserFileHelper
 {
-    protected $editorHelpers;
+    protected array $editorHelpers = [];
     protected $defaultBrowser;
 
     public function __construct($defaultBrowser = null)
@@ -25,12 +25,8 @@ class BrowserFileHelper
 
     /**
      * Add an editor helper.
-     *
-     * @param string $name
-     * @param $editor
-     * @param BrowserEditorHelperInterface $helper
      */
-    public function addEditorHelper($name, $editor, BrowserEditorHelperInterface $helper)
+    public function addEditorHelper(string $name, string $editor, BrowserEditorHelperInterface $helper)
     {
         $this->editorHelpers[$name][$editor] = $helper;
     }
@@ -38,12 +34,12 @@ class BrowserFileHelper
     /**
      * Get helper.
      *
-     * @param $name    leave null to get the default helper
-     * @param $browser leave null to get the default helper
+     * @param null|string $name    leave null to get the default helper
+     * @param null|string $browser leave null to get the default helper
      *
      * @return BrowserEditorHelperInterface|null
      */
-    public function getEditorHelper($name = null, $browser = null)
+    public function getEditorHelper(?string $name = null, ?string $browser = null): ?BrowserEditorHelperInterface
     {
         if ($name && isset($this->editorHelpers[$name]) && count($this->editorHelpers[$name]) > 0) {
             if ($browser && isset($this->editorHelpers[$name][$browser])) {
@@ -61,5 +57,7 @@ class BrowserFileHelper
             // get default
             return $this->editorHelpers['default'][$this->defaultBrowser];
         }
+
+        return null;
     }
 }

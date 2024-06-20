@@ -32,6 +32,10 @@
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.routing.basepath%</argument>
             </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
+            </call>
         </service>
 
         <service
@@ -56,6 +60,10 @@
 
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.routing.basepath%</argument>
+            </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
         </service>
 

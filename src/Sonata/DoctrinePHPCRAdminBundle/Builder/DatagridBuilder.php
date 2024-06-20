@@ -85,10 +85,9 @@ class DatagridBuilder implements DatagridBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
+    public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
     {
-        // set default values
-        $fieldDescription->setAdmin($admin);
+        $admin = $fieldDescription->getAdmin();
 
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
             $metadata = $admin->getModelManager()->getMetadata($admin->getClass());
@@ -114,10 +113,8 @@ class DatagridBuilder implements DatagridBuilderInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return FilterInterface
      */
-    public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): FilterInterface
+    public function addFilter(DatagridInterface $datagrid, $type, FieldDescriptionInterface $fieldDescription): void
     {
         if (null === $type) {
             $guessType = $this->guesser->guess($fieldDescription);
@@ -136,23 +133,22 @@ class DatagridBuilder implements DatagridBuilderInterface
             $fieldDescription->setType($type);
         }
 
-        $this->fixFieldDescription($admin, $fieldDescription);
-        $admin->addFilterFieldDescription($fieldDescription->getName(), $fieldDescription);
+        $this->fixFieldDescription($fieldDescription);
 
         $fieldDescription->mergeOption('field_options', ['required' => false]);
         $filter = $this->filterFactory->create($fieldDescription->getName(), $type, $fieldDescription->getOptions());
 
         if (false !== $filter->getLabel() && !$filter->getLabel()) {
-            $filter->setLabel($admin->getLabelTranslatorStrategy()->getLabel($fieldDescription->getName(), 'filter', 'label'));
+            $filter->setLabel($fieldDescription->getAdmin()->getLabelTranslatorStrategy()->getLabel($fieldDescription->getName(), 'filter', 'label'));
         }
 
-        return $datagrid->addFilter($filter);
+        $datagrid->addFilter($filter);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getBaseDatagrid(AdminInterface $admin, array $values = [])
+    public function getBaseDatagrid(AdminInterface $admin, array $values = []): DatagridInterface
     {
         $defaultOptions = [];
         if ($this->csrfTokenEnabled) {

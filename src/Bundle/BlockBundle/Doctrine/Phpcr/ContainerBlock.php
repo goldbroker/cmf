@@ -26,7 +26,7 @@ class ContainerBlock extends AbstractBlock
      */
     protected $children;
 
-    public function __construct($name = null)
+    public function __construct(?string $name = null)
     {
         $this->setName($name);
         $this->children = new ArrayCollection();
@@ -57,30 +57,23 @@ class ContainerBlock extends AbstractBlock
      *
      * @return ChildrenCollection
      */
-    public function setChildren(ChildrenCollection $children)
+    public function setChildren(ChildrenCollection $children): ChildrenCollection
     {
         return $this->children = $children;
     }
 
     /**
      * Add a child to this container.
-     *
-     * @param BlockInterface $child
-     * @param string         $key   the collection index name to use in the
-     *                              child collection. if not set, the child
-     *                              will simply be appended at the end.
-     *
-     * @return bool Always true
      */
-    public function addChild(BlockInterface $child, $key = null)
+    public function addChild(BlockInterface $child, string $key = null): void
     {
         if (null !== $key) {
             $this->children->set($key, $child);
 
-            return true;
+            return;
         }
 
-        return $this->children->add($child);
+        $this->children->add($child);
     }
 
     /**
@@ -100,7 +93,7 @@ class ContainerBlock extends AbstractBlock
      *
      * @return $this
      */
-    public function removeChild($child)
+    public function removeChild($child): ContainerBlock
     {
         $this->children->removeElement($child);
 

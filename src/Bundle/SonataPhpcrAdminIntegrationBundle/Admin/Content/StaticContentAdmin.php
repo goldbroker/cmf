@@ -23,16 +23,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class StaticContentAdmin extends AbstractAdmin
 {
-    protected $translationDomain = 'CmfSonataPhpcrAdminIntegrationBundle';
-
     /**
      * Configuration, that can be passed to CKEditorType.
-     *
-     * @var array
      */
-    private $ckEditorConfig;
+    private array $ckEditorConfig = [];
 
-    public function getExportFormats()
+    public function getExportFormats(): array
     {
         return [];
     }
@@ -49,7 +45,7 @@ class StaticContentAdmin extends AbstractAdmin
         $this->ckEditorConfig = $config;
     }
 
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('id', 'text')
@@ -57,7 +53,7 @@ class StaticContentAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $editView = (bool) $this->id($this->getSubject());
         $form
@@ -90,7 +86,7 @@ class StaticContentAdmin extends AbstractAdmin
         $this->addTransformerToField($form->getFormBuilder(), 'parentDocument');
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('title', 'doctrine_phpcr_string')
@@ -98,11 +94,11 @@ class StaticContentAdmin extends AbstractAdmin
         ;
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof StaticContentBase && $object->getTitle()
             ? $object->getTitle()
-            : $this->trans('link_add', [], 'SonataAdminBundle')
+            : $this->getTranslator()->trans('link_add', [], 'SonataAdminBundle')
         ;
     }
 }

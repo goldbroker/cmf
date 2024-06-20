@@ -17,39 +17,24 @@ use Symfony\Cmf\Bundle\ContentBundle\Model\StaticContentBase as ModelStaticConte
 
 class StaticContentBase extends ModelStaticContentBase implements HierarchyInterface
 {
-    /**
-     * PHPCR parent document.
-     *
-     * @var string
-     */
-    protected $parent;
-
-    /**
-     * PHPCR document name.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * PHPCR node.
-     *
-     * @var NodeInterface
-     */
-    protected $node;
+    protected ?object $parent = null;
+    protected ?string $name = null;
+    protected NodeInterface $node;
 
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent)
+    public function setParentDocument($parent): HierarchyInterface
     {
         $this->parent = $parent;
+
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getParentDocument()
+    public function getParentDocument(): ?object
     {
         return $this->parent;
     }
@@ -58,7 +43,7 @@ class StaticContentBase extends ModelStaticContentBase implements HierarchyInter
      * @deprecated For BC with the PHPCR-ODM 1.4 HierarchyInterface
      * @see setParentDocument
      */
-    public function setParent($parent)
+    public function setParent($parent): HierarchyInterface
     {
         @trigger_error('The '.__METHOD__.'() method is deprecated and will be removed in version 3.0. Use setParentDocument() instead.', E_USER_DEPRECATED);
 
@@ -69,19 +54,19 @@ class StaticContentBase extends ModelStaticContentBase implements HierarchyInter
      * @deprecated For BC with the PHPCR-ODM 1.4 HierarchyInterface
      * @see getParentDocument
      */
-    public function getParent()
+    public function getParent(): ?object
     {
         @trigger_error('The '.__METHOD__.'() method is deprecated and will be removed in version 3.0. Use getParentDocument() instead.', E_USER_DEPRECATED);
 
         return $this->getParentDocument();
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -91,7 +76,7 @@ class StaticContentBase extends ModelStaticContentBase implements HierarchyInter
      *
      * @return NodeInterface
      */
-    public function getNode()
+    public function getNode(): ?NodeInterface
     {
         return $this->node;
     }

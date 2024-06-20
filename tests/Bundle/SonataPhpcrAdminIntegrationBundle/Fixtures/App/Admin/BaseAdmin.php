@@ -26,17 +26,17 @@ class BaseAdmin extends Admin
         return [];
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper
+        $list
             ->addIdentifier('id', 'text')
             ->addIdentifier('title', 'text')
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->with('form.group_general')
             ->add('name', 'text')
             ->add('title', 'text')

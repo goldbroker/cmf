@@ -21,37 +21,19 @@ use Symfony\Cmf\Bundle\CoreBundle\Translatable\TranslatableInterface;
  */
 class SlideshowBlock extends ContainerBlock implements TranslatableInterface
 {
-    /**
-     * @var string
-     */
-    protected $title;
+    protected ?string $title = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType(): string
     {
         return 'cmf.block.slideshow';
     }
 
-    /**
-     * Get title.
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * Set title.
-     *
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): SlideshowBlock
     {
         $this->title = $title;
 

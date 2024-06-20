@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Form\Type\Filter\NumberType;
+use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
 
 class NumberFilter extends Filter
 {
@@ -33,23 +33,23 @@ class NumberFilter extends Filter
         $value = $data['value'];
 
         switch ($type) {
-            case NumberType::TYPE_GREATER_EQUAL:
+            case NumberOperatorType::TYPE_GREATER_EQUAL:
                 $where->gte()->field('a.'.$field)->literal($value);
 
                 break;
-            case NumberType::TYPE_GREATER_THAN:
+            case NumberOperatorType::TYPE_GREATER_THAN:
                 $where->gt()->field('a.'.$field)->literal($value);
 
                 break;
-            case NumberType::TYPE_LESS_EQUAL:
+            case NumberOperatorType::TYPE_LESS_EQUAL:
                 $where->lte()->field('a.'.$field)->literal($value);
 
                 break;
-            case NumberType::TYPE_LESS_THAN:
+            case NumberOperatorType::TYPE_LESS_THAN:
                 $where->lt()->field('a.'.$field)->literal($value);
 
                 break;
-            case NumberType::TYPE_EQUAL:
+            case NumberOperatorType::TYPE_EQUAL:
             default:
                 $where->eq()->field('a.'.$field)->literal($value);
         }
@@ -61,7 +61,7 @@ class NumberFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [];
     }
@@ -69,7 +69,7 @@ class NumberFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['sonata_type_filter_number', [
             'field_type' => $this->getFieldType(),

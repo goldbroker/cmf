@@ -31,6 +31,10 @@
             <call method="setCkEditorConfig">
                 <argument>%cmf_sonata_phpcr_admin_integration.content.fos_ckeditor%</argument>
             </call>
+
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
+            </call>
         </service>
     </services>
 </container>

@@ -13,7 +13,6 @@ namespace Symfony\Cmf\Bundle\BlockBundle\Templating\Helper;
 
 use Psr\Log\LoggerInterface;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper as SonataBlockHelper;
-use Symfony\Cmf\Bundle\BlockBundle\Templating\Helper\EmbedBlocksParser;
 use Symfony\Component\Templating\Helper\Helper;
 
 /**
@@ -23,17 +22,11 @@ use Symfony\Component\Templating\Helper\Helper;
  */
 class CmfBlockHelper extends Helper
 {
-    /**
-     * @var SonataBlockHelper
-     */
-    private $sonataBlock;
+    private SonataBlockHelper $sonataBlock;
 
-    private $parser;
+    private EmbedBlocksParser $parser;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(SonataBlockHelper $sonataBlock, EmbedBlocksParser $parser, LoggerInterface $logger = null)
     {
@@ -45,12 +38,8 @@ class CmfBlockHelper extends Helper
     /**
      * Looks for special markers that identify blocks and replaces
      * them with the result of rendering the specified identifier.
-     *
-     * @param string $text
-     *
-     * @return string
      */
-    public function embedBlocks($text)
+    public function embedBlocks(string $text): string
     {
         return $this->parser->parse(
             $text,
@@ -63,7 +52,7 @@ class CmfBlockHelper extends Helper
     /**
      * @see SonataBlockHelper::render
      */
-    public function render($block, array $options = [])
+    public function render($block, array $options = []): string
     {
         return $this->sonataBlock->render($block, $options);
     }
@@ -71,7 +60,7 @@ class CmfBlockHelper extends Helper
     /**
      * @see SonataBlockHelper::includeJavascripts
      */
-    public function includeJavascripts($media)
+    public function includeJavascripts($media): string
     {
         return $this->sonataBlock->includeJavaScripts($media);
     }
@@ -79,24 +68,20 @@ class CmfBlockHelper extends Helper
     /**
      * @see SonataBlockHelper::includeStylesheets
      */
-    public function includeStylesheets($media)
+    public function includeStylesheets($media): string
     {
         return $this->sonataBlock->includeStylesheets($media);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'blocks';
     }
 
     /**
      * Executes the block as specified in the content.
-     *
-     * @param $name
-     *
-     * @return string
      */
-    protected function embeddedRender($name)
+    protected function embeddedRender(string $name): string
     {
         $name = trim($name);
 
