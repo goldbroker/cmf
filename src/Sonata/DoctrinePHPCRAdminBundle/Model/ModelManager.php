@@ -28,38 +28,27 @@ use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 
 class ModelManager implements ModelManagerInterface
 {
-    /**
-     * @var DocumentManager
-     */
-    protected $dm;
+    protected DocumentManager $documentManager;
 
-    public function __construct(DocumentManager $dm)
+    public function __construct(DocumentManager $documentManager)
     {
-        $this->dm = $dm;
+        $this->documentManager = $documentManager;
     }
 
     /**
      * Returns the related model's metadata.
-     *
-     * @param string $class
-     *
-     * @return ClassMetadata
      */
-    public function getMetadata($class)
+    public function getMetadata(string $class): ClassMetadata
     {
-        return $this->dm->getMetadataFactory()->getMetadataFor($class);
+        return $this->documentManager->getMetadataFactory()->getMetadataFor($class);
     }
 
     /**
      * Returns true is the model has some metadata.
-     *
-     * @param string $class
-     *
-     * @return bool
      */
-    public function hasMetadata($class)
+    public function hasMetadata(string $class): bool
     {
-        return $this->dm->getMetadataFactory()->hasMetadataFor($class);
+        return $this->documentManager->getMetadataFactory()->hasMetadataFor($class);
     }
 
     /**
@@ -70,8 +59,8 @@ class ModelManager implements ModelManagerInterface
     public function create($object): void
     {
         try {
-            $this->dm->persist($object);
-            $this->dm->flush();
+            $this->documentManager->persist($object);
+            $this->documentManager->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -85,8 +74,8 @@ class ModelManager implements ModelManagerInterface
     public function update($object): void
     {
         try {
-            $this->dm->persist($object);
-            $this->dm->flush();
+            $this->documentManager->persist($object);
+            $this->documentManager->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -100,8 +89,8 @@ class ModelManager implements ModelManagerInterface
     public function delete($object): void
     {
         try {
-            $this->dm->remove($object);
-            $this->dm->flush();
+            $this->documentManager->remove($object);
+            $this->documentManager->flush();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }
@@ -112,17 +101,17 @@ class ModelManager implements ModelManagerInterface
      *
      * {@inheritdoc}
      */
-    public function find($class, $id): ?object
+    public function find(?string $class, $id): ?object
     {
         if (!isset($id)) {
             return null;
         }
 
         if (null === $class) {
-            return $this->dm->find(null, $id);
+            return $this->documentManager->find(null, $id);
         }
 
-        return $this->dm->getRepository($class)->find($id);
+        return $this->documentManager->getRepository($class)->find($id);
     }
 
     /**
@@ -132,12 +121,8 @@ class ModelManager implements ModelManagerInterface
      *
      * @return FieldDescription
      */
-    public function getNewFieldDescriptionInstance($class, $name, array $options = []): FieldDescription
+    public function getNewFieldDescriptionInstance(string $class, string $name, array $options = []): FieldDescription
     {
-        if (!\is_string($name)) {
-            throw new \RunTimeException('The name argument must be a string');
-        }
-
         $metadata = $this->getMetadata($class);
 
         $fieldDescription = new FieldDescription($name, $options);
@@ -156,17 +141,17 @@ class ModelManager implements ModelManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function findBy($class, array $criteria = []): array
+    public function findBy(string $class, array $criteria = []): array
     {
-        return $this->dm->getRepository($class)->findBy($criteria);
+        return $this->documentManager->getRepository($class)->findBy($criteria);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findOneBy($class, array $criteria = []): ?object
+    public function findOneBy(string $class, array $criteria = []): ?object
     {
-        return $this->dm->getRepository($class)->findOneBy($criteria);
+        return $this->documentManager->getRepository($class)->findOneBy($criteria);
     }
 
     /**
@@ -175,7 +160,7 @@ class ModelManager implements ModelManagerInterface
      */
     public function getDocumentManager(): DocumentManager
     {
-        return $this->dm;
+        return $this->documentManager;
     }
 //
 //    /**
@@ -207,7 +192,7 @@ class ModelManager implements ModelManagerInterface
      *
      * @return ProxyQueryInterface
      */
-    public function createQuery($class, $alias = 'a'): ProxyQueryInterface
+    public function createQuery(string $class, string $alias = 'a'): ProxyQueryInterface
     {
         $qb = $this->getDocumentManager()->createQueryBuilder();
         $qb->from()->document($class, $alias);
@@ -217,10 +202,8 @@ class ModelManager implements ModelManagerInterface
 
     /**
      * @param ProxyQuery $query
-     *
-     * @return mixed
      */
-    public function executeQuery($query)
+    public function executeQuery($query): array
     {
         return $query->execute();
     }
@@ -342,16 +325,16 @@ class ModelManager implements ModelManagerInterface
             $i = 0;
             $res = $queryProxy->execute();
             foreach ($res as $object) {
-                $this->dm->remove($object);
+                $this->documentManager->remove($object);
 
                 if (0 === (++$i % 20)) {
-                    $this->dm->flush();
-                    $this->dm->clear();
+                    $this->documentManager->flush();
+                    $this->documentManager->clear();
                 }
             }
 
-            $this->dm->flush();
-            $this->dm->clear();
+            $this->documentManager->flush();
+            $this->documentManager->clear();
         } catch (\Exception $e) {
             throw new ModelManagerException('', 0, $e);
         }

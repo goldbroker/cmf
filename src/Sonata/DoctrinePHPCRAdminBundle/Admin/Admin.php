@@ -17,7 +17,6 @@ use PHPCR\Util\PathHelper;
 use PHPCR\Util\UUIDHelper;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 /**
