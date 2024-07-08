@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 class UploadFileHelperDoctrine implements UploadFileHelperInterface
 {
     protected ManagerRegistry $managerRegistry;
-    protected string $managerName;
+    protected ?string $managerName;
     protected string $class;
     protected string $rootPath;
     protected MediaManagerInterface $mediaManager;
@@ -40,7 +40,7 @@ class UploadFileHelperDoctrine implements UploadFileHelperInterface
      */
     public function __construct(
         ManagerRegistry $registry,
-        string $managerName,
+        ?string $managerName,
         string $class,
         string $rootPath,
         MediaManagerInterface $mediaManager)

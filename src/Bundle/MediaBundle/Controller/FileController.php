@@ -34,8 +34,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class FileController
 {
     protected ManagerRegistry $managerRegistry;
-    protected string $managerName;
-    protected string $class;
+    protected ?string $managerName;
+    protected ?string $class;
     protected string  $rootPath;
     protected MediaManagerInterface $mediaManager;
     protected UploadFileHelperInterface $uploadFileHelper;
@@ -62,7 +62,7 @@ class FileController
      */
     public function __construct(
         ManagerRegistry $registry,
-        string $managerName,
+        ?string $managerName,
         string $class,
         string $rootPath,
         MediaManagerInterface $mediaManager,

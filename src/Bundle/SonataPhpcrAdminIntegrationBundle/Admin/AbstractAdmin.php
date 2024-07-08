@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * @author Maximilian Berghoff <Maximilian.Berghoff@mayflower.de>
  */
-class AbstractAdmin extends Admin
+abstract class AbstractAdmin extends Admin
 {
     /**
      * @var ManagerRegistry

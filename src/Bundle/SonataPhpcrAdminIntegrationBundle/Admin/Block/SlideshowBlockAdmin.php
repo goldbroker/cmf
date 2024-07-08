@@ -56,13 +56,13 @@ class SlideshowBlockAdmin extends AbstractBlockAdmin
      */
     protected function configureFormFields(FormMapper $form): void
     {
-        if (null === $this->getParentFieldDescription()) {
+        if (!$this->hasParentFieldDescription()) {
             parent::configureFormFields($form);
         }
 
         $form
             ->tab('form.tab_general')
-                ->with('form.group_block', null === $this->getParentFieldDescription()
+                ->with('form.group_block', !$this->hasParentFieldDescription()
                     ? ['class' => 'col-md-9']
                     : []
                 )

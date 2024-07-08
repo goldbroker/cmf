@@ -14,6 +14,8 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -57,8 +59,8 @@ class SimpleBlockAdmin extends AbstractBlockAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('title', 'doctrine_phpcr_string')
-            ->add('name', 'doctrine_phpcr_nodename')
+            ->add('title', StringFilter::class)
+            ->add('name', NodeNameFilter::class)
         ;
     }
 

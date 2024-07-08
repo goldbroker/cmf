@@ -26,7 +26,7 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
  *
  * @author Uwe Jäger <uwej711@googlemail.com>
  */
-class Admin extends AbstractAdmin
+abstract class Admin extends AbstractAdmin
 {
     /**
      * Path to the root node in the repository under which documents of this
@@ -60,7 +60,7 @@ class Admin extends AbstractAdmin
          * Overridden to allow a broader set of valid characters in the ID, and
          * if the ID is not a UUID, to call absolutizePath on the ID.
          */
-        if (!$this->hasSubject() && $this->getRequest()) {
+        if (!$this->hasSubject() && $this->hasRequest() && $this->getRequest()) {
             $id = $this->getRequest()->get($this->getIdParameter());
             if (null === $id || !preg_match('#^[0-9A-Za-z/\-_]+$#', $id)) {
                 $this->subject = false;

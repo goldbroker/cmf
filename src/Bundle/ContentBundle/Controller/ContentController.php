@@ -52,7 +52,7 @@ class ContentController
      *
      * @return Response
      */
-    public function indexAction(Request $request, ?object $contentDocument = null, ?string $template = null): Response
+    public function indexAction(Request $request, $contentDocument = null, ?string $template = null): Response
     {
         if (null === $contentDocument) {
             throw new NotFoundHttpException();
@@ -76,7 +76,7 @@ class ContentController
         if ($this->viewHandler) {
             if (1 === count($params)) {
                 $templateVar = key($params);
-                $params = reset($params);
+                $params = ['data' => reset($params)];
             }
 
             if (isset($templateVar)) {

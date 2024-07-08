@@ -70,9 +70,11 @@ class FrontendLinkExtension extends AbstractAdminExtension
         AdminInterface $childAdmin = null
     ): void
     {
-        if (!$subject = $admin->getSubject()) {
+        if (!$admin->hasSubject()) {
             return;
         }
+
+        $subject = $admin->getSubject();
 
         if (!$subject instanceof RouteReferrersReadInterface && !$subject instanceof Route) {
             throw new InvalidConfigurationException(

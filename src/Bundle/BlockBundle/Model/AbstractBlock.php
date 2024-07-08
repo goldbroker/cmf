@@ -32,8 +32,8 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     protected ?object $parentDocument = null;
     protected int $ttl = 86400;
     protected array $settings = [];
-    protected \DateTime $createdAt;
-    protected \DateTime $updatedAt;
+    protected ?\DateTime $createdAt = null;
+    protected ?\DateTime $updatedAt = null;
     protected bool $publishable = true;
     protected ?\DateTime $publishStartDate = null;
     protected ?\DateTime $publishEndDate = null;

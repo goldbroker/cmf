@@ -15,6 +15,8 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
 use Symfony\Cmf\Bundle\ContentBundle\Model\StaticContentBase;
 use Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\AbstractAdmin;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType;
@@ -89,8 +91,8 @@ class StaticContentAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('title', 'doctrine_phpcr_string')
-            ->add('name', 'doctrine_phpcr_nodename')
+            ->add('title', StringFilter::class)
+            ->add('name', NodeNameFilter::class)
         ;
     }
 

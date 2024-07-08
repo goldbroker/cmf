@@ -14,6 +14,7 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route;
 use Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\AbstractAdmin;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType;
@@ -54,7 +55,7 @@ class RedirectRouteAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
-        $datagridMapper->add('name', 'doctrine_phpcr_nodename');
+        $datagridMapper->add('name', NodeNameFilter::class);
     }
 
     public function getExportFormats(): array

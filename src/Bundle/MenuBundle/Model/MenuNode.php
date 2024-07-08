@@ -120,7 +120,7 @@ class MenuNode extends MenuNodeBase implements
      *
      * @return object the content of this menu node
      */
-    public function getContent(): object
+    public function getContent(): ?object
     {
         return $this->content;
     }

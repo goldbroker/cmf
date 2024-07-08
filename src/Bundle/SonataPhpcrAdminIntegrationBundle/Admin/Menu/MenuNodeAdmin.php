@@ -57,7 +57,7 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
 
         parent::configureFormFields($form);
 
-        if (null === $this->getParentFieldDescription()) {
+        if ($this->hasParentFieldDescription()) {
             // Add the choice for the node links "target"
             $form
                 ->tab('form.tab_general')
@@ -156,45 +156,49 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
             }
         });
     }
-//
-//    /**
-//     * {@inheritdoc}
-//     */
-//    public function buildBreadcrumbs($action, MenuItemInterface $menu = null)
-//    {
-//        $menuNodeNode = parent::buildBreadcrumbs($action, $menu);
-//
-//        if ('edit' !== $action || !$this->recursiveBreadcrumbs) {
-//            return $menuNodeNode;
-//        }
-//
-//        $parentDoc = $this->getSubject()->getParentDocument();
-//        $pool = $this->getConfigurationPool();
-//        $parentAdmin = $pool->getAdminByClass(ClassUtils::getClass($parentDoc));
-//
-//        if (null === $parentAdmin) {
-//            return $menuNodeNode;
-//        }
-//
-//        $parentAdmin->setSubject($parentDoc);
-//        $parentAdmin->setRequest($this->getRequest());
-//        $parentEditNode = $parentAdmin->buildBreadcrumbs($action, $menu);
-//        if ($parentAdmin->isGranted('EDIT' && $parentAdmin->hasRoute('edit'))) {
-//            $parentEditNode->setUri(
-//                $parentAdmin->generateUrl('edit', [
-//                    'id' => $this->getUrlsafeIdentifier($parentDoc),
-//                ])
-//            );
-//        }
-//
-//        $menuNodeNode->setParent(null);
-//        $current = $parentEditNode->addChild($menuNodeNode);
-//
-//        return $current;
-//    }
-//
-//    public function setRecursiveBreadcrumbs($recursiveBreadcrumbs)
-//    {
-//        $this->recursiveBreadcrumbs = (bool) $recursiveBreadcrumbs;
-//    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildBreadcrumbs($action, MenuItemInterface $menu = null)
+    {
+        $menuNodeNode = parent::buildBreadcrumbs($action, $menu);
+
+        if (!$this->hasSubject()) {
+            return $menuNodeNode;
+        }
+
+        if ('edit' !== $action || !$this->recursiveBreadcrumbs) {
+            return $menuNodeNode;
+        }
+
+        $parentDoc = $this->getSubject()->getParentDocument();
+        $pool = $this->getConfigurationPool();
+        $parentAdmin = $pool->getAdminByClass(ClassUtils::getClass($parentDoc));
+
+        if (null === $parentAdmin) {
+            return $menuNodeNode;
+        }
+
+        $parentAdmin->setSubject($parentDoc);
+        $parentAdmin->setRequest($this->getRequest());
+        $parentEditNode = $parentAdmin->buildBreadcrumbs($action, $menu);
+        if ($parentAdmin->isGranted('EDIT' && $parentAdmin->hasRoute('edit'))) {
+            $parentEditNode->setUri(
+                $parentAdmin->generateUrl('edit', [
+                    'id' => $this->getUrlsafeIdentifier($parentDoc),
+                ])
+            );
+        }
+
+        $menuNodeNode->setParent(null);
+        $current = $parentEditNode->addChild($menuNodeNode);
+
+        return $current;
+    }
+
+    public function setRecursiveBreadcrumbs($recursiveBreadcrumbs)
+    {
+        $this->recursiveBreadcrumbs = (bool) $recursiveBreadcrumbs;
+    }
 }

@@ -14,6 +14,7 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
 use Sonata\Form\Type\ImmutableArrayType;
 use Symfony\Cmf\Bundle\RoutingBundle\Form\Type\RouteTypeType;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route;
@@ -50,7 +51,7 @@ class RouteAdmin extends AbstractAdmin
                 ->end() // group location
         ;
 
-        if (null === $this->getParentFieldDescription()) {
+        if (!$this->hasParentFieldDescription()) {
             $form
                 ->with('form.group_target', ['class' => 'col-md-9'])
                     ->add(
@@ -91,14 +92,14 @@ class RouteAdmin extends AbstractAdmin
             ->end(); // tab general/routing
 
         $this->addTransformerToField($form->getFormBuilder(), 'parentDocument');
-        if (null === $this->getParentFieldDescription()) {
+        if (!$this->hasParentFieldDescription()) {
             $this->addTransformerToField($form->getFormBuilder(), 'content');
         }
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
-        $datagridMapper->add('name', 'doctrine_phpcr_nodename');
+        $datagridMapper->add('name', NodeNameFilter::class);
     }
 
     public function setContentRoot($contentRoot)
@@ -138,7 +139,7 @@ class RouteAdmin extends AbstractAdmin
 
         //parse variable pattern and add defaults for tokens - taken from routecompiler
         /** @var $route Route */
-        $route = $this->subject;
+        $route = $this->hasSubject() ? $this->getSubject() : null;
         if ($route && $route->getVariablePattern()) {
             preg_match_all('#\{\w+\}#', $route->getVariablePattern(), $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
             foreach ($matches as $match) {

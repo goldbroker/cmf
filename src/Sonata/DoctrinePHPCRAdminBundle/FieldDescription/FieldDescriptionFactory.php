@@ -28,9 +28,15 @@ class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
             $options['route']['parameters'] = [];
         }
 
+        [$metadata, $propertyName, $parentAssociationMappings] = $this->getParentMetadataForProperty($class, $name);
+
         return new FieldDescription(
             $name,
-            $options
+            $options,
+            $metadata->fieldMappings[$propertyName] ?? [],
+            $metadata->associationMappings[$propertyName] ?? [],
+            $parentAssociationMappings,
+            $propertyName
         );
     }
 

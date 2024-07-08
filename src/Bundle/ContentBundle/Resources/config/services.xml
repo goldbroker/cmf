@@ -14,8 +14,11 @@
             <argument>%cmf_content.default_template%</argument>
         </service>
 
-        <service id="Symfony\Cmf\Bundle\ContentBundle\ViewHandler\FOSRestViewHandlerAdapter" decorates="fos_rest.view_handler" />
-
+        <service id="cmf_content.fos_rest.view_handler" class="Symfony\Cmf\Bundle\ContentBundle\ViewHandler\FOSRestViewHandlerAdapter" decorates="fos_rest.view_handler">
+            <argument type="service" id="cmf_content.fos_rest.view_handler.inner"/>
+            <argument type="service" id="twig"/>
+            <argument type="service" id="request_stack"/>
+        </service>
     </services>
 
 </container>

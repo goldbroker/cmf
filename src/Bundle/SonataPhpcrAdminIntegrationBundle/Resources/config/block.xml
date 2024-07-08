@@ -24,21 +24,16 @@
                     name="sonata.admin"
                     manager_type="doctrine_phpcr"
                     group="dashboard.cmf"
-                    label_catalogue="CmfBlockBundle"
                     label="dashboard.label_simple_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore" />
-            <argument/>
-            <argument>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-
+                    label_translator_strategy="sonata.admin.label.strategy.underscore"
+                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock"
+                    controller="SonataAdminBundle:CRUD" />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
-
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
-
             <call method="setTranslationDomain">
                 <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
@@ -53,21 +48,16 @@
                     name="sonata.admin"
                     manager_type="doctrine_phpcr"
                     group="dashboard.cmf"
-                    label_catalogue="CmfBlockBundle"
                     label="dashboard.label_action_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore" />
-            <argument/>
-            <argument>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-
+                    label_translator_strategy="sonata.admin.label.strategy.underscore"
+                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock"
+                    controller="SonataAdminBundle:CRUD" />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
-
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
-
             <call method="setTranslationDomain">
                 <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
@@ -82,21 +72,16 @@
                     name="sonata.admin"
                     manager_type="doctrine_phpcr"
                     group="dashboard.cmf"
-                    label_catalogue="CmfBlockBundle"
                     label="dashboard.label_container_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore" />
-            <argument/>
-            <argument>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ContainerBlock</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-
+                    label_translator_strategy="sonata.admin.label.strategy.underscore"
+                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ContainerBlock"
+                    controller="SonataAdminBundle:CRUD" />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
-
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
-
             <call method="setTranslationDomain">
                 <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
@@ -111,21 +96,16 @@
                     name="sonata.admin"
                     manager_type="doctrine_phpcr"
                     group="dashboard.cmf"
-                    label_catalogue="CmfBlockBundle"
                     label="dashboard.label_reference_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore" />
-            <argument/>
-            <argument>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-
+                    label_translator_strategy="sonata.admin.label.strategy.underscore"
+                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock"
+                    controller="SonataAdminBundle:CRUD" />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
-
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
-
             <call method="setTranslationDomain">
                 <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
@@ -140,21 +120,16 @@
                     name="sonata.admin"
                     manager_type="doctrine_phpcr"
                     group="dashboard.cmf"
-                    label_catalogue="CmfBlockBundle"
                     label="dashboard.label_string_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore" />
-            <argument/>
-            <argument>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\StringBlock</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-
+                    label_translator_strategy="sonata.admin.label.strategy.underscore"
+                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\StringBlock"
+                    controller="SonataAdminBundle:CRUD" />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
-
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
-
             <call method="setTranslationDomain">
                 <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
@@ -169,25 +144,19 @@
                     name="sonata.admin"
                     manager_type="doctrine_phpcr"
                     group="dashboard.cmf"
-                    label_catalogue="CmfBlockBundle"
                     label="dashboard.label_slideshow_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore" />
-            <argument/>
-            <argument>Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SlideshowBlock</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-
+                    label_translator_strategy="sonata.admin.label.strategy.underscore"
+                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SlideshowBlock"
+                    controller="SonataAdminBundle:CRUD" />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
-
             <call method="setEmbeddedSlidesAdmin">
                 <argument>cmf_block.imagine.imagine_admin</argument>
             </call>
-
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.block.basepath%</argument>
             </call>
-
             <call method="setTranslationDomain">
                 <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>

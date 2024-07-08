@@ -14,6 +14,7 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType;
 
 /**
@@ -63,7 +64,7 @@ class MenuBlockAdmin extends AbstractBlockAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('name', 'doctrine_phpcr_nodename')
+            ->add('name', NodeNameFilter::class)
         ;
     }
 

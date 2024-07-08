@@ -83,7 +83,7 @@ class FormContractor implements FormContractorInterface
             'referrers',
         ];
 
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes, true)) {
+        if (null !== $fieldDescription->getTargetModel() && $metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes, true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }

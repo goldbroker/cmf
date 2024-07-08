@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\StringOperatorType;
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
@@ -22,14 +23,14 @@ class StringFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || null === $data['value']) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        $value = trim((string) $data['value']);
-        $data['type'] = empty($data['type']) ? StringOperatorType::TYPE_CONTAINS : $data['type'];
+        $value = $this->trim((string) ($data->getValue() ?? ''));
+        $type = $data->getType() ?? StringOperatorType::TYPE_CONTAINS;
 
         if ('' === $value) {
             return;
