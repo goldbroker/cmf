@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Cmf\Bundle\CoreBundle\Translatable\TranslatableInterface;
 
 class SonataPHPCRTranslationExtension extends Extension implements ExtensionInterface, CompilerPassInterface
 {
@@ -36,7 +37,7 @@ class SonataPHPCRTranslationExtension extends Extension implements ExtensionInte
             $listOfInterfaces = array_merge(
                 [
                     PHPCRTranslatableInterface::class,
-                    'Symfony\Cmf\Bundle\CoreBundle\Translatable\TranslatableInterface',
+                    TranslatableInterface::class,
                 ],
                 $config['implements']
             );

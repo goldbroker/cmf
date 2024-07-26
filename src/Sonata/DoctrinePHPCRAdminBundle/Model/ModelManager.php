@@ -162,26 +162,6 @@ class ModelManager implements ModelManagerInterface
     {
         return $this->documentManager;
     }
-//
-//    /**
-//     * {@inheritdoc}
-//     *
-//     * @return FieldDescriptionInterface
-//     */
-//    public function getParentFieldDescription($parentAssociationMapping, $class)
-//    {
-//        $fieldName = $parentAssociationMapping['fieldName'];
-//
-//        $metadata = $this->getMetadata($class);
-//
-//        $associatingMapping = $metadata->associationMappings[$parentAssociationMapping];
-//
-//        $fieldDescription = $this->getNewFieldDescriptionInstance($class, $fieldName);
-//        $fieldDescription->setName($parentAssociationMapping);
-//        $fieldDescription->setAssociationMapping($associatingMapping);
-//
-//        return $fieldDescription;
-//    }
 
     /**
      * @param string $class the fully qualified class name to search for

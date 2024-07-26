@@ -51,14 +51,6 @@ class DateFilter extends Filter
                 $where->lt()->field('a.'.$field)->literal($from);
 
                 break;
-//            case DateOperatorType::TYPE_NULL:
-//                $where->eq()->field('a.'.$field)->literal(null);
-//
-//                break;
-//            case DateOperatorType::TYPE_NOT_NULL:
-//                $where->neq()->field('a.'.$field)->literal(null);
-//
-//                break;
             case DateOperatorType::TYPE_EQUAL:
             default:
                 $where->andX()

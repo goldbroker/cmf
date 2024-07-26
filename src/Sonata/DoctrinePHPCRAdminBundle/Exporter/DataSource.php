@@ -10,7 +10,6 @@ class DataSource implements DataSourceInterface
     public function createIterator(ProxyQueryInterface $query, array $fields): \Iterator
     {
         $query->getQueryBuilder()->distinct();
-//        $query->getQueryBuilder()->select(current($query->getQueryBuilder()->getRootAliases()));
         $query->getQueryBuilder()->select($fields);
         $query->setFirstResult(null);
         $query->setMaxResults(null);
