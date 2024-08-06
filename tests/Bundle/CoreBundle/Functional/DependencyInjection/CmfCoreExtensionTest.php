@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Functional\DependencyInjection;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Functional\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Cmf\Bundle\CoreBundle\DependencyInjection\CmfCoreExtension;

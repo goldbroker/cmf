@@ -28,7 +28,7 @@ class NodeNameFilter extends Filter
             return;
         }
 
-        $value = $this->trim((string) ($data->getValue() ?? ''));
+        $value = trim((string) ($data->getValue() ?? ''));
         $type = $data->getType() ?? ContainsOperatorType::TYPE_CONTAINS;
 
 

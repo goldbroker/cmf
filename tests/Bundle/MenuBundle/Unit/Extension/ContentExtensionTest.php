@@ -78,7 +78,7 @@ class ContentExtensionTest extends \PHPUnit\Framework\TestCase
 
         $this->generator->expects($this->once())
                 ->method('generate')
-                ->with('configured_content', ['test' => 'foo'], UrlGeneratorInterface::ABSOLUTE_URL)
+                ->with('cmf_routing_object', ['test' => 'foo', '_route_object' => 'configured_content'], UrlGeneratorInterface::ABSOLUTE_URL)
                 ->willReturn('/generated_uri');
 
         $this->assertEquals(
@@ -105,7 +105,7 @@ class ContentExtensionTest extends \PHPUnit\Framework\TestCase
 
         $this->generator->expects($this->once())
             ->method('generate')
-            ->with('configured_content', [], UrlGeneratorInterface::ABSOLUTE_PATH)
+            ->with('cmf_routing_object', ['_route_object' => 'configured_content'], UrlGeneratorInterface::ABSOLUTE_PATH)
             ->willReturn('/generated_uri');
 
         $this->assertEquals(

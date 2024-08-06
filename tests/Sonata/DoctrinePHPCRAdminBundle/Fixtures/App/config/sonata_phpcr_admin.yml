@@ -18,12 +18,8 @@ sonata_block:
             settings:
                 id: '/test'
             contexts: [admin]
+    http_cache: false
 
 sonata_doctrine_phpcr_admin:
     document_tree:
         routing_defaults: []
-
-sonata_core:
-    form:
-        mapping:
-            enabled: false

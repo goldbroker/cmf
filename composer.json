@@ -27,7 +27,7 @@
         "sonata-project/block-bundle": "^4.0",
         "symfony/config": "^4.4 || ^5.0",
         "symfony/dependency-injection": "^4.4 || ^5.0",
-        "symfony/filesystem": "^4.4 || ^5.0",
+        "symfony/filesystem": "^5.4",
         "symfony/finder": "^4.4 || ^5.0",
         "symfony/form": "^4.4 || ^5.0",
         "symfony/framework-bundle": "^4.4 || ^5.0",
@@ -69,7 +69,11 @@
         "symfony/serializer": "^4.4 || ^5.0",
         "symfony/yaml": "^4.4 || ^5.0",
         "symfony-cmf/testing": "*",
-        "twig/twig": "^1.14.2 || ^2.0"
+        "twig/twig": "^1.14.2 || ^2.0",
+        "dg/bypass-finals": "^1.8",
+        "symfony/polyfill-intl-icu": "^1.21",
+        "doctrine/cache": "^1.12",
+        "sonata-project/twig-extensions": "^1.12"
     },
     "conflict": {
         "jms/serializer-bundle": "<2.3.1",

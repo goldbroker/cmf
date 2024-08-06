@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Unit\Templating\Helper;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Unit\Templating\Helper;
 
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\ODM\PHPCR\UnitOfWork;

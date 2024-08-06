@@ -15,20 +15,21 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 
 class ChoiceFilter extends Filter
 {
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        $values = (array) $data['value'];
-        $type = $data['type'];
+        $values = (array) $data->getValue();
+        $type = $data->getType();
 
         // clean values
         foreach ($values as $key => $value) {

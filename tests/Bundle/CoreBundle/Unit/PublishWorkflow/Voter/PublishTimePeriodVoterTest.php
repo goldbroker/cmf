@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Unit\PublishWorkflow\Voter;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Unit\PublishWorkflow\Voter;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodReadInterface;

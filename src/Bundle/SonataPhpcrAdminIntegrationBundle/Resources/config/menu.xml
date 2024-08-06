@@ -7,10 +7,11 @@
     <services>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.menu.menu_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Menu\MenuAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.menu.menu_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Menu\MenuAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
                 name="sonata.admin"
                 manager_type="doctrine_phpcr"
@@ -18,7 +19,6 @@
                 label="dashboard.label_menu"
                 label_translator_strategy="sonata.admin.label.strategy.underscore"
                 model_class="Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\Menu"
-                controller="SonataAdminBundle:CRUD"
             />
             <call method="setTranslationDomain">
                 <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
@@ -35,10 +35,11 @@
         </service>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.menu.node_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Menu\MenuNodeAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.menu.node_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Menu\MenuNodeAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
                 name="sonata.admin"
                 manager_type="doctrine_phpcr"
@@ -46,7 +47,6 @@
                 label="dashboard.label_menu_node"
                 label_translator_strategy="sonata.admin.label.strategy.underscore"
                 model_class="Symfony\Cmf\Bundle\MenuBundle\Doctrine\Phpcr\MenuNode"
-                controller="SonataAdminBundle:CRUD"
             />
             <call method="setTranslationDomain">
                 <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>

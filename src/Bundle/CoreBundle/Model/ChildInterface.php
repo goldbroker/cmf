@@ -19,13 +19,7 @@ namespace Symfony\Cmf\Bundle\CoreBundle\Model;
  */
 interface ChildInterface
 {
-    /**
-     * @param $parent object
-     */
     public function setParentObject(object $parent);
 
-    /**
-     * @return object
-     */
-    public function getParentObject(): object;
+    public function getParentObject(): ?object;
 }

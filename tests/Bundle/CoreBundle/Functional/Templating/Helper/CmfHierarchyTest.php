@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Functional\Templating\Helper;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Functional\Templating\Helper;
 
 use Doctrine\ODM\PHPCR\Document\Generic;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Cmf\Bundle\CoreBundle\Templating\Helper\Cmf;
-use Symfony\Cmf\Bundle\CoreBundle\Tests\Fixtures\App\DataFixture\LoadHierarchyRouteData;
-use Symfony\Cmf\Bundle\CoreBundle\Tests\Fixtures\App\Document\RouteAware;
+use Tests\Symfony\Cmf\Bundle\CoreBundle\Fixtures\App\DataFixture\LoadHierarchyRouteData;
+use Tests\Symfony\Cmf\Bundle\CoreBundle\Fixtures\App\Document\RouteAware;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 

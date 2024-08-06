@@ -18,6 +18,7 @@ use Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle;
 use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use FOS\RestBundle\FOSRestBundle;
 
 class Kernel extends TestKernel
 {
@@ -35,6 +36,7 @@ class Kernel extends TestKernel
             new CmfRoutingBundle(),
             new CmfMenuBundle(),
             new CmfCoreBundle(),
+            new FOSRestBundle(),
         ]);
     }
 

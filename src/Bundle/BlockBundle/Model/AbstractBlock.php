@@ -217,7 +217,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
      *
      * {@inheritdoc}
      */
-    public function getParentObject(): object
+    public function getParentObject(): ?object
     {
         return $this->parentDocument;
     }

@@ -6,18 +6,19 @@
 
     <services>
         <service
-                id="cmf_sonata_phpcr_admin_integration.block.menu_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\MenuBlockAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.block.menu_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\MenuBlockAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label="dashboard.label_menu_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore"
-                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\MenuBlock"
-                    controller="SonataAdminBundle:CRUD" />
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_menu_block"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\MenuBlock"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>

@@ -13,6 +13,5 @@ use Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle;
 use Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle;
 
 return [
-    CmfRoutingBundle::class => ['phpcr' => true],
-    CmfCoreBundle::class => ['phpcr' => true],
+    CmfRoutingBundle::class => ['all' => true],
 ];

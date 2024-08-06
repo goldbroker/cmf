@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Fixtures\App;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Fixtures\App;
 
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;

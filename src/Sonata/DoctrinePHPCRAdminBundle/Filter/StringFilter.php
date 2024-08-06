@@ -29,7 +29,7 @@ class StringFilter extends Filter
             return;
         }
 
-        $value = $this->trim((string) ($data->getValue() ?? ''));
+        $value = trim((string) ($data->getValue() ?? ''));
         $type = $data->getType() ?? StringOperatorType::TYPE_CONTAINS;
 
         if ('' === $value) {
@@ -39,7 +39,7 @@ class StringFilter extends Filter
         $where = $this->getWhere($proxyQuery);
         $isComparisonLowerCase = $this->getOption('compare_case_insensitive');
         $value = $isComparisonLowerCase ? strtolower($value) : $value;
-        switch ($data['type']) {
+        switch ($type) {
             case StringOperatorType::TYPE_EQUAL:
                 if ($isComparisonLowerCase) {
                     $where->eq()->lowerCase()->field('a.'.$field)->end()->literal($value);

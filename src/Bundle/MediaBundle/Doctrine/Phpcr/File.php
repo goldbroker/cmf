@@ -11,6 +11,7 @@
 
 namespace Symfony\Cmf\Bundle\MediaBundle\Doctrine\Phpcr;
 
+use Doctrine\ODM\PHPCR\Document\AbstractFile;
 use Doctrine\ODM\PHPCR\Document\File as DoctrineOdmFile;
 use Symfony\Cmf\Bundle\MediaBundle\BinaryInterface;
 use Symfony\Cmf\Bundle\MediaBundle\FileInterface;
@@ -69,7 +70,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent): \Doctrine\ODM\PHPCR\Document\AbstractFile
+    public function setParentDocument($parent): AbstractFile
     {
         $this->parent = $parent;
 

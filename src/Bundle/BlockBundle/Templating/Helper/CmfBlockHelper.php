@@ -26,9 +26,9 @@ class CmfBlockHelper extends Helper
 
     private EmbedBlocksParser $parser;
 
-    private LoggerInterface $logger;
+    private ?LoggerInterface $logger;
 
-    public function __construct(SonataBlockHelper $sonataBlock, EmbedBlocksParser $parser, LoggerInterface $logger = null)
+    public function __construct(SonataBlockHelper $sonataBlock, EmbedBlocksParser $parser, ?LoggerInterface $logger = null)
     {
         $this->sonataBlock = $sonataBlock;
         $this->parser = $parser;

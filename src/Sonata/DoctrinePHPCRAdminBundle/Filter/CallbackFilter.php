@@ -15,6 +15,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 
 class CallbackFilter extends BaseFilter
 {
@@ -24,7 +25,7 @@ class CallbackFilter extends BaseFilter
      * @throws \InvalidArgumentException if the filter is not configured with a
      *                                   callable in the 'callback' option field
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
         if (!\is_callable($this->getOption('callback'))) {
             throw new \RuntimeException(sprintf('Please provide a valid callback for option "callback" and field "%s"', $this->getName()));

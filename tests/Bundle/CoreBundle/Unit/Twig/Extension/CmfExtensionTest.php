@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Unit\Twig\Extension;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Unit\Twig\Extension;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -38,6 +38,8 @@ class CmfExtensionTest extends TestCase
     public function setUp(): void
     {
         $this->cmfHelper = $this->createMock(Cmf::class);
+        $this->cmfHelper->method('getChildren')->willReturn([]);
+        $this->cmfHelper->method('findMany')->willReturn([]);
 
         $this->cmfExtension = new CmfExtension($this->cmfHelper);
         $this->env = new Environment(new ArrayLoader([]));
@@ -55,14 +57,15 @@ class CmfExtensionTest extends TestCase
         }
 
         $helperMethodMock = $this->cmfHelper->expects($this->once())->method($helperMethod);
-        if ($helperArguments) {
-            \call_user_func_array([$helperMethodMock, 'with'], $helperArguments);
+        if (!empty($helperArguments)) {
+            $helperMethodMock->with(...$helperArguments);
         }
+//        $helperMethodMock->willReturn([]);
 
-        \call_user_func_array([$this->cmfExtension, $methodName], $methodArguments);
+        $this->cmfExtension->$methodName(...$methodArguments);
     }
 
-    public function getFunctionsData()
+    public function getFunctionsData(): array
     {
         return [
             ['isPublished', ['document1']],

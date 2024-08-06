@@ -32,6 +32,9 @@ functional_tests_block:
 functional_tests_content:
 	@vendor/bin/simple-phpunit --configuration phpunit.xml.dist.content --testsuite "functional tests" tests/Bundle/ContentBundle
 
+functional_tests_core:
+	@vendor/bin/simple-phpunit --configuration phpunit.xml.dist.core --testsuite "functional tests" tests/Bundle/CoreBundle
+
 functional_tests_media:
 	@vendor/bin/simple-phpunit --configuration phpunit.xml.dist.media --testsuite "functional tests" tests/Bundle/MediaBundle
 

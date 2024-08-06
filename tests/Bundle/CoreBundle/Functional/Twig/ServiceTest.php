@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Functional\Twig;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Functional\Twig;
 
 use Symfony\Cmf\Bundle\CoreBundle\Twig\Extension\CmfExtension;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;

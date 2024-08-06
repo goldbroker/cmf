@@ -136,7 +136,7 @@ class Content implements MenuNodeReferrersInterface, RouteReferrersReadInterface
         return $this->name;
     }
 
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         return $this->published;
     }
@@ -146,7 +146,7 @@ class Content implements MenuNodeReferrersInterface, RouteReferrersReadInterface
      *
      * @param bool $publishable
      */
-    public function setPublishable($publishable)
+    public function setPublishable($publishable): void
     {
         $this->published = $publishable;
     }

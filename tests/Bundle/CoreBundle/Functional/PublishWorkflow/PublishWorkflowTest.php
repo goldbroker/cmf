@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Functional\PublishWorkflow;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Functional\PublishWorkflow;
 
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableReadInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishTimePeriodReadInterface;

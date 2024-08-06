@@ -9,14 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Functional\Form;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Functional\Form;
 
 use Symfony\Bridge\Twig\AppVariable;
-use Symfony\Bridge\Twig\Command\DebugCommand;
 use Symfony\Bridge\Twig\Extension\FormExtension;
-use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Cmf\Bundle\CoreBundle\Form\Type\CheckboxUrlLabelFormType;
-use Symfony\Cmf\Bundle\CoreBundle\Tests\Fixtures\App\DataFixture\LoadRouteData;
+use Tests\Symfony\Cmf\Bundle\CoreBundle\Fixtures\App\DataFixture\LoadRouteData;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 use Symfony\Component\Form\FormRenderer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -46,10 +44,7 @@ class CheckboxUrlLabelFormTypeTest extends BaseTestCase
         $this->assertMatchesXpath($template, '//label[@class="checkbox"][contains(.,"/a and /b and http://localhost/hello/world")]');
     }
 
-    /**
-     * @return FormRenderer|TwigRenderer
-     */
-    private function getFormRenderer()
+    private function getFormRenderer(): FormRenderer
     {
         $twig = $this->getContainer()->get('test.service_container')->get('twig');
 
@@ -61,12 +56,6 @@ class CheckboxUrlLabelFormTypeTest extends BaseTestCase
             $renderer->setEnvironment($twig);
 
             return $renderer;
-        }
-        // BC for Symfony < 3.4 where runtime should be TwigRenderer
-        if (!method_exists(DebugCommand::class, 'getLoaderPaths')) {
-            $runtime = $twig->getRuntime(TwigRenderer::class);
-
-            return $runtime;
         }
 
         return $twig->getRuntime(FormRenderer::class);

@@ -16,18 +16,19 @@
         </service>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.block.simple_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\SimpleBlockAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.block.simple_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\SimpleBlockAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label="dashboard.label_simple_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore"
-                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock"
-                    controller="SonataAdminBundle:CRUD" />
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_simple_block"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
@@ -40,18 +41,19 @@
         </service>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.block.action_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\ActionBlockAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.block.action_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\ActionBlockAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label="dashboard.label_action_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore"
-                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock"
-                    controller="SonataAdminBundle:CRUD" />
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_action_block"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ActionBlock"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
@@ -64,18 +66,19 @@
         </service>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.block.container_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\ContainerBlockAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.block.container_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\ContainerBlockAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label="dashboard.label_container_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore"
-                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ContainerBlock"
-                    controller="SonataAdminBundle:CRUD" />
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_container_block"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ContainerBlock"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
@@ -88,18 +91,19 @@
         </service>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.block.reference_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\ReferenceBlockAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.block.reference_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\ReferenceBlockAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label="dashboard.label_reference_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore"
-                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock"
-                    controller="SonataAdminBundle:CRUD" />
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_reference_block"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\ReferenceBlock"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
@@ -112,18 +116,19 @@
         </service>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.block.string_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\StringBlockAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.block.string_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\StringBlockAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label="dashboard.label_string_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore"
-                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\StringBlock"
-                    controller="SonataAdminBundle:CRUD" />
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_string_block"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\StringBlock"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
@@ -136,18 +141,19 @@
         </service>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.block.slideshow_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\SlideshowBlockAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.block.slideshow_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block\SlideshowBlockAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label="dashboard.label_slideshow_block"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore"
-                    model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SlideshowBlock"
-                    controller="SonataAdminBundle:CRUD" />
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_slideshow_block"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SlideshowBlock"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>

@@ -40,4 +40,9 @@ abstract class Filter extends BaseFilter
 
         return $queryBuilder->andWhere();
     }
+
+    public function getFormOptions(): array
+    {
+        return [];
+    }
 }

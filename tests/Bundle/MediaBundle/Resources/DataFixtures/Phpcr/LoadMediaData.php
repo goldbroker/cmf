@@ -16,7 +16,7 @@ class LoadMediaData implements FixtureInterface
     {
         NodeHelper::createPath($manager->getPhpcrSession(), '/test');
 
-        $testDataDir = realpath(__DIR__.'/../../app/Resources/data');
+        $testDataDir = realpath(__DIR__.'/../../../Fixtures/App/Resources/data');
 
         $root = $manager->find(null, '/test');
 
@@ -34,7 +34,7 @@ class LoadMediaData implements FixtureInterface
 
         // File
         $file = new File();
-        $file->setParent($mediaRoot);
+        $file->setParentDocument($mediaRoot);
         $file->setName('file-1.txt');
         $file->setContentFromString('Test file 1.');
         $file->setContentType('text/plain');
@@ -42,13 +42,13 @@ class LoadMediaData implements FixtureInterface
 
         // Image
         $image = new Image();
-        $image->setParent($mediaRoot);
+        $image->setParentDocument($mediaRoot);
         $image->setName('cmf-logo.png');
         $image->setFileContentFromFilesystem($testDataDir.'/cmf-logo.png');
         $manager->persist($image);
 
         $image2 = new Image();
-        $image2->setParent($contentRoot);
+        $image2->setParentDocument($contentRoot);
         $image2->setName('cmf-logo-2.png');
         $image2->setFileContentFromFilesystem($testDataDir.'/cmf-logo.png');
         $manager->persist($image2);

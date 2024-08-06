@@ -28,7 +28,7 @@ class DescriptionExtensionTest extends \PHPUnit\Framework\TestCase
         $extension = new DescriptionExtension(
             $this->descriptionFactory->reveal()
         );
-        $this->twig = new \Twig_Environment(new \Twig_Loader_Array([]));
+        $this->twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader([]));
         $this->twig->addExtension($extension);
         $this->resource = $this->prophesize(CmfResource::class);
         $this->description = $this->prophesize(Description::class);

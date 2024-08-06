@@ -25,8 +25,8 @@ class DirectoryTest extends \PHPUnit\Framework\TestCase
 
         $dir->addChild($subDir);
 
-        $this->assertNull($dir->getParent());
-        $this->assertNull($subDir->getParent());
+        $this->assertNull($dir->getParentDocument());
+        $this->assertNull($subDir->getParentDocument());
         $this->assertCount(1, $dir->getChildren());
         $this->assertCount(0, $subDir->getChildren());
     }

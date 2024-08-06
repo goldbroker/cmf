@@ -138,7 +138,7 @@ class RouteAdmin extends AbstractAdmin
         }
 
         //parse variable pattern and add defaults for tokens - taken from routecompiler
-        /** @var $route Route */
+        /** @var ?Route $route */
         $route = $this->hasSubject() ? $this->getSubject() : null;
         if ($route && $route->getVariablePattern()) {
             preg_match_all('#\{\w+\}#', $route->getVariablePattern(), $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);

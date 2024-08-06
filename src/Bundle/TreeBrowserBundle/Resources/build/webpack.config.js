@@ -29,12 +29,6 @@ module.exports = {
                         use: ['css-loader']
                     })
             },
-            // {
-            //     test : /(assets|Tests).+?\.js$/i,
-            //     use: {
-            //         loader : 'babel-loader', query : {presets : ['es2015']}
-            //     }
-            // },
             {
                 test : /\.(jpe?g|png|gif|svg)$/i,
                 use:  'file-loader?name=../img/[hash].[ext]&context=default'
@@ -45,8 +39,6 @@ module.exports = {
         extensions: ['.js', '.jsx', '.css'],
         modules: ['node_modules'],
         alias : {
-            // jquery : path.join(__dirname, 'node_modules/jquery/dist/jquery.js'),
-            // 'jquery-ui' : path.join(__dirname, 'node_modules/jquery-ui/dist/jquery-ui.js'),
             'jquery.fancytree': path.join(__dirname, 'node_modules/jquery.fancytree/dist'),
             'core-js' : path.join(__dirname, 'node_modules/core-js'),
         },

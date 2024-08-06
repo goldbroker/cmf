@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Unit\PublishWorkflow;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Unit\PublishWorkflow;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableReadInterface;
@@ -98,9 +98,10 @@ class PublishWorkflowCheckerTest extends TestCase
 
     public function testNoFirewall()
     {
-        $this->tokenStorage->shouldReceive('getToken')->andReturnNull();
+        $token = new AnonymousToken('', '');
+        $this->tokenStorage->shouldReceive('getToken')->andReturn($token);
 
-        $this->authorizationChecker->shouldNotReceive('isGranted');
+        $this->authorizationChecker->shouldReceive('isGranted')->once();
 
         $this->accessDecisionManager
             ->shouldReceive('decide')->once()

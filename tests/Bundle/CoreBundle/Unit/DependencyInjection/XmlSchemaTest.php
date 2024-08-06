@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Unit\DependencyInjection;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Unit\DependencyInjection;
 
 use Symfony\Cmf\Component\Testing\Unit\XmlSchemaTestCase;
 
@@ -25,6 +25,6 @@ class XmlSchemaTest extends XmlSchemaTestCase
             'config3.xml',
         ]);
 
-        $this->assertSchemaAcceptsXml($xmlFiles, __DIR__.'/../../../src/Resources/config/schema/core-1.0.xsd');
+        $this->assertSchemaAcceptsXml($xmlFiles, __DIR__.'/../../../../../src/Bundle/CoreBundle/Resources/config/schema/core-1.0.xsd');
     }
 }

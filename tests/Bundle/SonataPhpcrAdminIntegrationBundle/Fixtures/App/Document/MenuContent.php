@@ -136,7 +136,7 @@ class MenuContent implements MenuNodeReferrersInterface, RouteReferrersReadInter
         return $this->name;
     }
 
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         return $this->published;
     }
@@ -146,7 +146,7 @@ class MenuContent implements MenuNodeReferrersInterface, RouteReferrersReadInter
      *
      * @param bool $publishable
      */
-    public function setPublishable($publishable)
+    public function setPublishable($publishable): void
     {
         $this->published = $publishable;
     }

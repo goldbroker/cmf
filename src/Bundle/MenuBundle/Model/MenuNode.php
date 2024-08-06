@@ -91,7 +91,7 @@ class MenuNode extends MenuNodeBase implements
     /**
      * {@inheritdoc}
      */
-    public function getParentObject(): object
+    public function getParentObject(): ?object
     {
         return $this->parent;
     }

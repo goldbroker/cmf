@@ -34,7 +34,7 @@ class ModelToFileChildAwareTransformerTest extends \PHPUnit\Framework\TestCase
 
     public function testTransformPassFileOnly()
     {
-        $transformer = new ModelToFileTransformer($this->uploadFileHelper, []);
+        $transformer = new ModelToFileTransformer($this->uploadFileHelper);
         $file = new \stdClass();
 
         $result = $transformer->transform($file);
@@ -44,7 +44,7 @@ class ModelToFileChildAwareTransformerTest extends \PHPUnit\Framework\TestCase
 
     public function testReverseTransformPassNonUploadFiles()
     {
-        $transformer = new ModelToFileTransformer($this->uploadFileHelper, []);
+        $transformer = new ModelToFileTransformer($this->uploadFileHelper);
         $file = new \stdClass();
 
         $result = $transformer->reverseTransform($file);

@@ -112,10 +112,8 @@ class CmfHelper extends Helper
      * simply use {{ is_granted('VIEW', document) }}
      *
      * @param object $document
-     *
-     * @return bool
      */
-    public function isPublished($document)
+    public function isPublished($document): bool
     {
         return $this->cmf->isPublished($document);
     }

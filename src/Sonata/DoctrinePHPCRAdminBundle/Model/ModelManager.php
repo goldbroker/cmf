@@ -389,58 +389,6 @@ class ModelManager implements ModelManagerInterface
     {
         return $instance;
     }
-//
-//    /**
-//     * {@inheritdoc}
-//     *
-//     * @throws NoSuchPropertyException if the class has no magic setter and
-//     *                                 public property for a field in array
-//     *
-//     * @return object
-//     */
-//    public function modelReverseTransform($class, array $array = [])
-//    {
-//        $instance = $this->getModelInstance($class);
-//        $metadata = $this->getMetadata($class);
-//
-//        $reflClass = $metadata->reflClass;
-//        foreach ($array as $name => $value) {
-//            $reflection_property = false;
-//            // property or association ?
-//            if (\array_key_exists($name, $metadata->fieldMappings)) {
-//                $property = $metadata->fieldMappings[$name]['fieldName'];
-//                $reflection_property = $metadata->reflFields[$name];
-//            } elseif (\array_key_exists($name, $metadata->associationMappings)) {
-//                $property = $metadata->associationMappings[$name]['fieldName'];
-//            } else {
-//                $property = $name;
-//            }
-//
-//            // TODO: use PropertyAccess https://github.com/sonata-project/SonataDoctrinePhpcrAdminBundle/issues/187
-//            $setter = 'set'.$this->camelize($name);
-//
-//            if ($reflClass->hasMethod($setter)) {
-//                if (!$reflClass->getMethod($setter)->isPublic()) {
-//                    throw new NoSuchPropertyException(sprintf('Method "%s()" is not public in class "%s"', $setter, $reflClass->getName()));
-//                }
-//
-//                $instance->$setter($value);
-//            } elseif ($reflClass->hasMethod('__set')) {
-//                // needed to support magic method __set
-//                $instance->$property = $value;
-//            } elseif ($reflClass->hasProperty($property)) {
-//                if (!$reflClass->getProperty($property)->isPublic()) {
-//                    throw new NoSuchPropertyException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "set%s()"?', $property, $reflClass->getName(), ucfirst($property)));
-//                }
-//
-//                $instance->$property = $value;
-//            } elseif ($reflection_property) {
-//                $reflection_property->setValue($instance, $value);
-//            }
-//        }
-//
-//        return $instance;
-//    }
 
     /**
      * {@inheritdoc}

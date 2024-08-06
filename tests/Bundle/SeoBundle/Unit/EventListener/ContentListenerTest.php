@@ -17,7 +17,7 @@ use Symfony\Cmf\Bundle\SeoBundle\SeoPresentationInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class ContentListenerTest extends \PHPUnit\Framework\Testcase
 {
@@ -33,7 +33,7 @@ class ContentListenerTest extends \PHPUnit\Framework\Testcase
     {
         $this->seoPresentation = $this->createMock(SeoPresentationInterface::class);
         $this->request = $this->createMock(Request::class);
-        $this->event = $this->createMock(GetResponseEvent::class);
+        $this->event = $this->createMock(RequestEvent::class);
         $this->listener = new ContentListener($this->seoPresentation, DynamicRouter::CONTENT_KEY);
     }
 

@@ -15,26 +15,27 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Operator\DateOperatorType;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 
 class DateFilter extends Filter
 {
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !isset($data['value'])) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        $data['type'] = $data['type'] ?? DateOperatorType::TYPE_EQUAL;
+        $type = $data->getType() ?? DateOperatorType::TYPE_EQUAL;
 
         $where = $this->getWhere($proxyQuery);
 
-        $from = $data['value'];
+        $from = $data->getValue();
         $to = new \DateTime($from->format('Y-m-d').' +86399 seconds'); // 23 hours 59 minutes 59 seconds
 
-        switch ($data['type']) {
+        switch ($type) {
             case DateOperatorType::TYPE_GREATER_EQUAL:
                 $where->gte()->field('a.'.$field)->literal($from);
 

@@ -15,22 +15,23 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 
 class NumberFilter extends Filter
 {
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || !is_numeric($data['value'])) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        $type = $data['type'] ?? false;
+        $type = $data->getType();
         $where = $this->getWhere($proxyQuery);
 
-        $value = $data['value'];
+        $value = $data->getValue();
 
         switch ($type) {
             case NumberOperatorType::TYPE_GREATER_EQUAL:

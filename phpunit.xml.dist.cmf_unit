@@ -2,7 +2,7 @@
 
 <phpunit
     colors="true"
-    bootstrap="vendor/symfony-cmf/testing/bootstrap/bootstrap.php"
+    bootstrap="tests/cmf_bootstrap.php"
 >
     <testsuites>
         <testsuite name="unit tests">

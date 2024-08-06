@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Bundle\CoreBundle\Tests\Unit\Form;
+namespace Tests\Symfony\Cmf\Bundle\CoreBundle\Unit\Form;
 
 use Symfony\Cmf\Bundle\CoreBundle\Form\Type\CheckboxUrlLabelFormType;
 use Symfony\Component\Form\PreloadedExtension;
