@@ -12,6 +12,7 @@
 namespace Symfony\Cmf\Bundle\ContentBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Knp\Menu\NodeInterface;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
@@ -44,40 +45,25 @@ class StaticContent extends StaticContentBase implements
     PublishableInterface,
     TranslatableInterface
 {
-    /**
-     * @var bool whether this content is publishable
-     */
-    protected $publishable = true;
+    protected bool $publishable = true;
+    protected ?\DateTime $publishStartDate = null;
+    protected ?\DateTime $publishEndDate = null;
+    protected ?string $locale = null;
 
     /**
-     * @var \DateTime|null publication start time
+     * @var Collection<RouteObjectInterface>
      */
-    protected $publishStartDate;
+    protected ?Collection $routes = null;
 
     /**
-     * @var \DateTime|null publication end time
+     * @var Collection<MenuNode>
      */
-    protected $publishEndDate;
-
-    /**
-     * @var string
-     */
-    protected $locale;
-
-    /**
-     * @var RouteObjectInterface[]
-     */
-    protected $routes;
-
-    /**
-     * @var MenuNode[]
-     */
-    protected $menuNodes;
+    protected ?Collection $menuNodes = null;
 
     /**
      * @var string[]
      */
-    protected $tags = [];
+    protected array $tags = [];
 
     /**
      * Hashmap for application data associated to this document. Both keys and
@@ -85,15 +71,13 @@ class StaticContent extends StaticContentBase implements
      *
      * @var array
      */
-    protected $extras = [];
+    protected array $extras = [];
 
     /**
      * This will usually be a ContainerBlock but can be any block that will be
      * rendered in the additionalInfoBlock area.
-     *
-     * @var \Sonata\BlockBundle\Model\BlockInterface
      */
-    protected $additionalInfoBlock;
+    protected ?BlockInterface $additionalInfoBlock = null;
 
     public function __construct()
     {
@@ -104,7 +88,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
@@ -112,7 +96,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function setLocale($locale)
+    public function setLocale(?string $locale): void
     {
         $this->locale = $locale;
     }
@@ -122,7 +106,7 @@ class StaticContent extends StaticContentBase implements
      *
      * @return string[]
      */
-    public function getTags()
+    public function getTags(): array
     {
         return $this->tags;
     }
@@ -132,15 +116,12 @@ class StaticContent extends StaticContentBase implements
      *
      * @param string[] $tags
      */
-    public function setTags($tags)
+    public function setTags(array $tags): void
     {
         $this->tags = $tags;
     }
 
-    /**
-     * @return BlockInterface
-     */
-    public function getAdditionalInfoBlock()
+    public function getAdditionalInfoBlock(): ?BlockInterface
     {
         return $this->additionalInfoBlock;
     }
@@ -152,7 +133,7 @@ class StaticContent extends StaticContentBase implements
      * @param BlockInterface $block must be persistable through cascade by the
      *                              persistence layer
      */
-    public function setAdditionalInfoBlock($block)
+    public function setAdditionalInfoBlock(BlockInterface $block): void
     {
         $this->additionalInfoBlock = $block;
     }
@@ -160,15 +141,15 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function setPublishable($publishable)
+    public function setPublishable(bool $publishable): void
     {
-        return $this->publishable = (bool) $publishable;
+        $this->publishable = $publishable;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         return $this->publishable;
     }
@@ -176,7 +157,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function getPublishStartDate()
+    public function getPublishStartDate(): ?\DateTime
     {
         return $this->publishStartDate;
     }
@@ -192,7 +173,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function getPublishEndDate()
+    public function getPublishEndDate(): ?\DateTime
     {
         return $this->publishEndDate;
     }
@@ -210,32 +191,25 @@ class StaticContent extends StaticContentBase implements
      *
      * @return array
      */
-    public function getExtras()
+    public function getExtras(): array
     {
         return $this->extras;
     }
 
     /**
      * Get a single application information value.
-     *
-     * @param string      $name
-     * @param string|null $default
-     *
-     * @return string|null the value at $name if set, null otherwise
      */
-    public function getExtra($name, $default = null)
+    public function getExtra(string $name, ?string $default = null): ?string
     {
-        return isset($this->extras[$name]) ? $this->extras[$name] : $default;
+        return $this->extras[$name] ?? $default;
     }
 
     /**
      * Set the application information.
      *
-     * @param array $extras
-     *
      * @return StaticContent - this instance
      */
-    public function setExtras(array $extras)
+    public function setExtras(array $extras): StaticContent
     {
         $this->extras = $extras;
 
@@ -250,7 +224,7 @@ class StaticContent extends StaticContentBase implements
      *
      * @return StaticContent - this instance
      */
-    public function setExtra($name, $value)
+    public function setExtra(string $name, ?string $value = null): StaticContent
     {
         if (is_null($value)) {
             unset($this->extras[$name]);
@@ -264,7 +238,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function addRoute($route)
+    public function addRoute($route): void
     {
         $this->routes->add($route);
     }
@@ -272,7 +246,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function removeRoute($route)
+    public function removeRoute($route): void
     {
         $this->routes->removeElement($route);
     }
@@ -280,7 +254,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function getRoutes()
+    public function getRoutes(): ?iterable
     {
         return $this->routes;
     }
@@ -304,7 +278,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function getMenuNodes()
+    public function getMenuNodes(): ?iterable
     {
         return $this->menuNodes;
     }

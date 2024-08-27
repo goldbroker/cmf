@@ -17,7 +17,7 @@ use PHPCR\Util\PathHelper;
 use PHPCR\Util\UUIDHelper;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 /**
  * Extend the Admin class to incorporate phpcr changes.
@@ -26,7 +26,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
  *
  * @author Uwe Jäger <uwej711@googlemail.com>
  */
-class Admin extends AbstractAdmin
+abstract class Admin extends AbstractAdmin
 {
     /**
      * Path to the root node in the repository under which documents of this
@@ -52,6 +52,27 @@ class Admin extends AbstractAdmin
         return $this->rootPath;
     }
 
+    protected function configure(): void
+    {
+        /**
+         * Get subject.
+         *
+         * Overridden to allow a broader set of valid characters in the ID, and
+         * if the ID is not a UUID, to call absolutizePath on the ID.
+         */
+        if (!$this->hasSubject() && $this->hasRequest() && $this->getRequest()) {
+            $id = $this->getRequest()->get($this->getIdParameter());
+            if (null === $id || !preg_match('#^[0-9A-Za-z/\-_]+$#', $id)) {
+                $this->subject = false;
+            } else {
+                if (!UUIDHelper::isUUID($id)) {
+                    $id = PathHelper::absolutizePath($id, '/');
+                }
+                $this->setSubject($this->getObject($id));
+            }
+        }
+    }
+
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query->setRootPath($this->getRootPath());
@@ -64,40 +85,15 @@ class Admin extends AbstractAdmin
      *
      * @return string
      */
-    public function id($object)
+    public function id($object): ?string
     {
         return $this->getUrlsafeIdentifier($object);
     }
 
     /**
-     * Get subject.
-     *
-     * Overridden to allow a broader set of valid characters in the ID, and
-     * if the ID is not a UUID, to call absolutizePath on the ID.
-     *
-     * @return mixed
-     */
-    public function getSubject()
-    {
-        if (null === $this->subject && $this->request) {
-            $id = $this->request->get($this->getIdParameter());
-            if (null === $id || !preg_match('#^[0-9A-Za-z/\-_]+$#', $id)) {
-                $this->subject = false;
-            } else {
-                if (!UUIDHelper::isUUID($id)) {
-                    $id = PathHelper::absolutizePath($id, '/');
-                }
-                $this->subject = $this->getObject($id);
-            }
-        }
-
-        return $this->subject;
-    }
-
-    /**
      * {@inheritdoc}
      */
-    public function toString($object)
+    public function toString($object): string
     {
         if (!\is_object($object)) {
             return parent::toString($object);
@@ -106,7 +102,7 @@ class Admin extends AbstractAdmin
         if (method_exists($object, '__toString') && null !== $object->__toString()) {
             $string = (string) $object;
 
-            return '' !== $string ? $string : $this->trans('link_add', [], 'SonataAdminBundle');
+            return '' !== $string ? $string : $this->getTranslator()->trans('link_add', [], 'SonataAdminBundle');
         }
 
         $dm = $this->getModelManager()->getDocumentManager();
@@ -117,7 +113,7 @@ class Admin extends AbstractAdmin
         return parent::toString($object);
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         foreach (['edit', 'create', 'delete'] as $name) {
             if ($collection->has($name)) {

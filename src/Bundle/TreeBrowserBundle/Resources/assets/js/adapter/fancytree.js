@@ -9,9 +9,9 @@
 
 import Map from 'core-js/es6/map'
 import '../jquery.cmf_context_menu'
-import 'fancytree/src/jquery.fancytree.js'
-import 'fancytree/src/jquery.fancytree.dnd.js'
-import 'fancytree/skin-win8/ui.fancytree.css'
+import 'jquery.fancytree/modules/jquery.fancytree.js'
+import 'jquery.fancytree/modules/jquery.fancytree.dnd.js'
+import 'jquery.fancytree/skin-win8/ui.fancytree.min.css'
 import '../../css/fontawesome-style.css'
 
 var cache = new Map();
@@ -354,7 +354,7 @@ export class FancytreeAdapter {
             });
         }
 
-        this.tree = this.$tree.fancytree('getTree');
+        this.tree = $.ui.fancytree.getTree(this.$tree);
 
         this.tree.getNodeByRefPath = function (refPath) {
             return this.findFirst((node) => {

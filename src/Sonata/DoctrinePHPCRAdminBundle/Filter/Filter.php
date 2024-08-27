@@ -13,21 +13,19 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Filter\Filter as BaseFilter;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\DoctrinePHPCRAdminBundle\Datagrid\ProxyQuery;
 
 abstract class Filter extends BaseFilter
 {
     protected bool $active = false;
 
-    /**
-     * @param ProxyQuery $queryBuilder
-     * @param mixed      $value
-     */
-    public function apply($queryBuilder, $value)
+    public function apply(ProxyQueryInterface $query, FilterData $filterData): void
     {
-        $this->value = $value;
-        $this->filter($queryBuilder, $queryBuilder->getAlias(), $this->getFieldName(), $value);
+        $this->value = $filterData;
+        $this->filter($query, $query->getAlias(), $this->getFieldName(), $filterData);
     }
 
     /**
@@ -41,5 +39,10 @@ abstract class Filter extends BaseFilter
         }
 
         return $queryBuilder->andWhere();
+    }
+
+    public function getFormOptions(): array
+    {
+        return [];
     }
 }

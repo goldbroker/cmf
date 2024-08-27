@@ -35,7 +35,6 @@ cmf_routing:
             router.default: 100
 
 twig:
-    exception_controller: cmf_seo.error.suggestion_provider.controller:listAction
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
 
@@ -60,11 +59,7 @@ services:
         public: true
         class: Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Admin\SeoAwareContentAdmin
         tags:
-            - { name: sonata.admin, manager_type: doctrine_phpcr, label_catalogue: CmfSeoBundle, group: dashboard.cmf, label: dashboard.label_seo_content, label_translator_strategy: sonata.admin.label.strategy.underscore}
-        arguments:
-            - ~
-            - Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Document\SeoAwareContent
-            - SonataAdminBundle:CRUD
+            - { name: sonata.admin, manager_type: doctrine_phpcr, group: dashboard.cmf, label: dashboard.label_seo_content, label_translator_strategy: sonata.admin.label.strategy.underscore, model_class: Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Document\SeoAwareContent}
         calls:
             - [ setTranslationDomain, [CmfSonataPhpcrAdminIntegrationBundle]]
             - [ setRouteBuilder, ['@sonata.admin.route.path_info_slashes']]
@@ -73,11 +68,7 @@ services:
          public: true
          class: Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Admin\CoreExtensionsAdmin
          tags:
-           - { name: sonata.admin, manager_type: doctrine_phpcr, label_catalogue: CmfSeoBundle, group: dashboard.cmf, label: dashboard.label_seo_content, label_translator_strategy: sonata.admin.label.strategy.underscore}
-         arguments:
-            - ~
-            - Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Document\CoreExtensionsAwareContent
-            - SonataAdminBundle:CRUD
+           - { name: sonata.admin, manager_type: doctrine_phpcr, group: dashboard.cmf, label: dashboard.label_seo_content, label_translator_strategy: sonata.admin.label.strategy.underscore, model_class: Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Document\CoreExtensionsAwareContent}
          calls:
             - [ setTranslationDomain, [CmfSonataPhpcrAdminIntegrationBundle]]
             - [ setRouteBuilder, ['@sonata.admin.route.path_info_slashes']]
@@ -87,11 +78,7 @@ services:
         public: true
         class: Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Admin\MenuContentAdmin
         tags:
-            - { name: sonata.admin, manager_type: doctrine_phpcr, group: Test, label: Test Content }
-        arguments:
-            - ~
-            - Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Document\MenuContent
-            - SonataAdminBundle:CRUD
+            - { name: sonata.admin, manager_type: doctrine_phpcr, group: Test, label: Test Content, model_class: Tests\Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Fixtures\App\Document\MenuContent }
 
 sonata_admin:
     extensions:

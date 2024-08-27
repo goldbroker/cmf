@@ -14,13 +14,11 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Builder;
 
 use Doctrine\ODM\PHPCR\Mapping\ClassMetadata;
-use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Builder\FormContractorInterface;
 use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\DoctrinePHPCRAdminBundle\Form\Type\TreeModelType;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,8 +43,10 @@ class FormContractor implements FormContractorInterface
      *
      * @throws \RuntimeException if the $fieldDescription does not specify a type
      */
-    public function fixFieldDescription(AdminInterface $admin, FieldDescriptionInterface $fieldDescription)
+    public function fixFieldDescription(FieldDescriptionInterface $fieldDescription): void
     {
+        $admin = $fieldDescription->getAdmin();
+
         $metadata = null;
         if ($admin->getModelManager()->hasMetadata($admin->getClass())) {
             /** @var ClassMetadata $metadata */
@@ -83,7 +83,7 @@ class FormContractor implements FormContractorInterface
             'referrers',
         ];
 
-        if ($metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes, true)) {
+        if (null !== $fieldDescription->getTargetModel() && $metadata && $metadata->hasAssociation($fieldDescription->getName()) && \in_array($fieldDescription->getMappingType(), $mappingTypes, true)) {
             $admin->attachAdminClass($fieldDescription);
         }
     }
@@ -112,16 +112,18 @@ class FormContractor implements FormContractorInterface
     /**
      * {@inheritdoc}
      *
+     * @param string|null $type
+     * @param FieldDescriptionInterface $fieldDescription
+     * @param array $formOptions
      * @throws \LogicException if a sonata_type_model field does not have a
      *                         target model configured
      */
-    public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription): array
+    public function getDefaultOptions($type, FieldDescriptionInterface $fieldDescription, array $formOptions = []): array
     {
         $options = [];
         $options['sonata_field_description'] = $fieldDescription;
 
         switch ($type) {
-            case TreeModelType::class:
             case 'doctrine_phpcr_odm_tree':
                 $options['class'] = $fieldDescription->getTargetEntity();
                 $options['model_manager'] = $fieldDescription->getAdmin()->getModelManager();

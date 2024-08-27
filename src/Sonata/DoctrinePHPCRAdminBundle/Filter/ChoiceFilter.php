@@ -14,21 +14,22 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 
 class ChoiceFilter extends Filter
 {
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        $values = (array) $data['value'];
-        $type = $data['type'];
+        $values = (array) $data->getValue();
+        $type = $data->getType();
 
         // clean values
         foreach ($values as $key => $value) {
@@ -48,11 +49,11 @@ class ChoiceFilter extends Filter
         $andX = $this->getWhere($proxyQuery)->andX();
 
         foreach ($values as $value) {
-            if (ChoiceType::TYPE_NOT_CONTAINS === $type) {
+            if (ContainsOperatorType::TYPE_NOT_CONTAINS === $type) {
                 $andX->not()->like()->field('a.'.$field)->literal('%'.$value.'%');
-            } elseif (ChoiceType::TYPE_CONTAINS === $type) {
+            } elseif (ContainsOperatorType::TYPE_CONTAINS === $type) {
                 $andX->like()->field('a.'.$field)->literal('%'.$value.'%');
-            } elseif (ChoiceType::TYPE_EQUAL === $type) {
+            } elseif (ContainsOperatorType::TYPE_EQUAL === $type) {
                 $andX->like()->field('a.'.$field)->literal($value);
             }
         }
@@ -64,7 +65,7 @@ class ChoiceFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [];
     }
@@ -72,7 +73,7 @@ class ChoiceFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['sonata_type_filter_default', [
             'operator_type' => 'sonata_type_equal',

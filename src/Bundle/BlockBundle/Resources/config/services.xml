@@ -44,12 +44,6 @@
             <argument>@CmfBlock/Block/block_slideshow.html.twig</argument>
         </service>
 
-        <service id="cmf.block.rss_controller" class="Symfony\Cmf\Bundle\BlockBundle\Controller\RssController" >
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
-        </service>
-
         <service id="cmf_block.twig.embed_extension" class="Symfony\Cmf\Bundle\BlockBundle\Twig\Extension\CmfBlockExtension">
             <argument type="service" id="cmf_block.templating.helper.block"/>
             <tag name="twig.extension"/>

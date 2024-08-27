@@ -42,7 +42,7 @@ class SlideshowBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         parent::configureListFields($list);
         $list
@@ -54,15 +54,15 @@ class SlideshowBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        if (null === $this->getParentFieldDescription()) {
-            parent::configureFormFields($formMapper);
+        if (!$this->hasParentFieldDescription()) {
+            parent::configureFormFields($form);
         }
 
-        $formMapper
+        $form
             ->tab('form.tab_general')
-                ->with('form.group_block', null === $this->getParentFieldDescription()
+                ->with('form.group_block', !$this->hasParentFieldDescription()
                     ? ['class' => 'col-md-9']
                     : []
                 )
@@ -83,7 +83,7 @@ class SlideshowBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    public function prePersist($slideshow)
+    public function prePersist($slideshow): void
     {
         foreach ($slideshow->getChildren() as $child) {
             $child->setName($this->generateName());
@@ -93,7 +93,7 @@ class SlideshowBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    public function preUpdate($slideshow)
+    public function preUpdate($slideshow): void
     {
         foreach ($slideshow->getChildren() as $child) {
             if (!$this->getModelManager()->getNormalizedIdentifier($child)) {
@@ -114,7 +114,7 @@ class SlideshowBlockAdmin extends AbstractBlockAdmin
         return 'child_'.time().'_'.rand();
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof SlideshowBlock && $object->getTitle()
             ? $object->getTitle()

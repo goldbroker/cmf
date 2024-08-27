@@ -25,23 +25,23 @@ class TestContentAdmin extends Admin
 
     protected $baseRoutePattern = '/cmf/menu-test/content';
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list)
     {
-        $listMapper
+        $list
             ->addIdentifier('id', 'text')
             ->add('title', 'text')
         ;
 
-        $listMapper
+        $list
             ->add('locales', 'choice', [
                 'template' => 'SonataDoctrinePHPCRAdminBundle:CRUD:locales.html.twig',
             ])
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form)
     {
-        $formMapper
+        $form
             ->with('form.group_general')
                 ->add('title', 'text')
             ->end()

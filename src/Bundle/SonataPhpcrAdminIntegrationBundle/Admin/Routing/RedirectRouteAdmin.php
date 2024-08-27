@@ -14,6 +14,7 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
 use Symfony\Cmf\Bundle\RoutingBundle\Model\Route;
 use Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\AbstractAdmin;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType;
@@ -21,16 +22,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RedirectRouteAdmin extends AbstractAdmin
 {
-    protected $translationDomain = 'CmfSonataPhpcrAdminIntegrationBundle';
-
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper->addIdentifier('path', 'text');
+        $list->addIdentifier('path', 'text');
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('form.group_location', ['class' => 'col-md-3'])
                 ->add(
                     'parentDocument',
@@ -50,25 +49,25 @@ class RedirectRouteAdmin extends AbstractAdmin
                 )
             ->end()
         ;
-        $this->addTransformerToField($formMapper->getFormBuilder(), 'parentDocument');
-        $this->addTransformerToField($formMapper->getFormBuilder(), 'routeTarget');
+        $this->addTransformerToField($form->getFormBuilder(), 'parentDocument');
+        $this->addTransformerToField($form->getFormBuilder(), 'routeTarget');
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
-        $datagridMapper->add('name', 'doctrine_phpcr_nodename');
+        $datagridMapper->add('name', NodeNameFilter::class);
     }
 
-    public function getExportFormats()
+    public function getExportFormats(): array
     {
         return [];
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof Route && $object->getId()
             ? $object->getId()
-            : $this->trans('link_add', [], 'SonataAdminBundle')
+            : $this->getTranslator()->trans('link_add', [], 'SonataAdminBundle')
         ;
     }
 }

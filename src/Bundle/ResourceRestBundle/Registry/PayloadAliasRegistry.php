@@ -47,10 +47,8 @@ class PayloadAliasRegistry
 
     /**
      * Return the alias for the given PHPCR resource.
-     *
-     * @return string
      */
-    public function getPayloadAlias(PuliResource $resource)
+    public function getPayloadAlias(PuliResource $resource): ?string
     {
         $repositoryType = $this->repositoryRegistry->getRepositoryType(
             $resource->getRepository()
@@ -62,15 +60,15 @@ class PayloadAliasRegistry
         }
 
         if (null === $type) {
-            return;
+            return null;
         }
 
         if (!isset($this->aliasesByRepository[$repositoryType])) {
-            return;
+            return null;
         }
 
         if (!isset($this->aliasesByRepository[$repositoryType][$type])) {
-            return;
+            return null;
         }
 
         return $this->aliasesByRepository[$repositoryType][$type];

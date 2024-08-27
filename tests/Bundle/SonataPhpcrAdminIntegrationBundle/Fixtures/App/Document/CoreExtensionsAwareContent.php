@@ -39,7 +39,7 @@ class CoreExtensionsAwareContent extends ContentBase implements PublishableInter
     /**
      * {@inheritdoc}
      */
-    public function getPublishStartDate()
+    public function getPublishStartDate(): ?\DateTime
     {
         // TODO: Implement getPublishStartDate() method.
     }
@@ -47,7 +47,7 @@ class CoreExtensionsAwareContent extends ContentBase implements PublishableInter
     /**
      * {@inheritdoc}
      */
-    public function getPublishEndDate()
+    public function getPublishEndDate(): ?\DateTime
     {
         // TODO: Implement getPublishEndDate() method.
     }
@@ -55,7 +55,7 @@ class CoreExtensionsAwareContent extends ContentBase implements PublishableInter
     /**
      * {@inheritdoc}
      */
-    public function setPublishable($publishable)
+    public function setPublishable($publishable): void
     {
         // TODO: Implement setPublishable() method.
     }
@@ -63,7 +63,7 @@ class CoreExtensionsAwareContent extends ContentBase implements PublishableInter
     /**
      * {@inheritdoc}
      */
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         // TODO: Implement isPublishable() method.
     }

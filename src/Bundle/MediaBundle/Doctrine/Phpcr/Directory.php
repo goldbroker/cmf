@@ -12,6 +12,7 @@
 namespace Symfony\Cmf\Bundle\MediaBundle\Doctrine\Phpcr;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ODM\PHPCR\Document\AbstractFile;
 use Doctrine\ODM\PHPCR\Document\Folder;
 use Symfony\Cmf\Bundle\MediaBundle\DirectoryInterface;
 
@@ -61,7 +62,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent)
+    public function setParentDocument($parent): AbstractFile
     {
         $this->parent = $parent;
 

@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\AdminBundle\Filter\Model\FilterData;
+use Sonata\AdminBundle\Form\Type\Operator\StringOperatorType;
 use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
 class StringFilter extends Filter
@@ -21,14 +23,14 @@ class StringFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data) || null === $data['value']) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        $value = trim((string) $data['value']);
-        $data['type'] = empty($data['type']) ? ChoiceType::TYPE_CONTAINS : $data['type'];
+        $value = trim((string) ($data->getValue() ?? ''));
+        $type = $data->getType() ?? StringOperatorType::TYPE_CONTAINS;
 
         if ('' === $value) {
             return;
@@ -37,8 +39,8 @@ class StringFilter extends Filter
         $where = $this->getWhere($proxyQuery);
         $isComparisonLowerCase = $this->getOption('compare_case_insensitive');
         $value = $isComparisonLowerCase ? strtolower($value) : $value;
-        switch ($data['type']) {
-            case ChoiceType::TYPE_EQUAL:
+        switch ($type) {
+            case StringOperatorType::TYPE_EQUAL:
                 if ($isComparisonLowerCase) {
                     $where->eq()->lowerCase()->field('a.'.$field)->end()->literal($value);
                 } else {
@@ -46,11 +48,11 @@ class StringFilter extends Filter
                 }
 
                 break;
-            case ChoiceType::TYPE_NOT_CONTAINS:
+            case StringOperatorType::TYPE_NOT_CONTAINS:
                 $where->fullTextSearch('a.'.$field, '* -'.$value);
 
                 break;
-            case ChoiceType::TYPE_CONTAINS:
+            case StringOperatorType::TYPE_CONTAINS:
                 if ($isComparisonLowerCase) {
                     $where->like()->lowerCase()->field('a.'.$field)->end()->literal('%'.$value.'%');
                 } else {
@@ -58,7 +60,6 @@ class StringFilter extends Filter
                 }
 
                 break;
-            case ChoiceType::TYPE_CONTAINS_WORDS:
             default:
                 $where->fullTextSearch('a.'.$field, $value);
         }
@@ -70,7 +71,7 @@ class StringFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [
             'format' => '%%%s%%',
@@ -81,7 +82,7 @@ class StringFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', [
             'field_type' => $this->getFieldType(),

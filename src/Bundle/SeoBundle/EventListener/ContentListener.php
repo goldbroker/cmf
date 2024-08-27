@@ -15,7 +15,7 @@ use Symfony\Cmf\Bundle\SeoBundle\AlternateLocaleProviderInterface;
 use Symfony\Cmf\Bundle\SeoBundle\SeoPresentationInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
  * This listener takes care of content implementing the SeoAwareInterface.
@@ -52,10 +52,7 @@ class ContentListener
         $this->requestKey = $requestKey;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         if ($event->getRequest()->attributes->has($this->requestKey)) {
             $content = $event->getRequest()->attributes->get($this->requestKey);

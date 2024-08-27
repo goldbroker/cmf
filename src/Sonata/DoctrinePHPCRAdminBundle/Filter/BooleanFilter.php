@@ -16,24 +16,27 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrinePHPCRAdminBundle\Filter\Filter as BaseFilter;
 use Sonata\Form\Type\BooleanType;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 
 class BooleanFilter extends BaseFilter
 {
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('type', $data) || !\array_key_exists('value', $data)) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        if (\is_array($data['value']) || !\in_array($data['value'], [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
+        $value = $data->getValue();
+
+        if (\is_array($value) || !\in_array($value, [BooleanType::TYPE_NO, BooleanType::TYPE_YES], true)) {
             return;
         }
 
         $where = $this->getWhere($proxyQuery);
-        $where->eq()->field('a.'.$field)->literal(BooleanType::TYPE_YES === $data['value'] ? true : false);
+        $where->eq()->field('a.'.$field)->literal(BooleanType::TYPE_YES === $value ? true : false);
 
         // filter is active as we have now modified the query
         $this->active = true;
@@ -42,7 +45,7 @@ class BooleanFilter extends BaseFilter
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [];
     }
@@ -50,7 +53,7 @@ class BooleanFilter extends BaseFilter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['sonata_type_filter_default', [
             'field_type' => $this->getFieldType(),

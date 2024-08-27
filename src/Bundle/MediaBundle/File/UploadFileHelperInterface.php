@@ -21,27 +21,20 @@ interface UploadFileHelperInterface
 {
     /**
      * Allow non-uploaded files to validate for testing purposes.
-     *
-     * @param bool $boolean
      */
-    public function setAllowNonUploadedFiles($boolean);
+    public function setAllowNonUploadedFiles(bool $boolean);
 
     /**
      * Add an editor helper.
-     *
-     * @param string                      $name
-     * @param UploadEditorHelperInterface $helper
      */
-    public function addEditorHelper($name, UploadEditorHelperInterface $helper);
+    public function addEditorHelper(string $name, UploadEditorHelperInterface $helper);
 
     /**
      * Get helper.
      *
-     * @param string $name leave null to get the default helper
-     *
-     * @return UploadEditorHelperInterface|null
+     * @param null|string $name leave null to get the default helper
      */
-    public function getEditorHelper($name = null);
+    public function getEditorHelper(?string $name = null): ?UploadEditorHelperInterface;
 
     /**
      * Handle the UploadedFile and create a FileInterface object.
@@ -51,13 +44,13 @@ interface UploadFileHelperInterface
      * class, e.g. through configuration.
      *
      * @param UploadedFile $uploadedFile
-     * @param string       $class        optional class name for the file class to generate
+     * @param string|null $class        optional class name for the file class to generate
      *
      * @return FileInterface
      *
      * @internal param Request $request
      */
-    public function handleUploadedFile(UploadedFile $uploadedFile, $class = null);
+    public function handleUploadedFile(UploadedFile $uploadedFile, ?string $class = null): FileInterface;
 
     /**
      * Process upload and get a response.
@@ -68,5 +61,5 @@ interface UploadFileHelperInterface
      *
      * @return Response
      */
-    public function getUploadResponse(Request $request, array $uploadedFiles = []);
+    public function getUploadResponse(Request $request, array $uploadedFiles = []): Response;
 }

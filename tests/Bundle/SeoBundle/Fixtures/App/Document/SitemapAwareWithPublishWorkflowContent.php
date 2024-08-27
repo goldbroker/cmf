@@ -90,15 +90,15 @@ class SitemapAwareWithPublishWorkflowContent extends ContentBase implements Publ
     /**
      * {@inheritdoc}
      */
-    public function setPublishable($publishable)
+    public function setPublishable($publishable): void
     {
-        return $this->publishable = (bool) $publishable;
+        $this->publishable = (bool) $publishable;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isPublishable()
+    public function isPublishable(): bool
     {
         return $this->publishable;
     }
@@ -106,7 +106,7 @@ class SitemapAwareWithPublishWorkflowContent extends ContentBase implements Publ
     /**
      * {@inheritdoc}
      */
-    public function getPublishStartDate()
+    public function getPublishStartDate(): ?\DateTime
     {
         return $this->publishStartDate;
     }
@@ -124,7 +124,7 @@ class SitemapAwareWithPublishWorkflowContent extends ContentBase implements Publ
     /**
      * {@inheritdoc}
      */
-    public function getPublishEndDate()
+    public function getPublishEndDate(): ?\DateTime
     {
         return $this->publishEndDate;
     }

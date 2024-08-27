@@ -28,6 +28,7 @@ class ContentAdminTest extends BaseTestCase
     {
         $crawler = $this->client->request('GET', '/admin/fixtures/app/content/list');
         $res = $this->client->getResponse();
+        file_put_contents('/test.log', $res);
 
         $this->assertResponseSuccess($res);
         static::assertCount(1, $crawler->filter('html:contains("Content 1")'));

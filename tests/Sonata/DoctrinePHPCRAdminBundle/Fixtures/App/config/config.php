@@ -24,12 +24,6 @@ $container->loadFromExtension('framework', [
     'assets' => null,
 ]);
 
-if (version_compare(Kernel::VERSION, '4.2', '<')) {
-    $container->loadFromExtension('framework', [
-        'fragments' => ['enabled' => true],
-    ]);
-}
-
 $phpcrCompilerClass = 'Doctrine\Bundle\PHPCRBundle\DependencyInjection\Compiler\DoctrinePhpcrMappingsPass';
 if (class_exists($phpcrCompilerClass)) {
     $container->addCompilerPass(

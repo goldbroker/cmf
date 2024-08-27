@@ -19,19 +19,17 @@ class ChildExtensionTest extends \PHPUnit\Framework\TestCase
     {
         $parent = new \StdClass();
 
-        $modelManager = $this->createMock('Sonata\AdminBundle\Model\ModelManagerInterface');
-        $modelManager->expects($this->any())
-            ->method('find')
-            ->will($this->returnValue($parent))
-        ;
+        $documentManager = $this->createMock(\Doctrine\ODM\PHPCR\DocumentManager::class);
+        $documentManager->expects($this->any())->method('find')->willReturn($parent);
+        $modelManager = $this->createTestProxy(\Sonata\DoctrinePHPCRAdminBundle\Model\ModelManager::class, [$documentManager]);
 
-        $request = $this->createMock('Symfony\Component\HttpFoundation\Request');
+        $request = $this->createMock(\Symfony\Component\HttpFoundation\Request::class);
         $request->expects($this->any())
             ->method('get')
             ->will($this->returnValue('parent-id'))
         ;
 
-        $admin = $this->createMock('Sonata\AdminBundle\Admin\AdminInterface');
+        $admin = $this->createMock(\Sonata\AdminBundle\Admin\AdminInterface::class);
         $admin->expects($this->any())
             ->method('getModelManager')
             ->will($this->returnValue($modelManager))
@@ -45,7 +43,7 @@ class ChildExtensionTest extends \PHPUnit\Framework\TestCase
             ->will($this->returnValue($request))
         ;
 
-        $child = $this->createMock('Symfony\Cmf\Bundle\CoreBundle\Model\ChildInterface');
+        $child = $this->createMock(\Symfony\Cmf\Bundle\CoreBundle\Model\ChildInterface::class);
         $child->expects($this->once())
             ->method('setParentObject')
             ->with($this->equalTo($parent));

@@ -33,4 +33,5 @@ return [
     KnpMenuBundle::class => ['all' => true],
     SonataDoctrinePHPCRAdminBundle::class => ['all' => true],
     CmfTreeBrowserBundle::class => ['all' => true],
+    FOS\RestBundle\FOSRestBundle::class => ['all' => true],
 ];

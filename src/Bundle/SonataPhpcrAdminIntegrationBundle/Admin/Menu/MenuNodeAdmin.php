@@ -26,11 +26,11 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
 {
     protected $recursiveBreadcrumbs = true;
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        parent::configureListFields($listMapper);
+        parent::configureListFields($list);
 
-        $listMapper
+        $list
             ->add('uri', 'text')
             ->add('route', 'text')
         ;
@@ -39,9 +39,9 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->tab('form.tab_general')
                 ->with('form.group_location', ['class' => 'col-sm-3'])
                     ->add(
@@ -53,13 +53,13 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
             ->end()
         ;
 
-        $this->addTransformerToField($formMapper->getFormBuilder(), 'parentDocument');
+        $this->addTransformerToField($form->getFormBuilder(), 'parentDocument');
 
-        parent::configureFormFields($formMapper);
+        parent::configureFormFields($form);
 
-        if (null === $this->getParentFieldDescription()) {
+        if ($this->hasParentFieldDescription()) {
             // Add the choice for the node links "target"
-            $formMapper
+            $form
                 ->tab('form.tab_general')
                     ->with('form.group_target', ['class' => 'col-sm-6'])
                         ->add('linkType', ChoiceFieldMaskType::class, [
@@ -86,16 +86,10 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
                 ->end()
             ;
 
-            $this->addTransformerToField($formMapper->getFormBuilder(), 'content');
+            $this->addTransformerToField($form->getFormBuilder(), 'content');
         }
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFormBuilder()
-    {
-        $formBuilder = parent::getFormBuilder();
+        $formBuilder = $form->getFormBuilder();
 
         $formBuilder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
             if (!$event->getForm()->has('link')) {
@@ -161,8 +155,6 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
                     break;
             }
         });
-
-        return $formBuilder;
     }
 
     /**
@@ -171,6 +163,10 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
     public function buildBreadcrumbs($action, MenuItemInterface $menu = null)
     {
         $menuNodeNode = parent::buildBreadcrumbs($action, $menu);
+
+        if (!$this->hasSubject()) {
+            return $menuNodeNode;
+        }
 
         if ('edit' !== $action || !$this->recursiveBreadcrumbs) {
             return $menuNodeNode;
@@ -185,7 +181,7 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
         }
 
         $parentAdmin->setSubject($parentDoc);
-        $parentAdmin->setRequest($this->request);
+        $parentAdmin->setRequest($this->getRequest());
         $parentEditNode = $parentAdmin->buildBreadcrumbs($action, $menu);
         if ($parentAdmin->isGranted('EDIT' && $parentAdmin->hasRoute('edit'))) {
             $parentEditNode->setUri(

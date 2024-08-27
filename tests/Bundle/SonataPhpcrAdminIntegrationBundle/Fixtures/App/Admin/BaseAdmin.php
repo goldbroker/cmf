@@ -21,22 +21,22 @@ use Sonata\DoctrinePHPCRAdminBundle\Admin\Admin;
  */
 class BaseAdmin extends Admin
 {
-    public function getExportFormats()
+    public function getExportFormats(): array
     {
         return [];
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $list): void
     {
-        $listMapper
+        $list
             ->addIdentifier('id', 'text')
             ->addIdentifier('title', 'text')
         ;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->with('form.group_general')
             ->add('name', 'text')
             ->add('title', 'text')
@@ -45,7 +45,7 @@ class BaseAdmin extends Admin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('title', 'doctrine_phpcr_string')

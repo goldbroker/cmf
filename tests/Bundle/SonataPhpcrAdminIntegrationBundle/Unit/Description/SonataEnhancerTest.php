@@ -23,11 +23,12 @@ class SonataEnhancerTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
-        $this->admin = new TestAdmin(
-            'test',
-            'stdClass',
-            'FooController'
-        );
+        $this->admin = new TestAdmin();
+        $this->admin->setCode('test');
+        $this->admin->setModelClass('stdClass');
+        $this->admin->setBaseControllerName('FooController');
+        $this->admin->setSecurityHandler($this->createMock(\Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface::class));
+
         $this->container = new ContainerBuilder();
         $this->pool = new Pool(
             $this->container,
@@ -49,10 +50,12 @@ class SonataEnhancerTest extends \PHPUnit\Framework\TestCase
         $this->resource = $this->prophesize(CmfResource::class);
 
         $this->modelManager = $this->prophesize(ModelManagerInterface::class);
-        $this->modelManager->getUrlsafeIdentifier(Argument::cetera())->will(function ($args) {
-            return $args[0];
-        });
-        $this->routeBuilder = new PathInfoBuilder($this->prophesize(AuditManagerInterface::class)->reveal());
+        $this->modelManager->getUrlsafeIdentifier(Argument::cetera())->willReturn('id');
+
+        $auditManager = $this->prophesize(AuditManagerInterface::class);
+        $auditManager->hasReader(Argument::cetera())->willReturn(false);
+
+        $this->routeBuilder = new PathInfoBuilder($auditManager->reveal());
         $this->admin->setRouteBuilder($this->routeBuilder);
         $this->admin->setModelManager($this->modelManager->reveal());
     }
@@ -89,11 +92,17 @@ class SonataEnhancerTest extends \PHPUnit\Framework\TestCase
 
 class TestAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'std_class';
-
-    protected $baseRoutePattern = '_';
-
     public function __toString()
+    {
+        return 'Standard Class';
+    }
+
+    protected function generateBaseRouteName(bool $isChildAdmin = false): string
+    {
+        return 'std_class';
+    }
+
+    protected function generateBaseRoutePattern(bool $isChildAdmin = false): string
     {
         return 'Standard Class';
     }

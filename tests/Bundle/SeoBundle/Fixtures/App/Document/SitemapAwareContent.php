@@ -117,7 +117,7 @@ class SitemapAwareContent extends ContentBase implements RouteReferrersReadInter
      * @return string|bool the locale of this model or false if
      *                     translations are disabled in this project
      */
-    public function getLocale()
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
@@ -126,7 +126,7 @@ class SitemapAwareContent extends ContentBase implements RouteReferrersReadInter
      * @param string|bool $locale the local for this model, or false if
      *                            translations are disabled in this project
      */
-    public function setLocale($locale)
+    public function setLocale($locale): void
     {
         $this->locale = $locale;
     }

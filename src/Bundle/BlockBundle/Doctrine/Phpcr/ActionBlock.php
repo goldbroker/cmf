@@ -22,10 +22,8 @@ class ActionBlock extends AbstractBlock
 {
     /**
      * The Symfony action string.
-     *
-     * @var string
      */
-    protected $actionName;
+    protected ?string $actionName = null;
 
     /**
      * List of request attributes or parameters to pass to the subrequest when
@@ -39,30 +37,19 @@ class ActionBlock extends AbstractBlock
      *
      * @var string[]
      */
-    protected $requestParams = ['_locale'];
+    protected array $requestParams = ['_locale'];
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType(): string
     {
         return 'cmf.block.action';
     }
 
-    /**
-     * @return string
-     */
-    public function getActionName()
+    public function getActionName(): ?string
     {
         return $this->actionName;
     }
 
-    /**
-     * @param string $actionName
-     *
-     * @return $this
-     */
-    public function setActionName($actionName)
+    public function setActionName(string $actionName): ActionBlock
     {
         $this->actionName = $actionName;
 
@@ -72,12 +59,12 @@ class ActionBlock extends AbstractBlock
     /**
      * Initialize default values if not explicitly set.
      */
-    public function mergeDefaults()
+    public function mergeDefaults(): void
     {
         if (null === $this->actionName) {
             $this->actionName = $this->getDefaultActionName();
         }
-        if (null === $this->requestParams) {
+        if (empty($this->requestParams)) {
             $this->requestParams = $this->getRequestParams();
         }
     }
@@ -85,12 +72,8 @@ class ActionBlock extends AbstractBlock
     /**
      * Set the list of request parameter names to pass to the subrequest when
      * rendering the action.
-     *
-     * @param array $params
-     *
-     * @return $this
      */
-    public function setRequestParams(array $params)
+    public function setRequestParams(array $params): ActionBlock
     {
         $this->requestParams = $params;
 
@@ -100,10 +83,8 @@ class ActionBlock extends AbstractBlock
     /**
      * Set the list of request parameter names to pass to the subrequest when
      * rendering the action.
-     *
-     * @return array
      */
-    public function getRequestParams()
+    public function getRequestParams(): array
     {
         return $this->requestParams;
     }
@@ -124,7 +105,7 @@ class ActionBlock extends AbstractBlock
      *
      * @return array list of arguments to pass to the subrequest
      */
-    public function resolveRequestParams(Request $request, BlockContextInterface $blockContext)
+    public function resolveRequestParams(Request $request, BlockContextInterface $blockContext): array
     {
         $params = [];
         foreach ($this->getRequestParams() as $param) {
@@ -138,11 +119,9 @@ class ActionBlock extends AbstractBlock
 
     /**
      * Overload this method to define a default action name.
-     *
-     * @return string|null
      */
-    public function getDefaultActionName()
+    public function getDefaultActionName(): ?string
     {
-        return;
+        return null;
     }
 }

@@ -15,6 +15,6 @@ file that was distributed with this source code.
     {% if admin.datagrid.pager.lastPage != admin.datagrid.pager.page %}
         {{ 'list_results_count_prefix' | trans({}, 'SonataDoctrinePHPCRAdmin') }}
     {% endif %}
-    {{ 'list_results_count' | trans({'%count%': admin.datagrid.pager.nbresults }, 'SonataAdminBundle') }}
+    {{ 'list_results_count' | trans({'%count%': admin.datagrid.pager.countResults }, 'SonataAdminBundle') }}
     &nbsp;-&nbsp;
 {% endblock %}

@@ -21,9 +21,9 @@ use Symfony\Component\Routing\RouterInterface;
 
 class UploadDefaultHelper implements UploadEditorHelperInterface
 {
-    protected $mediaManager;
-    protected $router;
-    protected $propertyMapping;
+    protected MediaManagerInterface $mediaManager;
+    protected RouterInterface $router;
+    protected array $propertyMapping = [];
 
     /**
      * Instantiate.

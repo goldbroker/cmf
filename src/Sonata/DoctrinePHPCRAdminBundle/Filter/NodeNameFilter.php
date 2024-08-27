@@ -14,36 +14,38 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Filter\Model\FilterData;
+use Sonata\AdminBundle\Form\Type\Operator\ContainsOperatorType;
 
 class NodeNameFilter extends Filter
 {
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !\array_key_exists('value', $data)) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        $data['value'] = trim((string) $data['value']);
-        $data['type'] = empty($data['type']) ? ChoiceType::TYPE_CONTAINS : $data['type'];
+        $value = trim((string) ($data->getValue() ?? ''));
+        $type = $data->getType() ?? ContainsOperatorType::TYPE_CONTAINS;
 
-        if ('' === $data['value']) {
+
+        if ('' === $value) {
             return;
         }
 
         $where = $this->getWhere($proxyQuery);
 
-        switch ($data['type']) {
-            case ChoiceType::TYPE_EQUAL:
-                $where->eq()->localName($alias)->literal($data['value']);
+        switch ($type) {
+            case ContainsOperatorType::TYPE_EQUAL:
+                $where->eq()->localName($alias)->literal($value);
 
                 break;
-            case ChoiceType::TYPE_CONTAINS:
+            case ContainsOperatorType::TYPE_CONTAINS:
             default:
-                $where->like()->localName($alias)->literal('%'.$data['value'].'%');
+                $where->like()->localName($alias)->literal('%'.$value.'%');
         }
 
         // filter is active as we have now modified the query
@@ -53,7 +55,7 @@ class NodeNameFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [
             'format' => '%%%s%%',
@@ -63,7 +65,7 @@ class NodeNameFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', [
             'field_type' => $this->getFieldType(),

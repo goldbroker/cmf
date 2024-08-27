@@ -19,7 +19,7 @@ use Symfony\Cmf\Bundle\SeoBundle\Extractor\ExtractorInterface;
 use Symfony\Cmf\Bundle\SeoBundle\Model\SeoMetadataInterface;
 use Symfony\Cmf\Bundle\SeoBundle\SeoPresentation;
 use Tests\Symfony\Cmf\Bundle\SeoBundle\Fixtures\App\Document\SeoAwareContent;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * This test will cover the behavior of the SeoPresentation Model

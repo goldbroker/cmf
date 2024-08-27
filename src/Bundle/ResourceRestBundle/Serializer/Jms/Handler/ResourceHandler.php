@@ -54,7 +54,7 @@ class ResourceHandler implements SubscribingHandlerInterface
         $this->exposePayload = $exposePayload;
     }
 
-    public static function getSubscribingMethods()
+    public static function getSubscribingMethods(): array
     {
         return [
             [
@@ -74,7 +74,8 @@ class ResourceHandler implements SubscribingHandlerInterface
         PuliResource $resource,
         array $type,
         Context $context
-    ) {
+    ): array
+    {
         $data = $this->doSerializeResource($resource);
         $context->getNavigator()->accept($data);
 
@@ -86,7 +87,7 @@ class ResourceHandler implements SubscribingHandlerInterface
         $this->maxDepth = $maxDepth;
     }
 
-    private function doSerializeResource(PuliResource $resource, $depth = 0)
+    private function doSerializeResource(PuliResource $resource, $depth = 0): array
     {
         $data = [];
         $repositoryAlias = $this->registry->getRepositoryName($resource->getRepository());

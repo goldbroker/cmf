@@ -14,6 +14,8 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Block;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\SimpleBlock;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,7 +28,7 @@ class SimpleBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('id', 'text')
@@ -37,11 +39,11 @@ class SimpleBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $form): void
     {
-        parent::configureFormFields($formMapper);
+        parent::configureFormFields($form);
 
-        $formMapper
+        $form
             ->tab('form.tab_general')
                 ->with('form.group_block', ['class' => 'col-md-9'])
                     ->add('title', TextType::class)
@@ -54,15 +56,15 @@ class SimpleBlockAdmin extends AbstractBlockAdmin
     /**
      * {@inheritdoc}
      */
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('title', 'doctrine_phpcr_string')
-            ->add('name', 'doctrine_phpcr_nodename')
+            ->add('title', StringFilter::class)
+            ->add('name', NodeNameFilter::class)
         ;
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof SimpleBlock && $object->getTitle()
             ? $object->getTitle()

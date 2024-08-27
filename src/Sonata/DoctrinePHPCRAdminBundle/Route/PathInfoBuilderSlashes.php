@@ -15,7 +15,7 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Route;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Builder\RouteBuilderInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 class PathInfoBuilderSlashes implements RouteBuilderInterface
 {
@@ -24,7 +24,7 @@ class PathInfoBuilderSlashes implements RouteBuilderInterface
      *
      * {@inheritdoc}
      */
-    public function build(AdminInterface $admin, RouteCollection $collection)
+    public function build(AdminInterface $admin, RouteCollectionInterface $collection): void
     {
         $collection->add('list');
         $collection->add('create');

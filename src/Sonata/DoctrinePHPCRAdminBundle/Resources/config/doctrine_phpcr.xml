@@ -18,7 +18,7 @@
             <argument type="service" id="doctrine_phpcr"/>
             <tag name="sonata.admin.guesser.doctrine_phpcr_list"/>
         </service>
-        <service id="sonata.admin.guesser.doctrine_phpcr_list_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+        <service id="sonata.admin.guesser.doctrine_phpcr_list_chain" class="Sonata\AdminBundle\FieldDescription\TypeGuesserChain">
             <argument/>
         </service>
         <!-- ShowBuilder  -->
@@ -30,7 +30,7 @@
             <argument type="service" id="doctrine_phpcr"/>
             <tag name="sonata.admin.guesser.doctrine_phpcr_show"/>
         </service>
-        <service id="sonata.admin.guesser.doctrine_phpcr_show_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+        <service id="sonata.admin.guesser.doctrine_phpcr_show_chain" class="Sonata\AdminBundle\FieldDescription\TypeGuesserChain">
             <argument/>
         </service>
         <!-- DatagridBuilder guesser -->
@@ -44,13 +44,17 @@
             <argument type="service" id="doctrine_phpcr"/>
             <tag name="sonata.admin.guesser.doctrine_phpcr_datagrid"/>
         </service>
-        <service id="sonata.admin.guesser.doctrine_phpcr_datagrid_chain" class="Sonata\AdminBundle\Guesser\TypeGuesserChain">
+        <service id="sonata.admin.guesser.doctrine_phpcr_datagrid_chain" class="Sonata\AdminBundle\FieldDescription\TypeGuesserChain">
             <argument/>
         </service>
         <service id="sonata.admin.description.position_enhancer" class="Sonata\DoctrinePHPCRAdminBundle\Description\PositionEnhancer">
             <argument type="service" id="doctrine_phpcr"/>
             <argument>%doctrine_phpcr.default_session%</argument>
             <tag name="cmf_resource.description.enhancer" alias="doctrine_phpcr_position"/>
+        </service>
+        <service id="sonata.admin.data_source.doctrine_phpcr" class="Sonata\DoctrinePHPCRAdminBundle\Exporter\DataSource"/>
+        <service id="sonata.admin.field_description_factory.doctrine_phpcr" class="Sonata\DoctrinePHPCRAdminBundle\FieldDescription\FieldDescriptionFactory">
+            <argument type="service" id="doctrine_phpcr"/>
         </service>
     </services>
 </container>

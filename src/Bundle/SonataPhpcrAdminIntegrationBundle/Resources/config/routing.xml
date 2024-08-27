@@ -6,56 +6,55 @@
     <services>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.routing.route_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing\RouteAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.routing.route_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing\RouteAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label_catalogue="CmfSonataPhpcrAdminIntegrationBundle"
-                    label="dashboard.label_routing"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore" />
-            <argument/>
-            <argument>Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_routing"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\Route"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
-
             <call method="setContentRoot">
                 <argument>%cmf_sonata_phpcr_admin_integration.routing.content_basepath%</argument>
             </call>
-
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.routing.basepath%</argument>
+            </call>
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
         </service>
 
         <service
-                id="cmf_sonata_phpcr_admin_integration.routing.redirect_route_admin"
-                class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing\RedirectRouteAdmin"
-                parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
-                public="true">
+            id="cmf_sonata_phpcr_admin_integration.routing.redirect_route_admin"
+            class="Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Routing\RedirectRouteAdmin"
+            parent="cmf_sonata_phpcr_admin_integration.abstract_admin"
+            public="true"
+        >
             <tag
-                    name="sonata.admin"
-                    manager_type="doctrine_phpcr"
-                    group="dashboard.cmf"
-                    label_catalogue="CmfSonataPhpcrAdminIntegrationBundle"
-                    label="dashboard.label_redirect_routing"
-                    label_translator_strategy="sonata.admin.label.strategy.underscore" />
-            <argument/>
-            <argument>Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\RedirectRoute</argument>
-            <argument>SonataAdminBundle:CRUD</argument>
-
+                name="sonata.admin"
+                manager_type="doctrine_phpcr"
+                group="dashboard.cmf"
+                label="dashboard.label_redirect_routing"
+                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                model_class="Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\RedirectRoute"
+            />
             <call method="setRouteBuilder">
                 <argument type="service" id="sonata.admin.route.path_info_slashes" />
             </call>
-
             <call method="setRootPath">
                 <argument>%cmf_sonata_phpcr_admin_integration.routing.basepath%</argument>
+            </call>
+            <call method="setTranslationDomain">
+                <argument>CmfSonataPhpcrAdminIntegrationBundle</argument>
             </call>
         </service>
 

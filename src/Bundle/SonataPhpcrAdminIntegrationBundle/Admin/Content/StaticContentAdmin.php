@@ -15,6 +15,8 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\NodeNameFilter;
+use Sonata\DoctrinePHPCRAdminBundle\Filter\StringFilter;
 use Symfony\Cmf\Bundle\ContentBundle\Model\StaticContentBase;
 use Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\AbstractAdmin;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\Form\Type\TreeSelectType;
@@ -23,16 +25,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class StaticContentAdmin extends AbstractAdmin
 {
-    protected $translationDomain = 'CmfSonataPhpcrAdminIntegrationBundle';
-
     /**
      * Configuration, that can be passed to CKEditorType.
-     *
-     * @var array
      */
-    private $ckEditorConfig;
+    private array $ckEditorConfig = [];
 
-    public function getExportFormats()
+    public function getExportFormats(): array
     {
         return [];
     }
@@ -49,7 +47,7 @@ class StaticContentAdmin extends AbstractAdmin
         $this->ckEditorConfig = $config;
     }
 
-    protected function configureListFields(ListMapper $list)
+    protected function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('id', 'text')
@@ -57,7 +55,7 @@ class StaticContentAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $editView = (bool) $this->id($this->getSubject());
         $form
@@ -90,19 +88,19 @@ class StaticContentAdmin extends AbstractAdmin
         $this->addTransformerToField($form->getFormBuilder(), 'parentDocument');
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('title', 'doctrine_phpcr_string')
-            ->add('name', 'doctrine_phpcr_nodename')
+            ->add('title', StringFilter::class)
+            ->add('name', NodeNameFilter::class)
         ;
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof StaticContentBase && $object->getTitle()
             ? $object->getTitle()
-            : $this->trans('link_add', [], 'SonataAdminBundle')
+            : $this->getTranslator()->trans('link_add', [], 'SonataAdminBundle')
         ;
     }
 }

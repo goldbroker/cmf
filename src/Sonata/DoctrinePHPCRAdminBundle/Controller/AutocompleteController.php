@@ -16,7 +16,6 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 use Doctrine\ODM\PHPCR\Translation\Translation;
 use PHPCR\AccessDeniedException;
 use PHPCR\Util\PathHelper;
-use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Admin\Pool;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
@@ -36,7 +35,6 @@ class AutocompleteController
 
     public function autoCompleteAction(Request $request): Response
     {
-        /** @var Admin $admin */
         $admin = $this->pool->getInstance($request->get('code'));
         $admin->setRequest($request);
 

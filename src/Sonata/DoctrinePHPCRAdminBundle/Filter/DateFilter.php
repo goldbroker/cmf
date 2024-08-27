@@ -14,52 +14,45 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Form\Type\Filter\DateType;
+use Sonata\AdminBundle\Form\Type\Operator\DateOperatorType;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 
 class DateFilter extends Filter
 {
     /**
      * {@inheritdoc}
      */
-    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, $data)
+    public function filter(ProxyQueryInterface $proxyQuery, $alias, $field, FilterData $data)
     {
-        if (!$data || !\is_array($data) || !isset($data['value'])) {
+        if (!$data->hasValue()) {
             return;
         }
 
-        $data['type'] = $data['type'] ?? DateType::TYPE_EQUAL;
+        $type = $data->getType() ?? DateOperatorType::TYPE_EQUAL;
 
         $where = $this->getWhere($proxyQuery);
 
-        $from = $data['value'];
+        $from = $data->getValue();
         $to = new \DateTime($from->format('Y-m-d').' +86399 seconds'); // 23 hours 59 minutes 59 seconds
 
-        switch ($data['type']) {
-            case DateType::TYPE_GREATER_EQUAL:
+        switch ($type) {
+            case DateOperatorType::TYPE_GREATER_EQUAL:
                 $where->gte()->field('a.'.$field)->literal($from);
 
                 break;
-            case DateType::TYPE_GREATER_THAN:
+            case DateOperatorType::TYPE_GREATER_THAN:
                 $where->gt()->field('a.'.$field)->literal($from);
 
                 break;
-            case DateType::TYPE_LESS_EQUAL:
+            case DateOperatorType::TYPE_LESS_EQUAL:
                 $where->lte()->field('a.'.$field)->literal($from);
 
                 break;
-            case DateType::TYPE_LESS_THAN:
+            case DateOperatorType::TYPE_LESS_THAN:
                 $where->lt()->field('a.'.$field)->literal($from);
 
                 break;
-            case DateType::TYPE_NULL:
-                $where->eq()->field('a.'.$field)->literal(null);
-
-                break;
-            case DateType::TYPE_NOT_NULL:
-                $where->neq()->field('a.'.$field)->literal(null);
-
-                break;
-            case DateType::TYPE_EQUAL:
+            case DateOperatorType::TYPE_EQUAL:
             default:
                 $where->andX()
                     ->gte()->field('a.'.$field)->literal($from)->end()
@@ -73,7 +66,7 @@ class DateFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions()
+    public function getDefaultOptions(): array
     {
         return [
             'date_format' => 'yyyy-MM-dd',
@@ -83,7 +76,7 @@ class DateFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings()
+    public function getRenderSettings(): array
     {
         return ['sonata_type_filter_date', [
             'field_type' => $this->getFieldType(),

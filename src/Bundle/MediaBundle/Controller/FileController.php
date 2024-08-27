@@ -33,48 +33,43 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class FileController
 {
-    protected $managerRegistry;
-    protected $managerName;
-    protected $class;
-    protected $rootPath;
-    protected $mediaManager;
-    protected $uploadFileHelper;
-    protected $requiredUploadRole;
+    protected ManagerRegistry $managerRegistry;
+    protected ?string $managerName;
+    protected ?string $class;
+    protected string  $rootPath;
+    protected MediaManagerInterface $mediaManager;
+    protected UploadFileHelperInterface $uploadFileHelper;
+    protected string $requiredUploadRole;
     /**
      * When moving to 2.0, rename this to $authorizationChecker.
-     *
-     * @var null|AuthorizationCheckerInterface
      */
-    protected $securityContext;
+    protected ?AuthorizationCheckerInterface $securityContext = null;
 
-    /**
-     * @var null|TokenStorageInterface
-     */
-    protected $tokenStorage;
+    protected ?TokenStorageInterface $tokenStorage = null;
 
     /**
      * @param ManagerRegistry               $registry
-     * @param string                        $managerName
-     * @param string                        $class                fully qualified class
+     * @param string $managerName
+     * @param string $class                fully qualified class
      *                                                            name of file
-     * @param string                        $rootPath             path where the
+     * @param string $rootPath             path where the
      *                                                            filesystem is located
      * @param MediaManagerInterface         $mediaManager
      * @param UploadFileHelperInterface     $uploadFileHelper
-     * @param string                        $requiredUploadRole   the role name for the security check
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenStorageInterface         $tokenStorage
+     * @param string $requiredUploadRole   the role name for the security check
+     * @param AuthorizationCheckerInterface|null $authorizationChecker
+     * @param TokenStorageInterface|null $tokenStorage
      */
     public function __construct(
         ManagerRegistry $registry,
-        $managerName,
-        $class,
-        $rootPath,
+        ?string $managerName,
+        string $class,
+        string $rootPath,
         MediaManagerInterface $mediaManager,
         UploadFileHelperInterface $uploadFileHelper,
-        $requiredUploadRole,
-        $authorizationChecker = null,
-        $tokenStorage = null
+        string $requiredUploadRole,
+        ?AuthorizationCheckerInterface $authorizationChecker = null,
+        ?TokenStorageInterface $tokenStorage = null
     ) {
         $this->managerRegistry = $registry;
         $this->managerName = $managerName;
