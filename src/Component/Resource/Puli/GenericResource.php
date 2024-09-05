@@ -195,54 +195,17 @@ class GenericResource implements PuliResource
         return $this->path !== $this->repoPath;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize()
+    public function __serialize(): array
     {
-        $data = [];
-
-        $this->preSerialize($data);
-
-        return serialize($data);
+        return [
+            'path' => $this->path,
+            'repoPath' => $this->repoPath,
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($string)
+    public function __unserialize(array $serialized): void
     {
-        $data = unserialize($string);
-
-        $this->postUnserialize($data);
-    }
-
-    /**
-     * Invoked before serializing a resource.
-     *
-     * Override this method if you want to serialize custom data in subclasses.
-     *
-     * @param array $data The data to serialize. Add custom data at the end of
-     *                    the array.
-     */
-    protected function preSerialize(array &$data)
-    {
-        $data[] = $this->path;
-        $data[] = $this->repoPath;
-    }
-
-    /**
-     * Invoked after unserializing a resource.
-     *
-     * Override this method if you want to unserialize custom data in
-     * subclasses.
-     *
-     * @param array $data The unserialized data. Pop your custom data from the
-     *                    end of the array before calling the parent method.
-     */
-    protected function postUnserialize(array $data)
-    {
-        $this->repoPath = array_pop($data);
-        $this->path = array_pop($data);
+        $this->path = $serialized['path'];
+        $this->repoPath = $serialized['repoPath'];
     }
 }

@@ -135,7 +135,7 @@ class ResourceCollectionIterator implements \RecursiveIterator
      * @return PuliResource|string the current value as configured in
      *                             {@link __construct}
      */
-    public function current()
+    public function current(): PuliResource|string
     {
         if ($this->mode & self::CURRENT_AS_RESOURCE) {
             return current($this->resources);
@@ -151,7 +151,7 @@ class ResourceCollectionIterator implements \RecursiveIterator
     /**
      * Advances the iterator to the next position.
      */
-    public function next()
+    public function next(): void
     {
         next($this->resources);
     }
@@ -163,7 +163,7 @@ class ResourceCollectionIterator implements \RecursiveIterator
      *                         {@link __construct} or `null` if the cursor
      *                         is behind the last element
      */
-    public function key()
+    public function key(): int|string|null
     {
         if (null === ($key = key($this->resources))) {
             return null;
@@ -181,7 +181,7 @@ class ResourceCollectionIterator implements \RecursiveIterator
      *
      * @return bool whether the iterator position is valid
      */
-    public function valid()
+    public function valid(): bool
     {
         return null !== key($this->resources);
     }
@@ -189,7 +189,7 @@ class ResourceCollectionIterator implements \RecursiveIterator
     /**
      * Rewinds the iterator to the first entry.
      */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->resources);
     }
@@ -200,7 +200,7 @@ class ResourceCollectionIterator implements \RecursiveIterator
      *
      * @return bool whether the current element can be iterated recursively
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return current($this->resources)->hasChildren();
     }
@@ -211,7 +211,7 @@ class ResourceCollectionIterator implements \RecursiveIterator
      * @return static returns an instance of this class for the children of
      *                the current element
      */
-    public function getChildren()
+    public function getChildren(): static
     {
         return new static(current($this->resources)->listChildren(), $this->mode);
     }
@@ -219,7 +219,7 @@ class ResourceCollectionIterator implements \RecursiveIterator
     /**
      * {@inheritdoc}
      */
-    public function getCurrentResource()
+    public function getCurrentResource(): bool|PuliResource
     {
         return current($this->resources);
     }
