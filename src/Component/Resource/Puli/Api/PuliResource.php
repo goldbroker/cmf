@@ -45,7 +45,7 @@ use Symfony\Cmf\Component\Resource\Puli\GenericResource;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-interface PuliResource extends \Serializable
+interface PuliResource
 {
     /**
      * Returns the path of the resource.
