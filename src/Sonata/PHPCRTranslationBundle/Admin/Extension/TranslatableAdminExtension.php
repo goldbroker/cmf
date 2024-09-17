@@ -25,6 +25,13 @@ class TranslatableAdminExtension extends AbstractTranslatableAdminExtension
         $this->localeChooser = $localeChooser;
     }
 
+    public function alterNewInstance(AdminInterface $admin, object $object): void
+    {
+        if ($this->getTranslatableChecker()->isTranslatable($object)) {
+            $object->setLocale($this->getTranslatableLocale());
+        }
+    }
+
     public function alterObject(AdminInterface $admin, object $object): void
     {
         $locale = $this->getTranslatableLocale();

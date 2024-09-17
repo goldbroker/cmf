@@ -36,10 +36,10 @@ class BooleanFilter extends BaseFilter
         }
 
         $where = $this->getWhere($proxyQuery);
-        $where->eq()->field('a.'.$field)->literal(BooleanType::TYPE_YES === $value ? true : false);
+        $where->eq()->field('a.'.$field)->literal(BooleanType::TYPE_YES === $value);
 
         // filter is active as we have now modified the query
-        $this->active = true;
+        $this->setActive(true);
     }
 
     /**
@@ -53,14 +53,14 @@ class BooleanFilter extends BaseFilter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings(): array
+    public function getFormOptions(): array
     {
-        return ['sonata_type_filter_default', [
+        return [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'operator_type' => 'hidden',
             'operator_options' => [],
             'label' => $this->getLabel(),
-        ]];
+        ];
     }
 }

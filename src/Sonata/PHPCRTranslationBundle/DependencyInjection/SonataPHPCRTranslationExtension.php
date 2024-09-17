@@ -54,7 +54,9 @@ class SonataPHPCRTranslationExtension extends Extension implements ExtensionInte
             $sonataTranslationLoader = new PhpFileLoader($container, new FileLocator($sonataTranslationDir . 'src/Resources/config'));
             $sonataTranslationLoader->load('block.php');
             $sonataTranslationLoader->load('listener.php');
+            $sonataTranslationLoader->load('provider.php');
             $sonataTranslationLoader->load('twig.php');
+            $sonataTranslationLoader->load('twig_intl.php');
         }
 
         $container->setParameter('sonata_phpcr_translation.targets', $this->translationTargets);
@@ -94,5 +96,4 @@ class SonataPHPCRTranslationExtension extends Extension implements ExtensionInte
         $translatableCheckerDefinition->addMethodCall('setSupportedInterfaces', [$supportedInterfaces]);
         $translatableCheckerDefinition->addMethodCall('setSupportedModels', [$supportedModels]);
     }
-
 }

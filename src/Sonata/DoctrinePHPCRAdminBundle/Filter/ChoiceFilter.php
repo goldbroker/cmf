@@ -59,7 +59,7 @@ class ChoiceFilter extends Filter
         }
 
         // filter is active as we have now modified the query
-        $this->active = true;
+        $this->setActive(true);
     }
 
     /**
@@ -73,13 +73,13 @@ class ChoiceFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings(): array
+    public function getFormOptions(): array
     {
-        return ['sonata_type_filter_default', [
-            'operator_type' => 'sonata_type_equal',
+        return [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
-        ]];
+            'operator_type' => ContainsOperatorType::class,
+        ];
     }
 }

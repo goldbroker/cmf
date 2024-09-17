@@ -16,7 +16,6 @@ namespace Sonata\DoctrinePHPCRAdminBundle\Filter;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\Type\Operator\StringOperatorType;
-use Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType;
 
 class StringFilter extends Filter
 {
@@ -65,7 +64,7 @@ class StringFilter extends Filter
         }
 
         // filter is active as we have now modified the query
-        $this->active = true;
+        $this->setActive(true);
     }
 
     /**
@@ -75,19 +74,21 @@ class StringFilter extends Filter
     {
         return [
             'format' => '%%%s%%',
-            'compare_lower_case' => false,
+            'compare_case_insensitive' => true,
+            'global_search' => true,
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings(): array
+    public function getFormOptions(): array
     {
-        return ['Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', [
+        return [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
-        ]];
+            'operator_type' => StringOperatorType::class,
+        ];
     }
 }
