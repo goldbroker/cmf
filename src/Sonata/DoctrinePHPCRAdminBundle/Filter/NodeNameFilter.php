@@ -49,7 +49,7 @@ class NodeNameFilter extends Filter
         }
 
         // filter is active as we have now modified the query
-        $this->active = true;
+        $this->setActive(true);
     }
 
     /**
@@ -65,12 +65,13 @@ class NodeNameFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings(): array
+    public function getFormOptions(): array
     {
-        return ['Sonata\DoctrinePHPCRAdminBundle\Form\Type\Filter\ChoiceType', [
+        return [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
-        ]];
+            'operator_type' => ContainsOperatorType::class,
+        ];
     }
 }

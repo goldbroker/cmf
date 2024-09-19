@@ -24,7 +24,7 @@ class AdminExtensionCompilerPass implements CompilerPassInterface
             $admin = $container->getDefinition($id);
 
             $tagData = $admin->getTag('sonata.admin')[0];
-            $modelClass = $tagData['model_class'] ?? $admin->getArgument(1);
+            $modelClass = $tagData['model_class'];
             $modelClass = $container->getParameterBag()->resolveValue($modelClass);
 
             if (!$modelClass || !class_exists($modelClass)) {

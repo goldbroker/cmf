@@ -77,7 +77,7 @@ class StaticContent extends ModelStaticContent implements HierarchyInterface
         return $this->getParentDocument();
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

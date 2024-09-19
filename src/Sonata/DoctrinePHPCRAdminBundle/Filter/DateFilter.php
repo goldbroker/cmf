@@ -60,7 +60,7 @@ class DateFilter extends Filter
         }
 
         // filter is active as we have now modified the query
-        $this->active = true;
+        $this->setActive(true);
     }
 
     /**
@@ -76,12 +76,13 @@ class DateFilter extends Filter
     /**
      * {@inheritdoc}
      */
-    public function getRenderSettings(): array
+    public function getFormOptions(): array
     {
-        return ['sonata_type_filter_date', [
+        return [
             'field_type' => $this->getFieldType(),
             'field_options' => $this->getFieldOptions(),
             'label' => $this->getLabel(),
-        ]];
+            'operator_type' => DateOperatorType::class,
+        ];
     }
 }

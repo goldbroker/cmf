@@ -24,7 +24,6 @@ abstract class Filter extends BaseFilter
 
     public function apply(ProxyQueryInterface $query, FilterData $filterData): void
     {
-        $this->value = $filterData;
         $this->filter($query, $query->getAlias(), $this->getFieldName(), $filterData);
     }
 

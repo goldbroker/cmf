@@ -107,8 +107,9 @@ class DatagridBuilder implements DatagridBuilderInterface
             }
         }
 
-        $fieldDescription->setOption('code', $fieldDescription->getOption('code', $fieldDescription->getName()));
-        $fieldDescription->setOption('name', $fieldDescription->getOption('name', $fieldDescription->getName()));
+        foreach (['code', 'name', 'field_name'] as $optionName) {
+            $fieldDescription->setOption($optionName, $fieldDescription->getOption($optionName, $fieldDescription->getName()));
+        }
     }
 
     /**
