@@ -14,7 +14,6 @@ namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Menu;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Cmf\Bundle\ContentBundle\Doctrine\Phpcr\StaticContent;
 use Symfony\Cmf\Bundle\MenuBundle\Model\MenuNodeBase;
 use Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\AbstractAdmin;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -99,6 +98,6 @@ abstract class AbstractMenuNodeAdmin extends AbstractAdmin
             return $object->getLabel();
         }
 
-        return $this->trans('link_add', [], 'SonataAdminBundle');
+        return $this->getTranslator()->trans('link_add', [], 'SonataAdminBundle');
     }
 }
