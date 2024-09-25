@@ -18,15 +18,9 @@ use Symfony\Cmf\Bundle\MediaBundle\DirectoryInterface;
 
 class Directory extends Folder implements DirectoryInterface
 {
-    /**
-     * @var \DateTime
-     */
-    protected $updatedAt;
+    protected ?\DateTimeInterface $updatedAt = null;
 
-    /**
-     * @var string
-     */
-    protected $updatedBy;
+    protected ?string $updatedBy = null;
 
     public function __construct()
     {
@@ -36,7 +30,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->nodename;
     }
@@ -44,7 +38,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->nodename = $name;
 
@@ -54,7 +48,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?object
     {
         return $this->parent;
     }
@@ -62,7 +56,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent): AbstractFile
+    public function setParentDocument($parent): self
     {
         $this->parent = $parent;
 
@@ -76,7 +70,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent($parent)
+    public function setParent($parent): self
     {
         return $this->setParentDocument($parent);
     }
@@ -84,7 +78,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->created;
     }
@@ -92,7 +86,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
@@ -103,7 +97,7 @@ class Directory extends Folder implements DirectoryInterface
      *
      * @return string name of the (jcr) user who updated the file
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): ?string
     {
         return $this->updatedBy;
     }

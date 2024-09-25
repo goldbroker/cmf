@@ -309,11 +309,11 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed
      */
     public function getSetting($name, $default = null)
     {
-        return isset($this->settings[$name]) ? $this->settings[$name] : $default;
+        return $this->settings[$name] ?? $default;
     }
 
     /**

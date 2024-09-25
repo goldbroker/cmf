@@ -17,20 +17,14 @@ use Symfony\Cmf\Bundle\MediaBundle\Model\AbstractMedia as ModelAbstractMedia;
 
 abstract class AbstractMedia extends ModelAbstractMedia implements HierarchyInterface, PhpcrHierarchyInterface
 {
-    /**
-     * @var object
-     */
-    protected $parent;
+    protected ?object $parent = null;
 
-    /**
-     * @var string
-     */
-    protected $createdBy;
+    protected ?string $createdBy = null;
 
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent): PhpcrHierarchyInterface
+    public function setParentDocument($parent): self
     {
         $this->parent = $parent;
 
@@ -52,7 +46,7 @@ abstract class AbstractMedia extends ModelAbstractMedia implements HierarchyInte
     /**
      * {@inheritdoc}
      */
-    public function setParent($parent)
+    public function setParent($parent): self
     {
         return $this->setParentDocument($parent);
     }
@@ -60,7 +54,7 @@ abstract class AbstractMedia extends ModelAbstractMedia implements HierarchyInte
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): ?object
     {
         return $this->getParentDocument();
     }
@@ -71,7 +65,7 @@ abstract class AbstractMedia extends ModelAbstractMedia implements HierarchyInte
      *
      * @return string name of the (jcr) user who created the file
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): ?string
     {
         return $this->createdBy;
     }
