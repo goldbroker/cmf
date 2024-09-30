@@ -24,30 +24,18 @@ use Symfony\Cmf\Bundle\MediaBundle\FileSystemInterface;
  */
 class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
 {
-    /**
-     * @var string
-     */
-    protected $description;
+    protected ?string $description = null;
 
-    /**
-     * @var string Copyright text
-     */
-    protected $copyright;
+    protected ?string $copyright = null;
 
-    /**
-     * @var string
-     */
-    protected $authorName;
+    protected ?string $authorName = null;
 
-    /**
-     * @var array
-     */
-    protected $metadata;
+    protected array $metadata = [];
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->nodename;
     }
@@ -55,14 +43,14 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setName($name)
+    public function setName($name): File
     {
         $this->nodename = $name;
 
         return $this;
     }
 
-    public function getParent()
+    public function getParent(): ?object
     {
         return $this->parent;
     }
@@ -70,7 +58,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setParentDocument($parent): AbstractFile
+    public function setParentDocument($parent): self
     {
         $this->parent = $parent;
 
@@ -84,7 +72,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent($parent)
+    public function setParent($parent): self
     {
         return $this->setParentDocument($parent);
     }
@@ -92,7 +80,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -102,7 +90,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -110,7 +98,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setCopyright($copyright)
+    public function setCopyright($copyright): self
     {
         $this->copyright = $copyright;
 
@@ -120,7 +108,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function getCopyright()
+    public function getCopyright(): ?string
     {
         return $this->copyright;
     }
@@ -128,7 +116,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setAuthorName($authorName)
+    public function setAuthorName($authorName): self
     {
         $this->authorName = $authorName;
 
@@ -138,7 +126,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function getAuthorName()
+    public function getAuthorName(): ?string
     {
         return $this->authorName;
     }
@@ -156,7 +144,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         return $this->metadata;
     }
@@ -166,13 +154,13 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
      */
     public function getMetadataValue($name, $default = null)
     {
-        return isset($this->metadata[$name]) ? $this->metadata[$name] : $default;
+        return $this->metadata[$name] ?? $default;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setMetadataValue($name, $value)
+    public function setMetadataValue($name, $value): self
     {
         $this->metadata[$name] = $value;
 
@@ -182,7 +170,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function unsetMetadataValue($name)
+    public function unsetMetadataValue($name): self
     {
         unset($this->metadata[$name]);
 
@@ -192,7 +180,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function getContentAsString()
+    public function getContentAsString(): string
     {
         $stream = $this->getContentAsStream();
         if (!is_resource($stream)) {
@@ -208,7 +196,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setContentFromString($content)
+    public function setContentFromString($content): self
     {
         if (!is_resource($content)) {
             $stream = fopen('php://memory', 'rwb+');
@@ -226,7 +214,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function copyContentFromFile($file)
+    public function copyContentFromFile($file): self
     {
         if ($file instanceof \SplFileInfo) {
             $this->setFileContentFromFilesystem($file->getPathname());
@@ -254,7 +242,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     {
         $stream = $this->getContent()->getData();
         if (!is_resource($stream)) {
-            return;
+            return null;
         }
         rewind($stream);
 
@@ -264,7 +252,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function setContentFromStream($stream)
+    public function setContentFromStream($stream): self
     {
         if (!is_resource($stream)) {
             throw new \InvalidArgumentException('Expected a stream');
@@ -295,7 +283,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
      *
      * @return $this
      */
-    public function setContentType($contentType)
+    public function setContentType($contentType): self
     {
         $this->getContent()->setMimeType($contentType);
 
@@ -305,7 +293,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function getContentType()
+    public function getContentType(): string
     {
         return $this->getContent()->getMimeType();
     }
@@ -321,7 +309,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->created;
     }
@@ -329,7 +317,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
     /**
      * {@inheritdoc}
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->getContent()->getLastModified();
     }
@@ -339,7 +327,7 @@ class File extends DoctrineOdmFile implements FileInterface, BinaryInterface
      *
      * @return string name of the (jcr) user who updated the file
      */
-    public function getUpdatedBy()
+    public function getUpdatedBy(): ?string
     {
         return $this->getContent()->getLastModifiedBy();
     }
