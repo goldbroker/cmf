@@ -48,7 +48,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function add(PuliResource $resource)
+    public function add(PuliResource $resource): void
     {
         $this->resources[] = $resource;
     }
@@ -56,7 +56,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function set($key, PuliResource $resource)
+    public function set($key, PuliResource $resource): void
     {
         $this->resources[$key] = $resource;
     }
@@ -79,7 +79,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function remove($key)
+    public function remove($key): void
     {
         unset($this->resources[$key]);
     }
@@ -87,7 +87,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function has($key)
+    public function has($key): bool
     {
         return isset($this->resources[$key]);
     }
@@ -95,7 +95,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function clear(): void
     {
         $this->resources = [];
     }
@@ -103,7 +103,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function keys()
+    public function keys(): array
     {
         return array_keys($this->resources);
     }
@@ -111,7 +111,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function replace($resources)
+    public function replace($resources): void
     {
         Assert::allIsInstanceOf($resources, 'Puli\Repository\Api\Resource\PuliResource');
 
@@ -121,9 +121,9 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function merge($resources)
+    public function merge($resources): void
     {
-        Assert::allIsInstanceOf($resources, 'Puli\Repository\Api\Resource\PuliResource');
+        Assert::allIsInstanceOf($resources, PuliResource::class);
 
         // only start merging after validating all resources
         foreach ($resources as $resource) {
@@ -134,7 +134,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return 0 === count($this->resources);
     }
@@ -142,7 +142,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function offsetExists($key)
+    public function offsetExists($key): bool
     {
         return $this->has($key);
     }
@@ -150,7 +150,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function offsetGet($key)
+    public function offsetGet($key): mixed
     {
         return $this->get($key);
     }
@@ -158,7 +158,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         if (null !== $key) {
             $this->set($key, $value);
@@ -170,7 +170,7 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
     /**
      * {@inheritdoc}
      */
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         $this->remove($key);
     }
@@ -201,17 +201,17 @@ class ArrayResourceCollection implements \IteratorAggregate, ResourceCollection
         );
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->resources);
     }
 
-    public function getIterator($mode = ResourceCollectionIterator::KEY_AS_CURSOR)
+    public function getIterator($mode = ResourceCollectionIterator::KEY_AS_CURSOR): ResourceCollectionIterator
     {
         return new ResourceCollectionIterator($this, $mode);
     }
 
-    public function toArray()
+    public function toArray(): \Traversable|array
     {
         return $this->resources;
     }
