@@ -22,7 +22,7 @@ abstract class AbstractMedia implements MediaInterface, MetadataInterface
     protected $id;
 
     /**
-     * @var string
+     * @var ?string
      */
     protected $name;
 
@@ -88,7 +88,7 @@ abstract class AbstractMedia implements MediaInterface, MetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }

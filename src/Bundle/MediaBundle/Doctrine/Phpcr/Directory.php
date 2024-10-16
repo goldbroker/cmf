@@ -78,7 +78,7 @@ class Directory extends Folder implements DirectoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getCreatedAt(): \DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created;
     }
