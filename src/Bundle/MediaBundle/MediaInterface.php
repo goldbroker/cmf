@@ -30,10 +30,8 @@ interface MediaInterface
      * The name of this media, e.g. for managing media documents.
      *
      * For example an image file name.
-     *
-     * @return string
      */
-    public function getName();
+    public function getName(): ?string;
 
     /**
      * @param $name
