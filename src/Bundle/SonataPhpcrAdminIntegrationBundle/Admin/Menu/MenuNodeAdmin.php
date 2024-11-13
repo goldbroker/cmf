@@ -57,7 +57,7 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
 
         parent::configureFormFields($form);
 
-        if ($this->hasParentFieldDescription()) {
+        if (!$this->hasParentFieldDescription()) {
             // Add the choice for the node links "target"
             $form
                 ->tab('form.tab_general')
