@@ -188,7 +188,7 @@ abstract class AbstractPhpcrRepository extends AbstractRepository implements Res
      */
     protected function unresolvePath(string $path): string
     {
-        $path = substr($path, strlen($this->basePath));
+        $path = substr($path, strlen($this->basePath ?? ''));
 
         return $path;
     }
