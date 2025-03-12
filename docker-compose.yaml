@@ -1,0 +1,6 @@
+services:
+    php-fpm:
+        image: bitnami/php-fpm:8.1
+        working_dir: /app
+        volumes:
+            - ./:/app

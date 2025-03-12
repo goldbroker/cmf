@@ -2,8 +2,6 @@
 /vendor/
 /**/.phpunit.result.cache
 /composer.lock
-/Dockerfile
-/docker-compose.yaml
 /tests/**/Fixtures/App/var/
 /tests/data
 /**/node_modules
