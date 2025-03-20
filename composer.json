@@ -57,14 +57,12 @@
         "matthiasnoback/symfony-config-test": "^4",
         "matthiasnoback/symfony-dependency-injection-test": "^4",
         "mikey179/vfsstream": "^1.2",
-        "mockery/mockery": "^1.6",
         "phpspec/prophecy": "^1.12",
         "sonata-project/form-extensions": "^1.6",
         "sonata-project/seo-bundle": "^3.0",
         "symfony/asset": "^5.4 || ^6.0",
         "symfony/css-selector": "^5.4 || ^6.0",
         "symfony/monolog-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^7.0",
         "symfony/security-bundle": "^5.4 || ^6.0",
         "symfony/serializer": "^5.4 || ^6.0",
         "symfony/yaml": "^5.4 || ^6.0",
@@ -103,13 +101,6 @@
             "Symfony\\Cmf\\Bundle\\": "src/Bundle/",
             "Symfony\\Cmf\\Component\\": "src/Component/",
             "Sonata\\": "src/Sonata/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\Symfony\\Cmf\\Bundle\\": "tests/Bundle/",
-            "Tests\\Symfony\\Cmf\\Component\\": "tests/Component/",
-            "Tests\\Sonata\\": "tests/Sonata/"
         }
     },
     "config": {
