@@ -1,7 +1,4 @@
 /.idea/
 /vendor/
-/**/.phpunit.result.cache
 /composer.lock
-/tests/**/Fixtures/App/var/
-/tests/data
 /**/node_modules
