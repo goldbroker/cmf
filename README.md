@@ -6,7 +6,7 @@ under the [MIT License](LICENSE).
 ## Requirements
 
 * PHP 7.4 / 8
-* Symfony ^4.4 || ^5.0
+* Symfony ^5.4 || ^6.0
 * See also the `require` section of [composer.json](composer.json)
 
 ## Installation
