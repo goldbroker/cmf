@@ -91,7 +91,7 @@ class UriPrefixVoter implements VoterInterface
     private function getRequest(): ?Request
     {
         if ($this->requestStack) {
-            return $this->requestStack->getMasterRequest();
+            return $this->requestStack->getMainRequest();
         }
 
         return $this->request;
