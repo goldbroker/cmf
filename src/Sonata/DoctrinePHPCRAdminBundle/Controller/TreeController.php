@@ -14,35 +14,34 @@ declare(strict_types=1);
 namespace Sonata\DoctrinePHPCRAdminBundle\Controller;
 
 use Doctrine\Bundle\PHPCRBundle\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use PHPCR\SessionInterface;
 use PHPCR\Util\PathHelper;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 /**
  * A controller to render the tree block.
  */
-class TreeController extends AbstractController
+class TreeController
 {
     private string $template = '@SonataDoctrinePHPCRAdmin/Tree/tree.html.twig';
 
-    /**
-     * @var SessionInterface
-     */
-    private $session;
+    private ObjectManager|SessionInterface $session;
 
     private array $treeConfiguration;
 
     public function __construct(
+        private readonly Environment $twig,
         ManagerRegistry $manager,
         string $sessionName,
         array $treeConfiguration,
         string $defaultRepositoryName,
         ?string $template = null
     ) {
-        if ($template) {
+        if (null !== $template) {
             $this->template = $template;
         }
 
@@ -56,29 +55,27 @@ class TreeController extends AbstractController
     /**
      * Renders a tree, passing the routes for each of the admin types (document types)
      * to the view.
-     *
-     * @return Response
      */
-    public function treeAction(Request $request)
+    public function treeAction(Request $request): Response
     {
         $root = $request->attributes->get('root');
 
-        return $this->render($this->template, [
-            'root_node' => $root,
-            'routing_defaults' => $this->treeConfiguration['routing_defaults'],
-            'repository_name' => $this->treeConfiguration['repository_name'],
-            'reorder' => $this->treeConfiguration['reorder'],
-            'move' => $this->treeConfiguration['move'],
-            'sortable_by' => $this->treeConfiguration['sortable_by'],
-        ]);
+        return new Response(
+            $this->twig->render($this->template, [
+                'root_node' => $root,
+                'routing_defaults' => $this->treeConfiguration['routing_defaults'],
+                'repository_name' => $this->treeConfiguration['repository_name'],
+                'reorder' => $this->treeConfiguration['reorder'],
+                'move' => $this->treeConfiguration['move'],
+                'sortable_by' => $this->treeConfiguration['sortable_by'],
+            ])
+        );
     }
 
     /**
      * Reorder $moved (child of $parent) before or after $target.
-     *
-     * @return Response
      */
-    public function reorderAction(Request $request)
+    public function reorderAction(Request $request): JsonResponse|Response
     {
         $parentPath = $request->get('parent');
         $dropedAtPath = $request->get('dropped');
