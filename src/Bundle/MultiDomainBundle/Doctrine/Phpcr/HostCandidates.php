@@ -2,35 +2,41 @@
 
 namespace Symfony\Cmf\Bundle\MultiDomainBundle\Doctrine\Phpcr;
 
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\PrefixCandidates;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Cmf\Component\Routing\Candidates\CandidatesInterface;
+use PHPCR\Util\PathHelper;
+use Symfony\Cmf\Bundle\RoutingBundle\Doctrine\Phpcr\PrefixCandidates;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Cmf\Component\Routing\Candidates\Candidates;
 
 /**
  * Host based strategy.
  */
-class HostCandidates extends PrefixCandidates
+class HostCandidates extends Candidates
 {
-    protected array $domains = [];
+    private CandidatesInterface $prefixCandidates;
 
-    protected array $routeBasepaths = [];
-
-    public function __construct(array $prefixes, array $domains = [], ManagerRegistry $doctrine = null, $limit = 20, array $routeBasepaths = [])
-    {
-        parent::__construct($prefixes, array_keys($domains), $doctrine, $limit);
-        $this->domains = $domains;
-        $this->routeBasepaths = $routeBasepaths;
+    public function __construct(
+        private readonly array $prefixes,
+        private readonly array $domains = [],
+        ManagerRegistry $doctrine = null,
+        int $limit = 20,
+        private readonly array $routeBasepaths = [],
+    ) {
+        $locales = array_keys($domains);
+        parent::__construct($locales, $limit);
+        $this->prefixCandidates = new PrefixCandidates($prefixes, $locales, $doctrine, $limit);
     }
 
     public function getCandidates(Request $request): array
     {
-        $candidates = parent::getCandidates($request);
+        $candidates = $this->prefixCandidates->getCandidates($request);
         $host = $request->getHost();
         $locale = array_search($host, $this->domains);
 
         foreach ($candidates as $key => $candidate) {
             foreach ($this->routeBasepaths as $routeBasePath) {
-                if (0 === strpos($candidate, $routeBasePath.'/'.$locale)) {
+                if (str_starts_with($candidate, $routeBasePath . '/' . $locale)) {
                     continue;
                 }
 
@@ -39,5 +45,25 @@ class HostCandidates extends PrefixCandidates
         }
 
         return $candidates;
+    }
+
+    public function isCandidate(string $name): bool
+    {
+        return $this->prefixCandidates->isCandidate($name);
+    }
+
+    public function restrictQuery(object $queryBuilder): void
+    {
+        $this->prefixCandidates->restrictQuery($queryBuilder);
+    }
+
+    protected function determineLocale($url): bool|string
+    {
+        return $this->prefixCandidates->determineLocale($url);
+    }
+
+    public function setManagerName(?string $manager): void
+    {
+        $this->prefixCandidates->setManagerName($manager);
     }
 }
