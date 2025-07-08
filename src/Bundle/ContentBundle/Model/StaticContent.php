@@ -53,7 +53,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * @var Collection<RouteObjectInterface>
      */
-    protected ?Collection $routes = null;
+    protected iterable $routes = [];
 
     /**
      * @var Collection<MenuNode>
@@ -254,7 +254,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function getRoutes(): ?iterable
+    public function getRoutes(): iterable
     {
         return $this->routes;
     }

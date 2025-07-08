@@ -4,7 +4,7 @@ _cmf_delete_resource:
     requirements:
         path: .*
     defaults:
-        _controller: cmf_resource_rest.controller.resource:deleteResourceAction
+        _controller: cmf_resource_rest.controller.resource::deleteResourceAction
 
 _cmf_patch_resource:
     path: /api/{repositoryName}/{path}
@@ -12,7 +12,7 @@ _cmf_patch_resource:
     requirements:
         path: .*
     defaults:
-        _controller: cmf_resource_rest.controller.resource:patchResourceAction
+        _controller: cmf_resource_rest.controller.resource::patchResourceAction
 
 _cmf_get_resource:
     path: /api/{repositoryName}/{path}
@@ -20,4 +20,4 @@ _cmf_get_resource:
     requirements:
         path: .*
     defaults:
-        _controller: cmf_resource_rest.controller.resource:getResourceAction
+        _controller: cmf_resource_rest.controller.resource::getResourceAction
