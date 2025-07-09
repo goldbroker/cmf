@@ -97,9 +97,13 @@ class FrontendLinkExtension extends AbstractAdminExtension
             }
         }
 
+        if (null === $subject->getId()) {
+            return;
+        }
+
         try {
             $uri = $this->router->generate($subject->getId(), $defaults);
-        } catch (RoutingExceptionInterface $e) {
+        } catch (RoutingExceptionInterface) {
             // we have no valid route
             return;
         }

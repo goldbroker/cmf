@@ -65,12 +65,6 @@ class RouteAdmin extends AbstractAdmin
             ->tab('form.tab_routes')
                 ->with('form.group_path', ['class' => 'col-md-6'])
                     ->add(
-                        'variablePattern',
-                        TextType::class,
-                        ['required' => false],
-                        ['help' => 'form.help_variable_pattern']
-                    )
-                    ->add(
                         'options',
                         ImmutableArrayType::class,
                         ['keys' => $this->configureFieldsForOptions($this->getSubject()->getOptions())],
