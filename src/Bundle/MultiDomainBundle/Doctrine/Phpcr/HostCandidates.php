@@ -12,7 +12,7 @@ use Symfony\Cmf\Component\Routing\Candidates\Candidates;
 /**
  * Host based strategy.
  */
-class HostCandidates extends Candidates
+class HostCandidates extends PrefixCandidates
 {
     private CandidatesInterface $prefixCandidates;
 
@@ -24,7 +24,7 @@ class HostCandidates extends Candidates
         private readonly array $routeBasepaths = [],
     ) {
         $locales = array_keys($domains);
-        parent::__construct($locales, $limit);
+        parent::__construct(prefixes: $prefixes, locales: $locales, limit: $limit);
         $this->prefixCandidates = new PrefixCandidates($prefixes, $locales, $doctrine, $limit);
     }
 
@@ -47,12 +47,12 @@ class HostCandidates extends Candidates
         return $candidates;
     }
 
-    public function isCandidate(string $name): bool
+    public function isCandidate($name): bool
     {
         return $this->prefixCandidates->isCandidate($name);
     }
 
-    public function restrictQuery(object $queryBuilder): void
+    public function restrictQuery($queryBuilder): void
     {
         $this->prefixCandidates->restrictQuery($queryBuilder);
     }
