@@ -21,6 +21,7 @@
         <field name="publishable" type="boolean"/>
         <field name="publishStartDate" type="date" nullable="true"/>
         <field name="publishEndDate" type="date" nullable="true"/>
+        <field name="linkAttributes" type="string" translated="true" assoc=""/>
 
     </mapped-superclass>
 
