@@ -12,7 +12,7 @@
     <services>
 
         <service id="elfinder_session" class="FM\ElfinderBundle\Session\ElFinderSession">
-            <argument type="service" id="session" />
+            <argument key="$session" type="expression">service('request_stack').getSession()</argument>
         </service>
 
         <service id="cmf_media.adapter.elfinder.phpcr_driver" class="%cmf_media.adapter.elfinder.phpcr_driver.class%" public="true">
