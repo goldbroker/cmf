@@ -45,7 +45,6 @@ class MenuAdminFactory implements AdminFactoryInterface
                         ->addDefaultsIfNotSet()
                         ->canBeDisabled()
                         ->children()
-                            ->booleanNode('advanced')->defaultValue(false)->end()
                             ->scalarNode('form_group')->defaultValue('form.group_menu_options')->end()
                             ->scalarNode('form_tab')->defaultValue('form.tab_general')->end()
                         ->end()
@@ -76,29 +75,13 @@ class MenuAdminFactory implements AdminFactoryInterface
 
     private function loadExtensions(array $config, ContainerBuilder $container, XmlFileLoader $loader)
     {
-        $bundles = $container->getParameter('kernel.bundles');
-
         foreach ($config as $name => $extensionConfig) {
-            switch ($name) {
-                case 'menu_options':
-                    if ($this->isConfigEnabled($container, $extensionConfig)
-                        && $extensionConfig['advanced']
-                        && !isset($bundles['BurgovKeyValueFormBundle'])
-                    ) {
-                        throw new InvalidConfigurationException('To use advanced menu options, you need the burgov/key-value-form-bundle in your project.');
-                    }
-
-                    $container->setParameter('cmf_sonata_phpcr_admin_integration.menu.extension.menu_options.advanced', $config['menu_options']['advanced']);
-
-                    // no break is intended to allow disabling the menu_options extension
-                default:
-                    if (!$this->isConfigEnabled($container, $extensionConfig)) {
-                        $container->removeDefinition('cmf_sonata_phpcr_admin_integration.menu.extension.'.$name);
-                    }
-
-                    $container->setParameter('cmf_sonata_phpcr_admin_integration.menu.extension.'.$name.'.form_group', $extensionConfig['form_group']);
-                    $container->setParameter('cmf_sonata_phpcr_admin_integration.menu.extension.'.$name.'.form_tab', $extensionConfig['form_tab']);
+            if (!$this->isConfigEnabled($container, $extensionConfig)) {
+                $container->removeDefinition('cmf_sonata_phpcr_admin_integration.menu.extension.'.$name);
             }
+
+            $container->setParameter('cmf_sonata_phpcr_admin_integration.menu.extension.'.$name.'.form_group', $extensionConfig['form_group']);
+            $container->setParameter('cmf_sonata_phpcr_admin_integration.menu.extension.'.$name.'.form_tab', $extensionConfig['form_tab']);
         }
     }
 }
