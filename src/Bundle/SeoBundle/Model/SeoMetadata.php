@@ -11,7 +11,6 @@
 
 namespace Symfony\Cmf\Bundle\SeoBundle\Model;
 
-use Burgov\Bundle\KeyValueFormBundle\KeyValueContainer;
 use Symfony\Cmf\Bundle\SeoBundle\Exception\InvalidArgumentException;
 
 /**
@@ -298,7 +297,7 @@ class SeoMetadata implements SeoMetadataInterface
     /**
      * Extract an array out of $data or throw an exception if not possible.
      *
-     * @param array|KeyValueContainer|\Traversable $data something that can be converted to an array
+     * @param array|\Traversable $data something that can be converted to an array
      *
      * @return array Native array representation of $data
      *
@@ -310,16 +309,12 @@ class SeoMetadata implements SeoMetadataInterface
             return $data;
         }
 
-        if ($data instanceof KeyValueContainer) {
-            return $data->toArray();
-        }
-
         if ($data instanceof \Traversable) {
             return iterator_to_array($data);
         }
 
         throw new InvalidArgumentException(
-            sprintf('Expected array, Traversable or KeyValueContainer, got "%s"',
+            sprintf('Expected array or Traversable, got "%s"',
                 is_object($data) ? get_class($data) : gettype($data)));
     }
 }

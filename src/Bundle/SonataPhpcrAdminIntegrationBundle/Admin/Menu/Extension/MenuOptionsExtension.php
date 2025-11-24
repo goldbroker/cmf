@@ -11,11 +11,9 @@
 
 namespace Symfony\Cmf\Bundle\SonataPhpcrAdminIntegrationBundle\Admin\Menu\Extension;
 
-use Burgov\Bundle\KeyValueFormBundle\Form\Type\KeyValueType;
 use Sonata\AdminBundle\Admin\AbstractAdminExtension;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Admin extension for editing menu options
@@ -25,30 +23,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  */
 class MenuOptionsExtension extends AbstractAdminExtension
 {
-    /**
-     * @var string
-     */
-    protected $formGroup;
+    protected string $formGroup;
 
-    /**
-     * @var string
-     */
-    protected $formTab;
-
-    /**
-     * @var bool
-     */
-    protected $advanced;
+    protected string $formTab;
 
     /**
      * @param string $formGroup - group to use for form mapper
-     * @param bool   $advanced  - activates editing all fields of the node
      */
-    public function __construct($formGroup = 'form.group_menu_options', $formTab = 'form.tab_general', $advanced = false)
+    public function __construct(string $formGroup = 'form.group_menu_options', string $formTab = 'form.tab_general')
     {
         $this->formGroup = $formGroup;
         $this->formTab = $formTab;
-        $this->advanced = $advanced;
     }
 
     /**
@@ -71,58 +56,8 @@ class MenuOptionsExtension extends AbstractAdminExtension
                 )
                     ->add('display', CheckboxType::class, ['required' => false], ['help' => 'form.help_display'])
                     ->add('displayChildren', CheckboxType::class, ['required' => false], ['help' => 'form.help_display_children'])
+                ->end()
+            ->end()
         ;
-
-        if (!$this->advanced) {
-            $form->end()->end();
-
-            return;
-        }
-
-        $child_options = [
-            'value_type' => TextType::class,
-            'label' => false,
-            'attr' => ['style' => 'clear:both'],
-        ];
-
-        $form
-            ->add(
-                'attributes',
-                KeyValueType::class,
-                [
-                  'value_type' => TextType::class,
-                  'required' => false,
-                  'entry_options' => $child_options,
-                ]
-            )
-            ->add(
-                'labelAttributes',
-                KeyValueType::class,
-                [
-                  'value_type' => TextType::class,
-                  'required' => false,
-                  'entry_options' => $child_options,
-                ]
-            )
-            ->add(
-                'childrenAttributes',
-                KeyValueType::class,
-                [
-                  'value_type' => TextType::class,
-                  'required' => false,
-                  'entry_options' => $child_options,
-                ]
-            )
-            ->add(
-                'linkAttributes',
-                KeyValueType::class,
-                [
-                  'value_type' => TextType::class,
-                  'required' => false,
-                  'entry_options' => $child_options,
-                ]
-            )
-            ->end() // group
-            ->end(); // tab
     }
 }
