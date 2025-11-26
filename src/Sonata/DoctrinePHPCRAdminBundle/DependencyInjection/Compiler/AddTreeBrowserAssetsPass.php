@@ -40,8 +40,14 @@ final class AddTreeBrowserAssetsPass implements CompilerPassInterface
     private function addAssetsToAdminConfiguration(Definition $definition)
     {
         $options = $definition->getArgument(2);
-        $options['javascripts'][] = 'bundles/cmftreebrowser/js/cmf_tree_browser.fancytree.js';
-        $options['stylesheets'][] = 'bundles/cmftreebrowser/css/cmf_tree_browser.fancytree.css';
+        $options['javascripts'][] = [
+            'path' => 'bundles/cmftreebrowser/js/cmf_tree_browser.fancytree.js',
+            'package_name' => 'sonata_admin',
+        ];
+        $options['stylesheets'][] = [
+            'path' => 'bundles/cmftreebrowser/css/cmf_tree_browser.fancytree.css',
+            'package_name' => 'sonata_admin',
+        ];
 
         $definition->replaceArgument(2, $options);
     }
