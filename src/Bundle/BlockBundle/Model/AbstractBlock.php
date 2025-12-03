@@ -12,6 +12,7 @@
 namespace Symfony\Cmf\Bundle\BlockBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Cmf\Bundle\CoreBundle\Model\ChildInterface;
 use Symfony\Cmf\Bundle\CoreBundle\PublishWorkflow\PublishableInterface;
@@ -163,14 +164,21 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function addChildren(BlockInterface $children): void
+    public function addChild(BlockInterface $child): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getChildren()
+    public function removeChild(BlockInterface $child): void
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildren(): Collection
     {
         return new ArrayCollection();
     }
@@ -178,7 +186,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function hasChildren(): bool
+    public function hasChild(): bool
     {
         return false;
     }
@@ -311,7 +319,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * @return mixed
      */
-    public function getSetting($name, $default = null)
+    public function getSetting(string $name, mixed $default = null): mixed
     {
         return $this->settings[$name] ?? $default;
     }

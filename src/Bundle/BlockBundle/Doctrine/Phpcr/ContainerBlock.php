@@ -12,6 +12,7 @@
 namespace Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\PHPCR\ChildrenCollection;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Symfony\Cmf\Bundle\BlockBundle\Doctrine\Phpcr\AbstractBlock;
@@ -45,7 +46,7 @@ class ContainerBlock extends AbstractBlock
      *
      * @return ArrayCollection|ChildrenCollection
      */
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
@@ -77,27 +78,15 @@ class ContainerBlock extends AbstractBlock
     }
 
     /**
-     * Alias to addChild to make the form layer happy.
-     *
-     * @param BlockInterface $children
-     */
-    public function addChildren(BlockInterface $children): void
-    {
-        $this->addChild($children);
-    }
-
-    /**
      * Remove a child from this container.
      *
      * @param BlockInterface $child
      *
      * @return $this
      */
-    public function removeChild($child): ContainerBlock
+    public function removeChild($child): void
     {
         $this->children->removeElement($child);
-
-        return $this;
     }
 
     /**
