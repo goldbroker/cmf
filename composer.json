@@ -37,7 +37,6 @@
         "symfony/options-resolver": "^6.4 || ^7.0",
         "symfony/property-access": "^6.4 || ^7.0",
         "symfony/security-core": "^6.4 || ^7.0",
-        "symfony/templating": "^6.4 || ^7.0",
         "symfony/twig-bundle": "^6.4 || ^7.0",
         "symfony/validator": "^6.4 || ^7.0",
         "symfony-cmf/routing-bundle": "^2.0 || ^3.0",

@@ -7,7 +7,7 @@
 
     <mapped-superclass
             name="Symfony\Cmf\Bundle\ContentBundle\Model\StaticContent"
-            translator="child"
+            translator="attribute"
             referenceable="true"
             >
         <locale name="locale"/>

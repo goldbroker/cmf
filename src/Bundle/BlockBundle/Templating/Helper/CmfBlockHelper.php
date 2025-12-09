@@ -13,14 +13,13 @@ namespace Symfony\Cmf\Bundle\BlockBundle\Templating\Helper;
 
 use Psr\Log\LoggerInterface;
 use Sonata\BlockBundle\Templating\Helper\BlockHelper as SonataBlockHelper;
-use Symfony\Component\Templating\Helper\Helper;
 
 /**
  * Helper functions for blocks.
  *
  * @author Wouter J <waldio.webdesign@gmail.com>
  */
-class CmfBlockHelper extends Helper
+class CmfBlockHelper
 {
     private SonataBlockHelper $sonataBlock;
 

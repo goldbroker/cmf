@@ -15,9 +15,8 @@ use Symfony\Cmf\Bundle\MediaBundle\FileInterface;
 use Symfony\Cmf\Bundle\MediaBundle\ImageInterface;
 use Symfony\Cmf\Bundle\MediaBundle\MediaManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Templating\Helper\Helper;
 
-class CmfMediaHelper extends Helper
+class CmfMediaHelper
 {
     protected $mediaManager;
     protected $generator;

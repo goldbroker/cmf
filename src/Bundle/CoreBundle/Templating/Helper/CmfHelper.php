@@ -11,14 +11,12 @@
 
 namespace Symfony\Cmf\Bundle\CoreBundle\Templating\Helper;
 
-use Symfony\Component\Templating\Helper\Helper;
-
 /**
  * Provides CMF helper functions.
  *
  * @author Wouter J <waldio.webdesign@gmail.com>
  */
-class CmfHelper extends Helper
+class CmfHelper
 {
     private Cmf $cmf;
 
