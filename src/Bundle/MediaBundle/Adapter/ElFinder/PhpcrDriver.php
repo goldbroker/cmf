@@ -599,6 +599,7 @@ class PhpcrDriver extends \elFinderVolumeDriver
         // times causing an error
         $stream = fopen('php://memory', 'rwb+');
         stream_copy_to_stream($fp, $stream);
+        rewind($stream);
         $file->setContentFromStream($stream);
         $file->setContentType($mime);
         $file->setId($filename);
