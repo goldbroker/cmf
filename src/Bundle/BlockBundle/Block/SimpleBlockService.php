@@ -21,11 +21,9 @@ class SimpleBlockService extends AbstractBlockService implements BlockServiceInt
         parent::__construct($twig);
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
-        if (!$response) {
-            $response = new Response();
-        }
+        $response ??= new Response();
 
         if ($blockContext->getBlock()->getEnabled()) {
             $response = $this->renderResponse($blockContext->getTemplate(), ['block' => $blockContext->getBlock()], $response);

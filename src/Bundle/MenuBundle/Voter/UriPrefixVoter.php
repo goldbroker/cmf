@@ -43,7 +43,7 @@ class UriPrefixVoter implements VoterInterface
      */
     private $request;
 
-    public function __construct(RequestStack $requestStack = null)
+    public function __construct(?RequestStack $requestStack = null)
     {
         $this->requestStack = $requestStack;
     }
@@ -51,7 +51,7 @@ class UriPrefixVoter implements VoterInterface
     /**
      * @deprecated since version 2.2. Pass a RequestStack to the constructor instead.
      */
-    public function setRequest(Request $request = null)
+    public function setRequest(?Request $request = null)
     {
         @trigger_error(
             sprintf(

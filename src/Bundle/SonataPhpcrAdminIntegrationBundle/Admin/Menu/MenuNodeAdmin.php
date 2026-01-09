@@ -160,7 +160,7 @@ class MenuNodeAdmin extends AbstractMenuNodeAdmin
     /**
      * {@inheritdoc}
      */
-    public function buildBreadcrumbs($action, MenuItemInterface $menu = null)
+    public function buildBreadcrumbs($action, ?MenuItemInterface $menu = null)
     {
         $menuNodeNode = parent::buildBreadcrumbs($action, $menu);
 

@@ -23,11 +23,9 @@ class ReferenceBlockService extends AbstractBlockService implements BlockService
         $this->blockContextManager = $blockContextManager;
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
-        if (!$response) {
-            $response = new Response();
-        }
+        $response ??= new Response();
 
         // if the reference target block does not exist, we just skip the rendering
         if ($blockContext->getBlock()->getEnabled() && null !== $blockContext->getBlock()->getReferencedBlock()) {

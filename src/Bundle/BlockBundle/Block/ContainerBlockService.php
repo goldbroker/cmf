@@ -36,11 +36,9 @@ class ContainerBlockService extends AbstractBlockService implements BlockService
         }
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
-        if (!$response) {
-            $response = new Response();
-        }
+        $response ??= new Response();
 
         $block = $blockContext->getBlock();
 

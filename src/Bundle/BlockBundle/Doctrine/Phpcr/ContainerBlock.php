@@ -66,7 +66,7 @@ class ContainerBlock extends AbstractBlock
     /**
      * Add a child to this container.
      */
-    public function addChild(BlockInterface $child, string $key = null): void
+    public function addChild(BlockInterface $child, ?string $key = null): void
     {
         if (null !== $key) {
             $this->children->set($key, $child);

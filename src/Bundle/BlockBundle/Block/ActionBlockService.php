@@ -27,7 +27,7 @@ class ActionBlockService extends AbstractBlockService
     /**
      * {@inheritdoc}
      */
-    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         /** @var $block ActionBlock */
         $block = $blockContext->getBlock();

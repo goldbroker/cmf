@@ -154,7 +154,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
     /**
      * {@inheritdoc}
      */
-    public function setPublishEndDate(\DateTime $publishEndDate = null): AbstractBlock
+    public function setPublishEndDate(?\DateTime $publishEndDate = null): AbstractBlock
     {
         $this->publishEndDate = $publishEndDate;
 
@@ -235,7 +235,7 @@ abstract class AbstractBlock implements BlockInterface, PublishableInterface, Pu
      *
      * Redirect to setParentObject
      */
-    public function setParent(BlockInterface $parent = null): void
+    public function setParent(?BlockInterface $parent = null): void
     {
         $this->setParentObject($parent);
     }
