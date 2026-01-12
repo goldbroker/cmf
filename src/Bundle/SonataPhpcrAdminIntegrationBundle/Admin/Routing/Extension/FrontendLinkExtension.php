@@ -55,7 +55,7 @@ class FrontendLinkExtension extends AbstractAdminExtension
         AdminInterface $admin,
         MenuItemInterface $menu,
         $action,
-        AdminInterface $childAdmin = null
+        ?AdminInterface $childAdmin = null,
     ) {
         $this->configureTabMenu($admin, $menu, $action, $childAdmin);
     }
@@ -67,7 +67,7 @@ class FrontendLinkExtension extends AbstractAdminExtension
         AdminInterface $admin,
         MenuItemInterface $menu,
         $action,
-        AdminInterface $childAdmin = null
+        ?AdminInterface $childAdmin = null
     ): void
     {
         if (!$admin->hasSubject()) {

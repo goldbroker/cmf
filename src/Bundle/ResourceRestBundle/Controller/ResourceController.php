@@ -47,7 +47,7 @@ class ResourceController
      */
     private $authorizationChecker;
 
-    public function __construct(SerializerInterface $serializer, RepositoryRegistryInterface $registry, ResourceHandler $resourceHandler, AuthorizationCheckerInterface $authorizationChecker = null)
+    public function __construct(SerializerInterface $serializer, RepositoryRegistryInterface $registry, ResourceHandler $resourceHandler, ?AuthorizationCheckerInterface $authorizationChecker = null)
     {
         $this->serializer = $serializer;
         $this->registry = $registry;

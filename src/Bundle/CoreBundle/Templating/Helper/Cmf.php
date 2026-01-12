@@ -37,7 +37,7 @@ class Cmf
 
     private ?AuthorizationCheckerInterface $publishWorkflowChecker = null;
 
-    public function __construct(AuthorizationCheckerInterface $publishWorkflowChecker = null)
+    public function __construct(?AuthorizationCheckerInterface $publishWorkflowChecker = null)
     {
         $this->publishWorkflowChecker = $publishWorkflowChecker;
     }

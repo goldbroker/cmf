@@ -37,7 +37,7 @@ class DoctrineImageDimensionsSubscriber implements EventSubscriber
     /**
      * @param ImagineInterface $imagine optional imagine service to use
      */
-    public function __construct(ImagineInterface $imagine = null)
+    public function __construct(?ImagineInterface $imagine = null)
     {
         $this->imagine = $imagine;
     }

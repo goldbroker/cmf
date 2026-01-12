@@ -23,7 +23,7 @@ interface PublishTimePeriodInterface extends PublishTimePeriodReadInterface
      * Setting a NULL value asserts that the content
      * has always been publishable.
      */
-    public function setPublishStartDate(\DateTime $publishStartDate = null);
+    public function setPublishStartDate(?\DateTime $publishStartDate = null);
 
     /**
      * Set the date at which the content should
@@ -32,5 +32,5 @@ interface PublishTimePeriodInterface extends PublishTimePeriodReadInterface
      * Setting a NULL value asserts that the
      * content will always be publishable.
      */
-    public function setPublishEndDate(\DateTime $publishEndDate = null);
+    public function setPublishEndDate(?\DateTime $publishEndDate = null);
 }

@@ -22,11 +22,9 @@ class StringBlockService extends AbstractBlockService implements BlockServiceInt
         }
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
-        if (!$response) {
-            $response = new Response();
-        }
+        $response ??= new Response();
 
         if ($blockContext->getBlock()->getEnabled()) {
             $response = $this->renderResponse($blockContext->getTemplate(), ['block' => $blockContext->getBlock()], $response);

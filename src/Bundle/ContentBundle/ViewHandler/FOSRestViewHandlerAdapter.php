@@ -38,13 +38,11 @@ class FOSRestViewHandlerAdapter implements ViewHandlerInterface
         $this->decorated->registerHandler($format, $callable);
     }
 
-    public function handle(View $view, Request $request = null): Response
+    public function handle(View $view, ?Request $request = null): Response
     {
         $data = $view->getData();
 
-        if ($request === null) {
-            $request = $this->requestStack->getCurrentRequest();
-        }
+        $request ??= $this->requestStack->getCurrentRequest();
 
         if ('html' === ($view->getFormat() ?: $request->getRequestFormat()) && is_array($data)) {
             $template = $data['template'];

@@ -28,7 +28,7 @@ class PhpcrOdmRepository extends AbstractPhpcrRepository
      */
     private $managerRegistry;
 
-    public function __construct(ManagerRegistry $managerRegistry, $basePath = null, FinderInterface $finder = null)
+    public function __construct(ManagerRegistry $managerRegistry, $basePath = null, ?FinderInterface $finder = null)
     {
         $finder = $finder ?: new PhpcrOdmTraversalFinder($managerRegistry);
         parent::__construct($finder, $basePath);

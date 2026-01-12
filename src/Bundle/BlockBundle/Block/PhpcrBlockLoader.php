@@ -69,7 +69,7 @@ class PhpcrBlockLoader implements BlockLoaderInterface
         ManagerRegistry $managerRegistry,
         AuthorizationCheckerInterface $publishWorkflowChecker,
         RequestStack $requestStack,
-        LoggerInterface $logger = null,
+        ?LoggerInterface $logger = null,
         $emptyBlockType = null
     ) {
         $this->managerRegistry = $managerRegistry;
@@ -255,7 +255,7 @@ class PhpcrBlockLoader implements BlockLoaderInterface
     /**
      * @param string $type service id of the empty block service
      */
-    public function setEmptyBlockType(string $type = null): void
+    public function setEmptyBlockType(?string $type = null): void
     {
         $this->emptyBlockType = $type;
     }

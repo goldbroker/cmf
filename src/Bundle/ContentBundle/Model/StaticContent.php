@@ -165,7 +165,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function setPublishStartDate(\DateTime $publishStartDate = null)
+    public function setPublishStartDate(?\DateTime $publishStartDate = null)
     {
         $this->publishStartDate = $publishStartDate;
     }
@@ -181,7 +181,7 @@ class StaticContent extends StaticContentBase implements
     /**
      * {@inheritdoc}
      */
-    public function setPublishEndDate(\DateTime $publishEndDate = null)
+    public function setPublishEndDate(?\DateTime $publishEndDate = null)
     {
         $this->publishEndDate = $publishEndDate;
     }
