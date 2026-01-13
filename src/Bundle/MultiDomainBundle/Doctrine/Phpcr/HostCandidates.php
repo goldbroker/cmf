@@ -19,7 +19,7 @@ class HostCandidates extends PrefixCandidates
     public function __construct(
         private readonly array $prefixes,
         private readonly array $domains = [],
-        ManagerRegistry $doctrine = null,
+        ?ManagerRegistry $doctrine = null,
         int $limit = 20,
         private readonly array $routeBasepaths = [],
     ) {

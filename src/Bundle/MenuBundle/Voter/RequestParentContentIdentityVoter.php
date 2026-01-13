@@ -56,7 +56,7 @@ class RequestParentContentIdentityVoter implements VoterInterface
      *                                        attempt calling getParentDocument on it
      * @param RequestStack|null $requestStack
      */
-    public function __construct($requestKey, $childClass, RequestStack $requestStack = null)
+    public function __construct($requestKey, $childClass, ?RequestStack $requestStack = null)
     {
         $this->requestKey = $requestKey;
         $this->childClass = $childClass;
@@ -66,7 +66,7 @@ class RequestParentContentIdentityVoter implements VoterInterface
     /**
      * @deprecated since version 2.2. Pass a RequestStack to the constructor instead.
      */
-    public function setRequest(Request $request = null)
+    public function setRequest(?Request $request = null)
     {
         @trigger_error(
             sprintf(

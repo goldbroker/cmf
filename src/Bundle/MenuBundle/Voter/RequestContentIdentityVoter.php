@@ -46,7 +46,7 @@ class RequestContentIdentityVoter implements VoterInterface
      * @param string $requestKey The key to look up the content in the request
      *                           attributes
      */
-    public function __construct($requestKey, RequestStack $requestStack = null)
+    public function __construct($requestKey, ?RequestStack $requestStack = null)
     {
         $this->requestKey = $requestKey;
         $this->requestStack = $requestStack;
