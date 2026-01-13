@@ -91,13 +91,13 @@ class SeoPresentation implements SeoPresentationInterface
      * @param SeoPage             $sonataPage
      * @param TranslatorInterface $translator
      * @param ConfigValues        $configValues
-     * @param CacheInterface      $cache
+     * @param ?CacheInterface     $cache
      */
     public function __construct(
         SeoPage $sonataPage,
         TranslatorInterface $translator,
         ConfigValues $configValues,
-        CacheInterface $cache = null
+        ?CacheInterface $cache = null
     ) {
         $this->sonataPage = $sonataPage;
         $this->translator = $translator;
