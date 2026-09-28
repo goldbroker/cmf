@@ -17,9 +17,6 @@ namespace Symfony\Cmf\Bundle\MediaBundle;
  * The path to a file is: /path/to/file/filename.ext
  *
  * For PHPCR the id is being the path.
- *
- * This is to be kept compatible with the Gaufrette adapter to be able to use a
- * filesystem with directories.
  */
 interface DirectoryInterface extends HierarchyInterface
 {
