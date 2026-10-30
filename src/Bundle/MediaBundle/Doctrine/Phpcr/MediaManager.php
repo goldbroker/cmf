@@ -152,6 +152,11 @@ class MediaManager implements MediaManagerInterface
      */
     public function mapUrlSafePathToId($path, $rootPath = null)
     {
+        // Jackrabbit answers a 403 on a name holding [ ] | * (left by BBCode: ".png[/img]"), not a 404.
+        if (preg_match('/[\[\]|*]/', $path)) {
+            throw new \OutOfBoundsException(sprintf('The path "%s" is not a valid node path.', $path));
+        }
+
         return $this->mapPathToId($path, $rootPath);
     }
 }
